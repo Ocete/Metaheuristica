@@ -16,7 +16,10 @@ OPT=-Wall -O2
 PRJ=practica1
 
 # Macros
-all: $(BIN)/p1
+all: execute
+
+execute: $(BIN)/p1
+	./execute.sh
 
 # Compilamos p1.cpp
 $(BIN)/p1 :
@@ -24,8 +27,8 @@ $(BIN)/p1 :
 
 examples: $(BIN)/p1
 	$(BIN)/p1 < $(IN)/GKD-c_1_n500_m50.txt
+	$(BIN)/p1 < $(IN)/SOM-b_16_n400_m160.txt
 	$(BIN)/p1 < $(IN)/MDG-a_21_n2000_m200.txt
-	$(BIN)/p1 < $(IN)/SOM-b_11_n300_m90.txt
 
 clean:
 	rm -f $(BIN)/*
