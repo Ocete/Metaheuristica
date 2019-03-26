@@ -18,17 +18,33 @@ PRJ=practica1
 # Macros
 all: execute
 
-execute: $(BIN)/p1
+execute: $(BIN)/greedy $(BIN)/localSearch
 	./execute.sh
 
-# Compilamos p1.cpp
-$(BIN)/p1 :
-	g++ $(OPT) $(SRC)/p1.cpp -o $(BIN)/p1
+measureLS: $(BIN)/localSearch $(BIN)/stats
+	./measureLS.sh
+
+stats: $(BIN)/stats
+	${BIN}/stats
+
+# Compilamos
+$(BIN)/greedy :
+	g++ $(OPT) $(SRC)/greedy.cpp -o $(BIN)/greedy
+
+$(BIN)/localSearch :
+	g++ $(OPT) $(SRC)/localSearch.cpp -o $(BIN)/localSearch
+
+$(BIN)/stats :
+	g++ $(OPT) $(SRC)/stats.cpp -o $(BIN)/stats
+
 
 examples: $(BIN)/p1
-	$(BIN)/p1 < $(IN)/GKD-c_1_n500_m50.txt
-	$(BIN)/p1 < $(IN)/SOM-b_16_n400_m160.txt
-	$(BIN)/p1 < $(IN)/MDG-a_21_n2000_m200.txt
+	$(BIN)/greedy < $(IN)/GKD-c_1_n500_m50.txt
+	$(BIN)/localSearch < $(IN)/GKD-c_1_n500_m50.txt
+	$(BIN)/greedy < $(IN)/SOM-b_16_n400_m160.txt
+	$(BIN)/localSearch < $(IN)/SOM-b_16_n400_m160.txt
+	$(BIN)/greedy < $(IN)/MDG-a_21_n2000_m200.txt
+	$(BIN)/localSearch < $(IN)/MDG-a_21_n2000_m200.txt
 
 clean:
 	rm -f $(BIN)/*

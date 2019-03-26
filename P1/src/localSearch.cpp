@@ -77,78 +77,6 @@ double evaluateSolution(T &container, vector<vector<double> > &mat) {
   return fitness /= 2;
 }
 
-/////////////////// GREEDY //////////////////////
-
-// Returns the element that is the farthest from the rest of elements
-int farthestToAll(vector<vector<double> > &mat) {
-  int farthest;
-  double max_sum_dist, current_sum_dist;
-
-  vector<int> all_elements (0, mat.size());
-  for (unsigned i=0; i<all_elements.size(); i++) {
-    all_elements[i] = i;
-  }
-  farthest = 0;
-  max_sum_dist = singleContribution(all_elements, mat, 0);
-
-  for (unsigned i=1; i<mat.size(); i++) {
-    current_sum_dist = singleContribution(all_elements, mat, i);
-    if (current_sum_dist > max_sum_dist) {
-      max_sum_dist = current_sum_dist;
-      farthest = i;
-    }
-  }
-
-  return farthest;
-}
-
-// Returns the element from "non_selected" that is the farthest from "selected"
-int farthestToSel(set<int> &non_selected, set<int> &selected, vector<vector<double> > &mat) {
-  int farthest;
-  double max_sum_dist, current_sum_dist;
-  set<int>::iterator it;
-
-  it = non_selected.begin();
-  farthest = *it;
-  max_sum_dist = singleContribution(selected, mat, farthest);
-
-  for ( ; it!=non_selected.end(); it++) {
-    current_sum_dist = singleContribution(selected, mat, *it);
-    if (current_sum_dist > max_sum_dist) {
-      max_sum_dist = current_sum_dist;
-      farthest = *it;
-    }
-  }
-
-  return farthest;
-}
-
-void greedy(vector<vector<double> > &mat, unsigned choosen) {
-  set<int> non_selected, selected;
-  int farthest;
-  clock_t t_start, t_total;
-
-  t_start = clock();
-  // Initialize selected with the farthestToAll and non_selected with the rest
-  for (unsigned i=0; i<mat.size(); i++) {
-    non_selected.insert(i);
-  }
-  farthest = farthestToAll(mat);
-  non_selected.erase( farthest );
-  selected.insert( farthest );
-
-  while( selected.size() < choosen ) {
-    farthest = farthestToSel(non_selected, selected, mat);
-    non_selected.erase( farthest );
-    selected.insert( farthest );
-  }
-  t_total = clock() - t_start;
-
-  double fitness = evaluateSolution(selected, mat);
-  // output: Fitness - Time
-  cout << fitness << "\t\t" << (double) t_total / CLOCKS_PER_SEC << endl;
-}
-
 ////////////////// LOCAL SEARCH ///////////////////////
 
 struct solution {
@@ -165,6 +93,7 @@ double updateSolution(solution &sol, vector<vector<double> > &mat) {
 void randomSolution (solution &sol, int size, int choosen) {
   int currently_choosen = 0, random;
   unordered_set<int> s;
+
   // set seed
   srand (time(NULL));
 
@@ -215,7 +144,7 @@ void orderSolutionByContribution(solution &sol, vector<vector<double> > &mat ) {
 // Computes a single step in the exploration, changing "sol"
 bool stepInNeighbourhood (solution &sol, vector<vector<double> > &mat) {
   bool noImprov = true;
-  unsigned i = 0, j, element_out;
+  unsigned i = 0, j, element_out, max_tries = 50000, current_tries = 0;
   float newContribution, oldContribution;
 
   orderSolutionByContribution(sol, mat);
@@ -227,13 +156,13 @@ bool stepInNeighbourhood (solution &sol, vector<vector<double> > &mat) {
   }
 
   // Explore the neighbourhood and return the firstly found better option
-  while (noImprov && i < sol.v.size()) {
+  while (noImprov && i < sol.v.size() && current_tries < max_tries) {
     // Save data of the element we are trying to swap
     oldContribution = singleContribution(sol.v, mat, sol.v[i]);
     element_out = sol.v[i];
 
     j = 0;
-    while (noImprov && j < mat.size()) {
+    while (noImprov && j < mat.size() && current_tries < max_tries) {
       // Try the swap if the element 'j' is not in the current solution
       if ( s.find(j) == s.end() ) {
         newContribution = singleContribution(sol.v, mat, j) - mat[j][element_out];
@@ -244,6 +173,7 @@ bool stepInNeighbourhood (solution &sol, vector<vector<double> > &mat) {
         }
       }
       j++;
+      current_tries++;
     }
 
     i++;
@@ -270,7 +200,7 @@ double localSearch(vector<vector<double> > &mat, int choosen) {
   t_total = clock() - t_start;
 
   // output: Fitness - Time - Iterations
-  cout << sol.fitness << "\t\t" << (double) t_total / CLOCKS_PER_SEC << "\t\t" << iterations<< endl;
+  cout << sol.fitness << "\t" << (double) t_total / CLOCKS_PER_SEC << "\t" << iterations<< endl;
   return sol.fitness;
 }
 
@@ -323,6 +253,5 @@ int main( int argc, char *argv[] ) {
   // testEvaluation(mat, size, choosen);
   // testFactorization(mat, size, choosen);
 
-  greedy(mat, choosen);
   localSearch(mat, choosen);
 }
