@@ -139,11 +139,49 @@ void orderSolutionByContribution(solution &sol, vector<vector<double> > &mat ) {
   }
 }
 
+// Compute a good order to try the swaps
+// Orders the element from (0 .. mat.size()) that are not in sol.v
+// in ascending order of how they contribute to the solution
+void obtainBestOrdering (vector<int> &best_ordering, solution &sol,
+      vector<vector<double> > &mat) {
+  set<int> sol_elements;
+
+  // Put the elements the already appear on the solution into a set
+  for (unsigned i=0; i<sol.v.size(); i++) {
+    sol_elements.insert( sol.v[i] );
+  }
+
+  // Initialize the auxiliar vector
+  pair<int, double> p (0, 0.0);
+  int tam = mat.size() - sol.v.size();
+  unsigned j = 0;
+  vector< pair<int, double> > pairs_v (tam, p);
+
+  for (unsigned i=0; i<mat.size(); i++) {
+    if ( sol_elements.find(i) == sol_elements.end() ) {
+      pairs_v[j].first = i;
+      pairs_v[j].second = singleContribution(sol.v, mat, pairs_v[j].first);
+      j++;
+    }
+  }
+
+  // Order the vector by contribution
+  sort(pairs_v.begin(), pairs_v.end());
+
+  // Save the ordering
+  best_ordering.resize(pairs_v.size());
+  for (unsigned i=0; i<pairs_v.size(); i++) {
+    best_ordering[i] = pairs_v[i].first;
+  }
+}
+
 // Computes a single step in the exploration, changing "sol"
-bool stepInNeighbourhood (solution &sol, vector<vector<double> > &mat) {
+// The element chosen depending on how it contributes to the current solution
+bool stepInNeighbourhoodDet (solution &sol, vector<vector<double> > &mat) {
   bool noImprov = true;
-  unsigned i = 0, j, element_out, max_tries = 50000, current_tries = 0;
+  unsigned i = 0, j, k, element_out;
   float newContribution, oldContribution;
+  vector<int> best_ordering;
 
   orderSolutionByContribution(sol, mat);
 
@@ -153,14 +191,17 @@ bool stepInNeighbourhood (solution &sol, vector<vector<double> > &mat) {
     s.insert( sol.v[i] );
   }
 
-  // Explore the neighbourhood and return the firstly found better option
-  while (noImprov && i < sol.v.size() && current_tries < max_tries) {
+  obtainBestOrdering(best_ordering, sol, mat);
+
+  // Explore the neighbourhood wisely and return the firstly found better option
+  while (noImprov && i < sol.v.size()) {
     // Save data of the element we are trying to swap
     oldContribution = singleContribution(sol.v, mat, sol.v[i]);
     element_out = sol.v[i];
 
-    j = rand() % mat.size();
-    while (noImprov && j < mat.size() && current_tries < max_tries) {
+    k = 0;
+    while (noImprov && k < best_ordering.size()) {
+      j = best_ordering[k];
       // Try the swap if the element 'j' is not in the current solution
       if ( s.find(j) == s.end() ) {
         newContribution = singleContribution(sol.v, mat, j) - mat[j][element_out];
@@ -171,9 +212,8 @@ bool stepInNeighbourhood (solution &sol, vector<vector<double> > &mat) {
           s.insert(j);
           noImprov = false;
         }
-        current_tries++;
       }
-      j = rand() % mat.size();
+      k++;
     }
 
     i++;
@@ -183,7 +223,7 @@ bool stepInNeighbourhood (solution &sol, vector<vector<double> > &mat) {
 }
 
 // Computes the local search algorithm for a random starting solution
-double localSearch(vector<vector<double> > &mat, int choosen) {
+double localSearchDet(vector<vector<double> > &mat, int choosen) {
   solution sol;
   bool stop = false;
   int iterations = -1;
@@ -197,7 +237,7 @@ double localSearch(vector<vector<double> > &mat, int choosen) {
 
   t_start = clock();
   while (!stop && iterations < 10000) {
-    stop = stepInNeighbourhood(sol, mat);
+    stop = stepInNeighbourhoodDet(sol, mat);
     iterations++;
   }
   t_total = clock() - t_start;
@@ -227,7 +267,7 @@ void testFactorization(vector<vector<double> > &mat, int size, int choosen) {
     updateSolution(sol, mat);
 
     for (unsigned i=0; i<1000; i++) {
-      stepInNeighbourhood(sol, mat);
+      stepInNeighbourhoodDet(sol, mat);
       fit_before = sol.fitness;
       fit_after = updateSolution(sol,mat);
 
@@ -256,5 +296,5 @@ int main( int argc, char *argv[] ) {
   // testEvaluation(mat, size, choosen);
   // testFactorization(mat, size, choosen);
 
-  localSearch(mat, choosen);
+  localSearchDet(mat, choosen);
 }

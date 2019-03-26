@@ -36,8 +36,7 @@ void computeStats(int iterations, string input) {
   double mean_fitness = 0, mean_time = 0, time_read, fitness_read;
   int mean_steps = 0, steps_read;
 
-
-  for (unsigned i=0; i<iterations; i++) {
+  for (int i=0; i<iterations; i++) {
     cin >> fitness_read >> time_read >> steps_read;
     mean_fitness += fitness_read;
     mean_time += time_read;
@@ -56,7 +55,7 @@ int main( int argc, char *argv[] ) {
   vector<string> input_names;
   inputNames(input_names);
 
-  for (int i=0; i<input_names.size(); i++) {
+  for (unsigned i=0; i<input_names.size(); i++) {
     cout << "dioooooos" << endl;
     computeStats(iterations, input_names[i]);
   }
