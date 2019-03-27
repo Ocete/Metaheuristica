@@ -17,19 +17,10 @@ OPT=-Wall -O2
 PRJ=practica1
 
 # Macros
-all: execute
+all: examplesGreedy examplesLS examplesLSD examplesGS
 
 execute: $(BIN)/greedy $(BIN)/localSearch
 	./execute.sh
-
-measureLS: $(BIN)/localSearch $(BIN)/stats
-	./measure.sh $(BIN)/localSearch $(OUT)/measureLS.dat 50
-
-measureLSD: $(BIN)/localSearchDet $(BIN)/stats
-	./measure.sh $(BIN)/localSearchDet $(OUT)/measureLSD.dat 10
-
-stats: $(BIN)/stats
-	${BIN}/stats
 
 # Compilamos
 $(BIN)/greedy :
@@ -41,9 +32,13 @@ $(BIN)/localSearch :
 $(BIN)/localSearchDet :
 	g++ $(OPT) $(SRC)/localSearchDet.cpp -o $(BIN)/localSearchDet
 
+$(BIN)/greedySearch :
+	g++ $(OPT) $(SRC)/greedySearch.cpp -o $(BIN)/greedySearch
+
 $(BIN)/stats :
 	g++ $(OPT) $(SRC)/stats.cpp -o $(BIN)/stats
 
+# Ejemplos
 
 examplesGreedy: $(BIN)/greedy
 	$(BIN)/greedy < $(IN)/GKD-c_1_n500_m50.txt
@@ -59,6 +54,28 @@ examplesLSD: $(BIN)/localSearchDet
 	$(BIN)/localSearchDet < $(IN)/GKD-c_1_n500_m50.txt
 	$(BIN)/localSearchDet < $(IN)/SOM-b_16_n400_m160.txt
 	$(BIN)/localSearchDet < $(IN)/MDG-a_21_n2000_m200.txt
+
+examplesGS: $(BIN)/greedySearch
+		$(BIN)/greedySearch < $(IN)/GKD-c_1_n500_m50.txt
+		$(BIN)/greedySearch < $(IN)/SOM-b_16_n400_m160.txt
+		$(BIN)/greedySearch < $(IN)/MDG-a_21_n2000_m200.txt
+
+
+# Estadísticas
+
+measureAll: measureLS measureLSD measureGS
+
+measureLS: $(BIN)/localSearch $(BIN)/stats
+	./measure.sh $(BIN)/localSearch $(OUT)/measureLS.dat 50
+
+measureLSD: $(BIN)/localSearchDet $(BIN)/stats
+	./measure.sh $(BIN)/localSearchDet $(OUT)/measureLSD.dat 10
+
+measureGS: $(BIN)/greedySearch $(BIN)/stats
+	./measure.sh $(BIN)/greedySearch $(OUT)/greedySearch.dat 50
+
+stats: $(BIN)/stats
+	${BIN}/stats
 
 clean:
 	rm -f $(BIN)/*
