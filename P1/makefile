@@ -72,7 +72,7 @@ measureLSD: $(BIN)/localSearchDet $(BIN)/stats
 	./measure.sh $(BIN)/localSearchDet $(OUT)/measureLSD.dat 10
 
 measureGS: $(BIN)/greedySearch $(BIN)/stats
-	./measure.sh $(BIN)/greedySearch $(OUT)/greedySearch.dat 50
+	./measure.sh $(BIN)/greedySearch $(OUT)/measureGS.dat 50
 
 stats: $(BIN)/stats
 	${BIN}/stats

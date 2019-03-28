@@ -56,7 +56,6 @@ int main( int argc, char *argv[] ) {
   inputNames(input_names);
 
   for (unsigned i=0; i<input_names.size(); i++) {
-    cout << "dioooooos" << endl;
     computeStats(iterations, input_names[i]);
   }
 }
