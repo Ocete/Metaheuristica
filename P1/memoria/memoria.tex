@@ -1,0 +1,79 @@
+\documentclass[11pt,a4paper]{article}
+
+% Packages
+\usepackage[utf8]{inputenc}
+\usepackage[spanish, es-tabla]{babel}
+\usepackage{caption}
+\usepackage{listings}
+\usepackage{adjustbox}
+\usepackage{enumitem}
+\usepackage{boldline}
+\usepackage{amssymb, amsmath}
+\usepackage[margin=1in]{geometry}
+\usepackage{xcolor}
+%\usepackage{soul}
+\usepackage{enumerate}
+\usepackage{hyperref}
+\usepackage{graphics, graphicx, float}
+
+% Meta
+\title{Problema de Máxima Diversidad (MDP) 
+	\\\medskip \large Técnicas de búsqueda local y algoritmos greedy \\\medskip
+	\large Metaheurísticas: Práctica 1, Grupo 1}
+\author{José Antonio Álvarez Ocete - 77553417Q \\ joseantonioao@correo.ugr.es}
+\date{ \today }
+
+% Custom
+\providecommand{\abs}[1]{\lvert#1\rvert}
+\setlength\parindent{0pt}
+\definecolor{Light}{gray}{.90}
+\newcommand\ddfrac[2]{\frac{\displaystyle #1}{\displaystyle #2}}
+\setlength{\parindent}{1.5em} %sangria
+
+\begin{document}	
+	
+	\maketitle 
+	\newpage
+	\tableofcontents
+	\newpage
+	
+	
+	\section{El problema}
+	
+	\subsection{Descripción del problema}
+	
+	El \textbf{problema de la máxima diversidad} (en inglés, \emph{maximum diversity problem}, MDP) es un problema de optimización combinatoria que consiste en seleccionar un
+	subconjunto $M$ de $m$ elementos ($|M|=m$) de un conjunto inicial $N$ de $n$ elementos (con $n>m$) de forma que se maximice la diversidad entre los elementos escogidos. El MDP se puede formular como:
+	
+	$$ \text{Maximizar } z_{MS}(x) = \sum_{i=1}^{n-1} \sum_{j=i+1}^{n} d_{ij} \cdot x_i \cdot x_j $$
+	$$ \text{Sujeto a } \sum_{i=1}^{n} x_i = m $$
+	$$ x_i \in \{0,1\}, \forall i \in \{1,\dotsc,n\} $$
+	
+	Donde:
+	\begin{itemize}
+		\item $x$ es una solución al problema que consiste en un vector binario que indica los $m$ elementos seleccionados.
+		\item $d_{ij}$ es la distancia existente entre los elementos $i$ y $j$.
+		
+	\end{itemize}
+
+	\subsection{Casos considerados}
+	
+	Se utilizarán 30 casos seleccionados de varios de los conjuntos de instancias disponibles en la \emph{MDPLIB} (\url{http://www.optsicom.es/mdp/}), 10 pertenecientes al grupo \textbf{GKD} con distancias Euclideas, $n=500$ y $m=50$ (\emph{GKD-c\_i\_n500\_m50} para $i\in\{1,\dotsc,10\}$), 10 del grupo \textbf{SOM} con distancias enteras entre 0 y 999, $n\in\{300,400,500\}$ y $m=\in\{40,\dotsc,200\}$ (\emph{SOM-b\_11\_n300\_m90} a \emph{SOM-b\_20\_n500\_m200}) y 10 del grupo \textbf{MDG} con distancias enteras entre 0 y 10, $n=2000$ y $m=200$ (\emph{MDG-a\_i\_n2000\_m200} para $i\in\{21,\dotsc,30\}$. \\
+	
+	Cabe destacar que los datos proporcionados unicamente representan las distancias punto a punto, para todos los puntos. Sin embargo se desconoce la posición exacta de cada elemento. Es por esto por lo que no se ha podido implementar la técnica Greedy planteada inicialmente ya que se centraba en el concepto de $centroide$ o $baricentro$ de un conjunto y no podíamos calcularlo sin estimar primero la posición de los puntos.
+
+
+\iffalse 
+
+	
+	Tras este procedimiento, el programa termina con la bomba desactivada. \\
+	
+	\begin{figure}[H] 
+		\centering
+		\includegraphics[scale=0.45]{capturas/prueba1.png} 
+		\caption{Bomba de prueba - gdb} \label{fig:figura25}
+	\end{figure}
+	
+	\fi
+	
+\end{document}

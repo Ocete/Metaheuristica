@@ -1,0 +1,4 @@
+\babel@toc {spanish}{}
+\contentsline {section}{\numberline {1}El problema}{3}{section.1}
+\contentsline {subsection}{\numberline {1.1}Descripci\IeC {\'o}n del problema}{3}{subsection.1.1}
+\contentsline {subsection}{\numberline {1.2}Casos considerados}{3}{subsection.1.2}
