@@ -215,11 +215,16 @@ void orderSolutionByContribution(solution &sol, vector<vector<double> > &mat ) {
 
 // Computes a single step in the exploration, changing "sol"
 bool stepInNeighbourhood (solution &sol, vector<vector<double> > &mat) {
-  bool noImprov = true;
-  unsigned i = 0, j, element_out, max_tries = 50000, current_tries = 0;
-  float newContribution, oldContribution;
+  double percentage_studied;
+  unsigned i = 0, j, element_out, total_tries, max_i, max_randoms, k;
+  double newContribution, oldContribution;
 
   orderSolutionByContribution(sol, mat);
+
+  percentage_studied = 0.1;
+  total_tries = 50000;
+  max_i = max(percentage_studied * sol.v.size(), 1.0);
+  max_randoms = total_tries / max_i;
 
   // Fill hash with our used values
   unordered_set<int> s;
@@ -228,32 +233,29 @@ bool stepInNeighbourhood (solution &sol, vector<vector<double> > &mat) {
   }
 
   // Explore the neighbourhood and return the firstly found better option
-  while (noImprov && i < sol.v.size() && current_tries < max_tries) {
+  while (i < max_i) {
     // Save data of the element we are trying to swap
-    oldContribution = singleContribution(sol.v, mat, sol.v[i]);
     element_out = sol.v[i];
+    oldContribution = singleContribution(sol.v, mat, element_out);
 
+    k = 0;
     j = rand() % mat.size();
-    while (noImprov && j < mat.size() && current_tries < max_tries) {
+    while (j < mat.size() && k < max_randoms) {
       // Try the swap if the element 'j' is not in the current solution
       if ( s.find(j) == s.end() ) {
         newContribution = singleContribution(sol.v, mat, j) - mat[j][element_out];
         if ( newContribution > oldContribution ) {
           sol.v[i] = j;
           sol.fitness = sol.fitness + newContribution - oldContribution;
-          s.erase(element_out);
-          s.insert(j);
-          noImprov = false;
+          return false;
         }
-        current_tries++;
+        k++;
       }
       j = rand() % mat.size();
     }
-
     i++;
   }
-
-  return noImprov;
+  return true;
 }
 
 // Computes the local search algorithm for a random starting solution
