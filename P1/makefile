@@ -66,13 +66,13 @@ examplesGS: $(BIN)/greedySearch
 measureAll: measureLS measureLSD measureGS
 
 measureLS: $(BIN)/localSearch $(BIN)/stats
-	./measure.sh $(BIN)/localSearch $(OUT)/measureLS.dat 50
+	./measure.sh $(BIN)/localSearch $(OUT)/measureLS.dat 500
 
 measureLSD: $(BIN)/localSearchDet $(BIN)/stats
-	./measure.sh $(BIN)/localSearchDet $(OUT)/measureLSD.dat 10
+	./measure.sh $(BIN)/localSearchDet $(OUT)/measureLSD.dat 500
 
 measureGS: $(BIN)/greedySearch $(BIN)/stats
-	./measure.sh $(BIN)/greedySearch $(OUT)/measureGS.dat 50
+	./measure.sh $(BIN)/greedySearch $(OUT)/measureGS.dat 500
 
 stats: $(BIN)/stats
 	${BIN}/stats

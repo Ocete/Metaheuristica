@@ -9,4 +9,6 @@
 \contentsline {subsection}{\numberline {3.1}Greedy}{5}{subsection.3.1}
 \contentsline {subsection}{\numberline {3.2}B\IeC {\'u}squeda local}{6}{subsection.3.2}
 \contentsline {subsection}{\numberline {3.3}B\IeC {\'u}squeda local determinista}{8}{subsection.3.3}
-\contentsline {subsection}{\numberline {3.4}B\IeC {\'u}squeda local con greedy}{10}{subsection.3.4}
+\contentsline {subsection}{\numberline {3.4}B\IeC {\'u}squeda local con greedy}{11}{subsection.3.4}
+\contentsline {section}{\numberline {4}Procedimiento de desarrollo}{11}{section.4}
+\contentsline {section}{\numberline {5}Experimentos realizados}{11}{section.5}

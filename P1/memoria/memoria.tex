@@ -366,6 +366,8 @@
 		}
 	\end{algorithm}
 	
+	Cabe destacar que este algoritmo no es determinista por completo ya que la solución inicial tomada es puramente aleatoria. Este detalle es importante puesto que por ello merecerá la pena ejecutarlo múltiples veces en vez de una única vez. \\
+	
 	\subsection{Búsqueda local con greedy}
 	
 	El último algoritmo presentado es otra mejora a la búsqueda local. Consiste simplemente en tomar como solución inicial la obtenida por el greedy. 
@@ -383,6 +385,56 @@
 	}
 	\end{algorithm}
 
+
+	\section{Procedimiento de desarrollo}
+	
+	Todos los algoritmos se han implementado en $C++$ y se encuentran en la carpeta adjunta. El código esta dividido independientes y autosuficientes que contienen cada uno un algoritmos de los explicados anteriormente. Adicionalmente hay dos archivos más para el tratamiento de los datos. \\
+	
+	Se han implementado también una serie de scripts en $bash$, así como un $makefile$ que permite la automatización de todo el proceso. El $makefile$ tiene esencialmente dos tipos de comandos: $examples<algoritmo>$ y $measure<algoritmo>$, donde $<algoritmo> \in {Greedy, LS, LSD, LGS}$. El primer comando compila y ejecuta $<algoritmo>$ para tres ejemplos, uno de cada set de entrenamiento. El segundo comando ejecuta 500 veces $<algoritmo>$ en cada caso del problema y hace la media de los datos proporcionados para cada uno de los casos. Los datos de salida se almacenan en $output/<algoritmo>.dat$. \\
+	
+	Finalmente el comando $measureAll$ ejecuta $measure$ sobre todos los algoritmos excepto $greedy$, ya que no tienen ningún componente aleatorio. \\
+	
+	\section{Experimentos realizados}
+	
+	En esta sección describiremos los experimentos realizados y estudiáremos los resultados obtenidos. 
+	
+	
+	
+	\begin{table}[]
+		\begin{tabular}{ll}
+			112135  & 0.443419 \\
+			112109  & 0.514877 \\
+			112541  & 0.500335 \\
+			112590  & 0.466543 \\
+			112204  & 0.497922 \\
+			112347  & 0.475533 \\
+			112583  & 0.460252 \\
+			112023  & 0.452859 \\
+			112411  & 0.45161  \\
+			112634  & 0.453235 \\
+			20420   & 0.005389 \\
+			35574   & 0.00858  \\
+			4542    & 0.003229 \\
+			16888   & 0.00773  \\
+			36065   & 0.012445 \\
+			62294   & 0.019682 \\
+			6938    & 0.005524 \\
+			25843   & 0.016009 \\
+			55406   & 0.024983 \\
+			96593   & 0.038524 \\
+			17831.8 & 0.004663 \\
+			17973   & 0.005126 \\
+			17973.3 & 0.004189 \\
+			17860   & 0.004934 \\
+			17822.9 & 0.004579 \\
+			17741.1 & 0.004476 \\
+			18016.5 & 0.005428 \\
+			17897.7 & 0.004446 \\
+			17784.5 & 0.005842 \\
+			17860.1 & 0.007314
+		\end{tabular}
+	\end{table}
+	
 
 \iffalse 	
 	\begin{figure}[H] 
