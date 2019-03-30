@@ -266,7 +266,6 @@ double greedySearch(vector<vector<double> > &mat, int choosen) {
   // set seed
   srand (time(NULL));
 
-
   t_start = clock();
   // Initialize the solution with the greedy
   greedy(sol, mat, choosen);

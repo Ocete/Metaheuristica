@@ -170,7 +170,7 @@ void obtainBestOrdering (vector<int> &best_ordering, solution &sol,
 
   // Save the ordering
   best_ordering.resize(pairs_v.size());
-  for (unsigned i=0; i<pairs_v.size(); i++) {
+  for (int i=pairs_v.size()-1; i>=0; i--) {
     best_ordering[i] = pairs_v[i].first;
   }
 }
@@ -178,12 +178,21 @@ void obtainBestOrdering (vector<int> &best_ordering, solution &sol,
 // Computes a single step in the exploration, changing "sol"
 // The element chosen depending on how it contributes to the current solution
 bool stepInNeighbourhoodDet (solution &sol, vector<vector<double> > &mat) {
-  bool noImprov = true;
-  unsigned i = 0, j, k, element_out;
-  float newContribution, oldContribution;
+  unsigned i = 0, j, k, element_out, total_tries, max_i, max_k;
+  double newContribution, oldContribution, percent_i;
   vector<int> best_ordering;
 
   orderSolutionByContribution(sol, mat);
+  obtainBestOrdering(best_ordering, sol, mat);
+
+  percent_i = 0.1;
+  total_tries = 50000;
+  max_i = sol.v.size() * percent_i;
+  max_k = min( total_tries / max_i, (unsigned) best_ordering.size());
+
+  if ( max_k == best_ordering.size() ) {
+    max_i = min(total_tries / max_k, (unsigned) sol.v.size());
+  }
 
   // Fill hash with our used values
   unordered_set<int> s;
@@ -191,16 +200,13 @@ bool stepInNeighbourhoodDet (solution &sol, vector<vector<double> > &mat) {
     s.insert( sol.v[i] );
   }
 
-  obtainBestOrdering(best_ordering, sol, mat);
-
   // Explore the neighbourhood wisely and return the firstly found better option
-  while (noImprov && i < sol.v.size()) {
+  while (i < max_i) {
     // Save data of the element we are trying to swap
     oldContribution = singleContribution(sol.v, mat, sol.v[i]);
     element_out = sol.v[i];
-
     k = 0;
-    while (noImprov && k < best_ordering.size()) {
+    while (k < max_k) {
       j = best_ordering[k];
       // Try the swap if the element 'j' is not in the current solution
       if ( s.find(j) == s.end() ) {
@@ -210,16 +216,14 @@ bool stepInNeighbourhoodDet (solution &sol, vector<vector<double> > &mat) {
           sol.fitness = sol.fitness + newContribution - oldContribution;
           s.erase(element_out);
           s.insert(j);
-          noImprov = false;
+          return false;
         }
       }
       k++;
     }
-
     i++;
   }
-
-  return noImprov;
+  return true;
 }
 
 // Computes the local search algorithm for a random starting solution

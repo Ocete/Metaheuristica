@@ -79,29 +79,6 @@ double evaluateSolution(T &container, vector<vector<double> > &mat) {
 
 /////////////////// GREEDY //////////////////////
 
-// Returns the element that is the farthest from the rest of elements
-int farthestToAll(vector<vector<double> > &mat) {
-  int farthest;
-  double max_sum_dist, current_sum_dist;
-
-  vector<int> all_elements (0, mat.size());
-  for (unsigned i=0; i<all_elements.size(); i++) {
-    all_elements[i] = i;
-  }
-  farthest = 0;
-  max_sum_dist = singleContribution(all_elements, mat, 0);
-
-  for (unsigned i=1; i<mat.size(); i++) {
-    current_sum_dist = singleContribution(all_elements, mat, i);
-    if (current_sum_dist > max_sum_dist) {
-      max_sum_dist = current_sum_dist;
-      farthest = i;
-    }
-  }
-
-  return farthest;
-}
-
 // Returns the element from "non_selected" that is the farthest from "selected"
 int farthestToSel(set<int> &non_selected, set<int> &selected, vector<vector<double> > &mat) {
   int farthest;
@@ -121,6 +98,15 @@ int farthestToSel(set<int> &non_selected, set<int> &selected, vector<vector<doub
   }
 
   return farthest;
+}
+
+// Returns the element that is the farthest from the rest of elements
+int farthestToAll(vector<vector<double> > &mat) {
+  set<int> all_elements;
+  for (unsigned i=0; i<mat.size(); i++) {
+    all_elements.insert(i);
+  }
+  return farthestToSel( all_elements, all_elements, mat);
 }
 
 void greedy(vector<vector<double> > &mat, unsigned choosen) {
