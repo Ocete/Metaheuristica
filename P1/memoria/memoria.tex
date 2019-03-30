@@ -30,6 +30,16 @@
 \newcommand\ddfrac[2]{\frac{\displaystyle #1}{\displaystyle #2}}
 \setlength{\parindent}{1.5em} %sangria
 
+% Displaying code with lstlisting
+\lstset { %
+	language=C++,
+	backgroundcolor=\color{black!5}, % set backgroundcolor
+	basicstyle=\footnotesize,% basic font setting
+}
+
+\usepackage[ruled]{algorithm2e}
+
+
 \begin{document}	
 	
 	\maketitle 
@@ -58,22 +68,328 @@
 
 	\subsection{Casos considerados}
 	
-	Se utilizarán 30 casos seleccionados de varios de los conjuntos de instancias disponibles en la \emph{MDPLIB} (\url{http://www.optsicom.es/mdp/}), 10 pertenecientes al grupo \textbf{GKD} con distancias Euclideas, $n=500$ y $m=50$ (\emph{GKD-c\_i\_n500\_m50} para $i\in\{1,\dotsc,10\}$), 10 del grupo \textbf{SOM} con distancias enteras entre 0 y 999, $n\in\{300,400,500\}$ y $m=\in\{40,\dotsc,200\}$ (\emph{SOM-b\_11\_n300\_m90} a \emph{SOM-b\_20\_n500\_m200}) y 10 del grupo \textbf{MDG} con distancias enteras entre 0 y 10, $n=2000$ y $m=200$ (\emph{MDG-a\_i\_n2000\_m200} para $i\in\{21,\dotsc,30\}$. \\
+	Se utilizarán 30 casos seleccionados de varios de los conjuntos de instancias disponibles en la \emph{MDPLIB} (\url{http://www.optsicom.es/mdp/}), 10 pertenecientes al grupo \textbf{GKD} con distancias Euclideas, $n=500$ y $m=50$ ($GKD-c\_i\_n500\_m50$ para $i\in\{1,\dotsc,10\}$), 10 del grupo \textbf{SOM} con distancias enteras entre 0 y 999, $n\in\{300,400,500\}$ y $m=\in\{40,\dotsc,200\}$ ($SOM-b\_11\_n300\_m90$ a $SOM-b\_20\_n500\_m200$) y 10 del grupo \textbf{MDG} con distancias enteras entre 0 y 10, $n=2000$ y $m=200$ ($MDG-a\_i\_n2000\_m200$ para $i\in\{21,\dotsc,30\}$. \\
 	
-	Cabe destacar que los datos proporcionados unicamente representan las distancias punto a punto, para todos los puntos. Sin embargo se desconoce la posición exacta de cada elemento. Es por esto por lo que no se ha podido implementar la técnica Greedy planteada inicialmente ya que se centraba en el concepto de $centroide$ o $baricentro$ de un conjunto y no podíamos calcularlo sin estimar primero la posición de los puntos.
+	Puesto que la numeración utilizada es unívoca se hará referencia a estas entradas simplemente como \textbf{MDP-a\_i} con $i\in\{1,\dotsc,10\}$, \textbf{SOM-b\_i} con $i\in\{11,\dotsc,20\}$ y \textbf{GKD-c\_i} con $i\in\{21,\dotsc,30\}$.
+	
+	\section{Descripción de la aplicación de los algoritmos}
+	
+	En esta sección describiremos las consideraciones comunes a los distintos algoritmos. Este incluye la representación de las soluciones, la función objetivo y los operadores comunes a los distintos algoritmos. Ya que los únicos puntos en común de la búsqueda local y la técnica greedy son la función objetivo y la representación de las soluciones no estudiaremos ningún operador común. Tampoco se han incluido los detalles específicos de un algoritmo a pesar de que sean comunes a varios algoritmos finales, ya que estos son pequeñas variaciones unos y otros.  \\
+	
+	El lenguaje utilizado para la implementación de la práctica ha sido $C++$. 
+	
+	\subsection{Representación de la soluciones}
+	
+	El esquema de representación de una solución es el siguiente:
+
+	\begin{lstlisting}
+	struct solution {
+		vector<int> v;
+		double fitness;
+	};
+	\end{lstlisting}
+	
+	Donde el vector contiene números entre $1$ y $n$ no repetidos que componen la solución ( $|v| = m$). Aunque el orden de estos elementos no es relevante se utilizará determinado ordenamiento sobre este mismo vector en algunas de las soluciones planteadas. \\
+	
+	Cabe destacar que los datos proporcionados únicamente representan las distancias punto a punto, para todos los puntos. Sin embargo se desconoce la posición exacta de cada elemento. Es por esto por lo que no se ha podido implementar la técnica Greedy planteada inicialmente ya que se centraba en el concepto de $centroide$ o $baricentro$ de un conjunto y no podíamos calcularlo sin estimar primero la posición de los puntos. \\
+	
+	Estos datos se han almacenado en una matriz simétrica de tamaño $n$ x $n$ que de aquí en adelante denotaremos por $MAT$.
+	
+	\subsection{Función objetivo}
+	
+	Para la función objetivo se ha dividido la implementación en dos funciones ya que algunos algoritmos utilizarán unicamente una de las dos y otros, ambas. La primera calcula la contribución del elemento $i$ a la solución actual. La segunda calcula el $fitness$ total utilizando la función anterior. \\
+
+	\begin{algorithm}
+	\caption{singleContribution}
+		\KwData{solution : sol , i : int}
+		\KwResult{ contribution : double}
+		\Begin{
+			contribution $\leftarrow$ 0
+			
+			\ForEach{ $ j \in sol.v$ }{
+				contribution $\leftarrow$ contribution + MAT[ i ][ j ]
+			}
+		}
+	\end{algorithm}
+			
+	\begin{algorithm}
+	\caption{evaluateSolution}
+		\KwData{solution : sol}
+		\KwResult{fitness : double}
+		\Begin{
+			fitness $\leftarrow$ 0
+			
+			\ForEach{ $ i \in sol.v$ }{
+				fitness $\leftarrow$ fitness + SingleContribution ( sol, i )
+			}
+			fitness $\leftarrow$ fitness / 2
+		}
+	\end{algorithm}
+	
+	\section{Algoritmos}
+	
+	Para esta práctica se han implementado un total de 4 algoritmos que a continuación describiremos en profundidad. Son los siguientes:
+	\begin{itemize}
+		\item Greedy
+		\item Búsqueda local
+		\item Búsqueda local determinista
+		\item Búsqueda local con greedy
+	\end{itemize}
+		
+	\subsection{Greedy}
+	
+	Como ya se ha comentado, la concepción inicial de la práctica era utilizar la idea del $baricentro$. Para ello en cada iteración se calcularía el baricentro de los elementos de la solución y se escogería el punto más alejado a este entre los aún no escogidos. Intentando simular esta estrategia utilizaremos la suma de las distancias al resto de elementos de la solución para cada punto aún no he escogido. \\
+	
+	En primer lugar se ha implementado una función que, dados dos conjuntos de puntos, $seleccionados$ y $no\_seleccionados$, devuelve el elemento de $no\_seleccionados$ cuya suma de distancias a los elementos de $seleccionados$ es máxima. Para ello utilizamos la función $SingleContribution$ explicado en el apartado anterior, que computa la suma de distancias de un punto a otro conjunto dado. \\ 
+
+	\begin{algorithm}
+		\caption{farthestToSel}
+		\KwData{selected : $set<int>$ , non\_selected : $set<int>$}
+		\KwResult{farthest : i}
+		\Begin{
+			fitness $\leftarrow$ 0 \\
+			max\_sum\_dist $\leftarrow$ 0 \\
+			\ForEach{  i $\in$ non\_selected }{
+				current\_sum\_dist $\leftarrow$ SingleContribution ( selected , i ) \\
+				\If{current\_sum\_dist $>$ max\_sum\_dist}{
+					max\_sum\_dist $\leftarrow$ current\_sum\_dist \\
+					farthest $\leftarrow$ i
+				}
+			}
+		}
+	\end{algorithm}
+	
+	De cara al algoritmo greedy final necesitaremos inicializar el conjunto de elementos seleccionados con al menos un elemento. Este será el que esté más alejado de todos los demás. Para calcularlo utilizamos una abstracción de la función anterior, donde $selected$ y $non\_selected$ serán ambos el conjunto de todos los puntos posibles: $\{0,1,\dotsc, n\}$. \\
+	
+	\begin{algorithm}
+		\caption{farthestToAll}
+		\KwData{ none }
+		\KwResult{farthest : i}
+		\Begin{
+			all\_elements $\leftarrow  \{0,1,\dotsc, n\}$ \\
+			farthest $\leftarrow$ farthestToSel( all\_elements, all\_elements )
+		}
+	\end{algorithm}
+
+	Finalmente presentamos el algoritmo greedy al completo, haciendo uso de las funciones anteriores. \\
+
+	\begin{algorithm}
+		\caption{greedy}
+		\KwData{ none }
+		\KwResult{selected : $set<int>$}
+		\Begin{
+			non\_selected $\leftarrow  \{0,1,\dotsc, n\}$ \\
+			selected $\leftarrow$ \{ farthestToAll() \} \\
+			\While{ $|selected| < m$ }{
+				farthest $\leftarrow$ farthestToSel(selected, non\_selected) \\
+				non\_selected $\leftarrow$ non\_selected $\bigcup$ \{farthest\} \\
+				selected $\leftarrow$ selected - \{farthest\}
+			}
+		}
+	\end{algorithm}
 
 
-\iffalse 
+	\subsection{Búsqueda local}
+	
+	Desgranemos la búsqueda local paso por paso. En primer lugar generamos una solución aleatoria que será el punto de partida. En cada iteración exploramos el vecindario hasta encontrar una solución mejor y sustituimos la actual por la encontrada. Repetimos este proceso hasta que la exploración del vecindario no encuentre una solución mejor. \\
+	
+	\begin{algorithm}
+		\caption{localSearch}
+		\KwData{ none }
+		\KwResult{sol : solution}
+		\Begin{
+			sol $\leftarrow$ randomSolution() \\
+			stop $\leftarrow $ false \\
+			\While{ !stop }{
+				stop , sol $\leftarrow$ stepInNeighbourhood(sol)
+			}
+			
+		}
+	\end{algorithm}
 
+	La exploración del vecindario realizada en la función $stepInNeighbourhood$ tiene dos detalles relevantes a explicar. Por un lado se ha explicado la factorización del movimiento en el vecindario. Esto es, para estudiar si una solución es mejor en vez de calcular la fitness de la nueva solución y compararla con la actual, estudiamos si el intercambio del elemento $i \in sol$ y el elemento $j$ de los no seleccionados tiene una repercusión positiva en la fitness de la solución. Para ello hacemos uso de la función $SingleContribution$ comparando las contribuciones de cada elemento. Si el intercambio merece la pena ($SingleContribution(i,sol) < SingleContribution(j,sol)$) reajustamos la fitness sumandole la diferencia entre ambas. \\
 	
-	Tras este procedimiento, el programa termina con la bomba desactivada. \\
+	Por otro lado, a la hora de escoger que elementos $i,j$ comparar, seleccionamos un elemento $j$ que aún no esté en la solución de forma aleatoria y comparamos con todos los posibles $i \in sol$. Una pequeña mejora consiste en ordenar los elementos de la solución en función a la contribución que realizan a esta para intentar intercambiar primero los que menos contribuyan. Veamos como está implementada esta ordenación. Por un lado definimos un operador de comparación que trabaje con parejas $<int, double>$. Esto nos permitirá ordenar el vector solución en orden de contribución creciente. \\
 	
+	\begin{algorithm}
+	 	\caption{operator$<$}
+	 	\KwData{ p1 : $pair<int,double>$ , p2 : $pair<int,double>$ }
+	 	\KwResult{comp : bool}
+	 	\Begin{
+	 		comp $\leftarrow$ $p1.second < p2.second$
+	 	}
+	\end{algorithm}
+
+	A continuación reordenamos los elementos de la solución. \\
+
+	\begin{algorithm}
+		\caption{orderSolutionByContribution}
+		\KwData{ sol : solution }
+		\KwResult{ sol : solution }
+		\Begin{
+			pairs : $vector<pair<int,double>>$ \\
+			\ForEach{ $i \in sol.v$ }{
+				pairs[ i ].first $\leftarrow$ i \\
+				pairs[ i ].second $\leftarrow$ singleContribution(sol.v, i);
+			}
+			pairs $\leftarrow$ sort(pairs, $operator<$) \\
+			\ForEach{ $i \in sol.v$ }{
+				sol.v[ i ] $\leftarrow$ pairs[ i ].first 
+			}
+		}
+	\end{algorithm}
+
+	Para acabar presentamos la exploración del vecindario, donde $rand(a,b)$ devuelve un número entero aleatorio en $[a,b)$. Se ordena el vector solución utilizando $orderSolutionByContribution$ y se toman $i \in sol.v$ en orden creciente y $j \notin sol.v$ para el intercambio. Este $j$ se tomará de forma aleatoria y con el objetivo de explotar plenamente la ordenación utilizada generaremos múltiples $j$'s para cada $i$. \\
+	
+	Según el guión de prácticas hemos de generar hasta $MAX = 50.000$ vecinos (parejas $(i,j)$ en nuestro caso) antes de parar la búsqueda local. Tras varias pruebas he decidido que merece la pena centrarse en el $10\%$ más prometedor de la solución. Llamemos a este porcentaje $percentage\_studied$. \\
+	
+	Por lo tanto estudiaremos $max_i = percentage\_studied \cdot |sol|$ elementos de la solución y para cada uno generaremos $max\_random = MAX / max\_i$ valores aleatorios distintos, obteniendo un total de $ max\_i \cdot max\_random = max\_i \cdot (MAX / max\_i) = MAX$ elementos en total. \\
+
+	\begin{algorithm}[H]
+		\caption{stepInNeighbourhood}
+		\KwData{ sol : solution }
+		\KwResult{ stop : bool , sol : solution }
+		\Begin{
+			sol $\leftarrow$ orderSolutionByContribution(sol) \\
+			$max\_i \leftarrow percentage\_studied \cdot |sol|$ \\
+			$max\_randoms \leftarrow MAX / max\_i$ \\
+			stop $\leftarrow$ true \\
+			tries $\leftarrow$ 0 \\
+			i $\leftarrow$ 0 \\
+			\While{ $i < max\_i$ }{
+				element\_out $\leftarrow$ sol.v[ i ] \\
+				oldContribution $\leftarrow$  singleContribution(sol.v, element\_out) \\
+				j $\leftarrow rand(0,m)$ \\
+				k $\leftarrow$ 0 \\
+				\While{ $k < max\_k$ }{
+					\If{ $j \notin sol.v$ }{
+						newContribution $\leftarrow singleContribution(sol.v, j) - MAT[ j ][ element\_out ] $ \\
+						\If{ $newContribution > oldContribution$ }{
+							sol.v[ i ] $\leftarrow$ j \\
+							sol.fitness $\leftarrow sol.fitness + newContribution - oldContribution$ \\
+							pairs[ i ].first $\leftarrow$ i \\
+							sol $\leftarrow$ false \\
+							return
+						}
+						$k \leftarrow k + 1$\\
+					}
+					j $\leftarrow rand(0,m)$ \\
+				}
+				$i \leftarrow k + 1$\\
+			}
+		
+		}
+	\end{algorithm}
+
+	\subsection{Búsqueda local determinista}
+	
+	Este algoritmo esta basado en la búsqueda local recién explicada pero con una pequeña mejora. A la hora de explorar el vecindario también ordenaremos los elementos no seleccionados en función de los más prometedores. Para ello utilizamos la función $obtainBestOrdering$. \\
+	
+	\begin{algorithm}[H]
+		\caption{obtainBestOrdering}
+		\KwData{ sol : solution }
+		\KwResult{ best\_ordering : vector<int> }
+		\Begin{
+			pairs : $vector<pair<int,double>>$ \\
+			\ForEach{ $i \in {0,\dotsc,n}$ }{
+				\If{ $i \notin sol.v$}{
+					pairs[ i ].first $\leftarrow$ i \\
+					pairs[ i ].second $\leftarrow$ singleContribution(sol.v, i);
+				}
+			}
+			pairs $\leftarrow$ sort(pairs, $operator<$) \\
+			\For{ $i$ from $|pairs|-1$ to 0 }{
+				best\_ordering[ i ] $\leftarrow$ pairs[ i ].first
+			}
+		}
+	\end{algorithm}
+	
+	Para el algoritmo en si, repetiremos un razonamiento análogo al anterior. Fijado el número de elementos del vecindario a explorar, $MAX$, exploramos un porcentaje $p_i$ de la solución y un porcentaje $p_k$ del ordenamiento generado a partir de la función $obtainBestOrdering$. \\
+	
+	Recorreremos la solución hasta $max_i = |sol| \cdot p_i$ y los posibles intercambios hasta $max_k = n \cdot p_k$, teniendo en cuenta que:
+	
+	$$ max_k \cdot max_i = (n \cdot p_k) \cdot (|sol| \cdot p_i) = MAX$$ 
+	
+	Si damos un valor a $p_i$ podemos calcular $max_i$ y $max_k$ en función del resto de datos: $ max_k = MAX / max_i $. Finalmente tenemos que tener en cuenta la posibilidad de que $max_k$ sea mayor que el tamaño de $best_ordering$ es por esto que tomamos $max_k = min(MAX / max_i , |best_ordering|)$. En ese caso hemos de actualizar $max_i$ a $min(MAX / max_k, |sol|)$ para asegurarnos de que hacemos la $MAX$ exploraciones. \\ 
+	
+	Este movimiento esta implementado en la función $stepInNeighbourhoodDet$ que a su vez es llamado por el algoritmo final, $localSearchDet$. \\
+	
+	\begin{algorithm}[H]
+		\caption{stepInNeighbourhoodDet}
+		\KwData{ sol : solution }
+		\KwResult{ stop : bool , sol : solution }
+		\Begin{
+			sol $\leftarrow$ orderSolutionByContribution(sol) \\
+			best\_ordering $\leftarrow$ obtainBestOrdering(sol) \\
+			$percent_i \leftarrow 0.1$
+			$max_i \leftarrow percent_i \cdot |sol|$ \\
+			$max_k \leftarrow min( MAX / max_i, |best\_ordering|)$ \\
+			\If{ $max_k == |best\_ordering|$}{
+				$max_i \leftarrow min( MAX / max_k, |sol|)$ 
+			}
+			stop $\leftarrow$ true \\
+			i $\leftarrow$ 0 \\
+			\While{ $i < max\_i$ }{
+				element\_out $\leftarrow$ sol.v[ i ] \\
+				oldContribution $\leftarrow$  singleContribution(sol.v, element\_out) \\
+				k $\leftarrow$ 0 \\
+				\While{ $k < max\_k$ }{
+					j $\leftarrow$ best\_ordering[ k ]
+					\If{ $j \notin sol.v$ }{
+						newContribution $\leftarrow singleContribution(sol.v, j) - MAT[ j ][element\_out] $ \\
+						\If{ $newContribution > oldContribution$ }{
+							sol.v[ i ] $\leftarrow$ j \\
+							sol.fitness $\leftarrow sol.fitness + newContribution - oldContribution$ \\
+							pairs[ i ].first $\leftarrow$ i \\
+							sol $\leftarrow$ false \\
+							return
+						}
+						$k \leftarrow k + 1$\\
+					}
+				}
+				$i \leftarrow k + 1$\\
+			}
+		}
+	\end{algorithm}
+	
+	\begin{algorithm}
+		\caption{localSearchDet}
+		\KwData{ none }
+		\KwResult{sol : solution}
+		\Begin{
+			sol $\leftarrow$ randomSolution() \\
+			stop $\leftarrow $ false \\
+			\While{ !stop }{
+				stop , sol $\leftarrow$ stepInNeighbourhoodDet(sol)
+			}
+			
+		}
+	\end{algorithm}
+	
+	\subsection{Búsqueda local con greedy}
+	
+	El último algoritmo presentado es otra mejora a la búsqueda local. Consiste simplemente en tomar como solución inicial la obtenida por el greedy. 
+	
+	\begin{algorithm}
+	\caption{localSearchGreedy}
+	\KwData{ none }
+	\KwResult{sol : solution}
+	\Begin{
+		sol $\leftarrow$ greedy() \\
+		stop $\leftarrow $ false \\
+		\While{ !stop }{
+			stop , sol $\leftarrow$ stepInNeighbourhoodDet(sol)
+		}
+	}
+	\end{algorithm}
+
+
+\iffalse 	
 	\begin{figure}[H] 
 		\centering
 		\includegraphics[scale=0.45]{capturas/prueba1.png} 
 		\caption{Bomba de prueba - gdb} \label{fig:figura25}
 	\end{figure}
-	
-	\fi
+\fi
 	
 \end{document}
