@@ -12,6 +12,7 @@ out_temp="output/temp.dat"
 iterations=$3
 
 rm ${out}
+rm ${out_temp}
 touch ${out_temp}
 touch ${out}
 
@@ -47,6 +48,6 @@ done
 echo "Executing stats"
 ./bin/stats < ${out_temp} >> ${out}
 
-rm ${out_temp}
+#rm ${out_temp}
 
 exit 0
