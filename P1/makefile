@@ -68,20 +68,16 @@ evolution: $(BIN)/localSearch $(BIN)/localSearchDet $(BIN)/greedySearch
 measureAll: measureLS measureLSD measureGS
 
 measureLS: $(BIN)/localSearch $(BIN)/stats
-	./measure.sh $(BIN)/localSearch $(OUT)/measureLS.dat 10
+	./measure.sh $(BIN)/localSearch $(OUT)/measureLS.dat 200
 
 measureLSD: $(BIN)/localSearchDet $(BIN)/stats
-	./measure.sh $(BIN)/localSearchDet $(OUT)/measureLSD.dat 10
+	./measure.sh $(BIN)/localSearchDet $(OUT)/measureLSD.dat 200
 
 measureGS: $(BIN)/greedySearch $(BIN)/stats
-	./measure.sh $(BIN)/greedySearch $(OUT)/measureGS.dat 20
+	./measure.sh $(BIN)/greedySearch $(OUT)/measureGS.dat 200
 
 stats: $(BIN)/stats
 	${BIN}/stats
 
 clean:
 	rm -f $(BIN)/*
-
-zip: clean
-	mkdir $(ZIP)
-	zip -r $(ZIP)/$(PRJ).zip *
