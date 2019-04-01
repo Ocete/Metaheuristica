@@ -68,13 +68,13 @@ evolution: $(BIN)/localSearch $(BIN)/localSearchDet $(BIN)/greedySearch
 measureAll: measureLS measureLSD measureGS
 
 measureLS: $(BIN)/localSearch $(BIN)/stats
-	./measure.sh $(BIN)/localSearch $(OUT)/measureLS.dat 500
+	./measure.sh $(BIN)/localSearch $(OUT)/measureLS.dat 10
 
 measureLSD: $(BIN)/localSearchDet $(BIN)/stats
-	./measure.sh $(BIN)/localSearchDet $(OUT)/measureLSD.dat 500
+	./measure.sh $(BIN)/localSearchDet $(OUT)/measureLSD.dat 10
 
 measureGS: $(BIN)/greedySearch $(BIN)/stats
-	./measure.sh $(BIN)/greedySearch $(OUT)/measureGS.dat 2
+	./measure.sh $(BIN)/greedySearch $(OUT)/measureGS.dat 20
 
 stats: $(BIN)/stats
 	${BIN}/stats

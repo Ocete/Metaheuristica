@@ -207,11 +207,11 @@ bool stepInNeighbourhood (solution &sol, vector<vector<double> > &mat) {
 
   orderSolutionByContribution(sol, mat);
 
-  // percentage_studied = 0.1;
-  // total_tries = 50000;
+  percentage_studied = 0.1;
+  total_tries = 50000;
 
-  percentage_studied = 1;
-  total_tries = numeric_limits<int>::max();
+  // percentage_studied = 1;
+  // total_tries = 1000000;
 
   max_i = max(percentage_studied * sol.v.size(), 1.0);
   max_randoms = total_tries / max_i;

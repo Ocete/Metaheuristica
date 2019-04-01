@@ -185,11 +185,11 @@ bool stepInNeighbourhoodDet (solution &sol, vector<vector<double> > &mat) {
   orderSolutionByContribution(sol, mat);
   obtainBestOrdering(best_ordering, sol, mat);
 
-  // percent_i = 0.1;
-  // total_tries = 50000;
+  percent_i = 0.1;
+  total_tries = 50000;
 
-  percent_i = 1;
-  total_tries = numeric_limits<int>::max();
+  // percent_i = 1;
+  // total_tries = numeric_limits<int>::max();
 
   max_i = sol.v.size() * percent_i;
   max_k = min( total_tries / max_i, (unsigned) best_ordering.size());
