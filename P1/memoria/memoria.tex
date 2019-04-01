@@ -390,58 +390,193 @@
 	
 	Todos los algoritmos se han implementado en $C++$ y se encuentran en la carpeta adjunta. El código esta dividido independientes y autosuficientes que contienen cada uno un algoritmos de los explicados anteriormente. Adicionalmente hay dos archivos más para el tratamiento de los datos. \\
 	
-	Se han implementado también una serie de scripts en $bash$, así como un $makefile$ que permite la automatización de todo el proceso. El $makefile$ tiene esencialmente dos tipos de comandos: $examples<algoritmo>$ y $measure<algoritmo>$, donde $<algoritmo> \in {Greedy, LS, LSD, LGS}$. El primer comando compila y ejecuta $<algoritmo>$ para tres ejemplos, uno de cada set de entrenamiento. El segundo comando ejecuta 500 veces $<algoritmo>$ en cada caso del problema y hace la media de los datos proporcionados para cada uno de los casos. Los datos de salida se almacenan en $output/<algoritmo>.dat$. \\
+	Se han implementado también una serie de scripts en $bash$, así como un $makefile$ que permite la automatización de todo el proceso. El $makefile$ tiene esencialmente dos tipos de comandos: $examples<algoritmo>$ y $measure<algoritmo>$, donde $<algoritmo> \in {Greedy, LS, LSD, LGS}$. El primer comando compila y ejecuta $<algoritmo>$ para tres ejemplos, uno de cada set de entrenamiento. El segundo comando ejecuta 200 veces $<algoritmo>$ en cada caso del problema y hace la media de los datos proporcionados para cada uno de los casos. Los datos de salida se almacenan en $output/<algoritmo>.dat$. \\
 	
-	Finalmente el comando $measureAll$ ejecuta $measure$ sobre todos los algoritmos excepto $greedy$, ya que no tienen ningún componente aleatorio. \\
+	Finalmente el comando $measureAll$ ejecuta $measure$ sobre todos los algoritmos excepto $greedy$, ya que no tienen ningún componente aleatorio. Para tomar datos sobre el algoritmo $greedy$ ejecutaremos $measureGreedy$ una única vez. \\
+	
+	Para el experimento 4 se ha utilizado el script $evolution.sh$ modificando ligeramente los fuentes para obtener los datos requeridos. 
 	
 	\section{Experimentos realizados}
 	
 	En esta sección describiremos los experimentos realizados y estudiáremos los resultados obtenidos. 
 	
+	\subsection{Experimentos 1: resultados iniciales}
 	
+	En primer lugar he tomado datos como se expone en la sección anterior. Adjunto a continuación las tablas de los tiempos y los resultados obtenidos para los cuatro algoritmos mencionados.
 	
-	\begin{table}[]
-		\begin{tabular}{ll}
-			112135  & 0.443419 \\
-			112109  & 0.514877 \\
-			112541  & 0.500335 \\
-			112590  & 0.466543 \\
-			112204  & 0.497922 \\
-			112347  & 0.475533 \\
-			112583  & 0.460252 \\
-			112023  & 0.452859 \\
-			112411  & 0.45161  \\
-			112634  & 0.453235 \\
-			20420   & 0.005389 \\
-			35574   & 0.00858  \\
-			4542    & 0.003229 \\
-			16888   & 0.00773  \\
-			36065   & 0.012445 \\
-			62294   & 0.019682 \\
-			6938    & 0.005524 \\
-			25843   & 0.016009 \\
-			55406   & 0.024983 \\
-			96593   & 0.038524 \\
-			17831.8 & 0.004663 \\
-			17973   & 0.005126 \\
-			17973.3 & 0.004189 \\
-			17860   & 0.004934 \\
-			17822.9 & 0.004579 \\
-			17741.1 & 0.004476 \\
-			18016.5 & 0.005428 \\
-			17897.7 & 0.004446 \\
-			17784.5 & 0.005842 \\
-			17860.1 & 0.007314
+	\begin{table}[H]
+		\begin{tabular}{l|l|l|l|l|l|}
+			\cline{2-6}
+			& Algoritmo Greedy & Búsqueda Local & BS Determinista & BS y Greedy & Óptimos \\ \hline
+			\multicolumn{1}{|l|}{MDG-a\_1}  & 112135           & 105832         & 106473          & 112073      & 114259            \\ \hline
+			\multicolumn{1}{|l|}{MDG-a\_2}  & 112109           & 105962         & 106416          & 112219      & 114327            \\ \hline
+			\multicolumn{1}{|l|}{MDG-a\_3}  & 112541           & 105776         & 106267          & 112199      & 114123            \\ \hline
+			\multicolumn{1}{|l|}{MDG-a\_4}  & 112590           & 105884         & 106318          & 112278      & 114040            \\ \hline
+			\multicolumn{1}{|l|}{MDG-a\_5}  & 112204           & 106118         & 106598          & 112684      & 114064            \\ \hline
+			\multicolumn{1}{|l|}{MDG-a\_6}  & 112347           & 106099         & 106568          & 111997      & 114204            \\ \hline
+			\multicolumn{1}{|l|}{MDG-a\_7}  & 112583           & 105940         & 106446          & 112498      & 114338            \\ \hline
+			\multicolumn{1}{|l|}{MDG-a\_8}  & 112023           & 105829         & 106320          & 112214      & 114158            \\ \hline
+			\multicolumn{1}{|l|}{MDG-a\_9}  & 112411           & 106290         & 106520          & 112173      & 114132            \\ \hline
+			\multicolumn{1}{|l|}{MDG-a\_10} & 112634           & 105981         & 106536          & 112565      & 114197            \\ \hline
+			\multicolumn{1}{|l|}{SOM-b\_11} & 20420            & 19181          & 20619.6         & 20447.6     & 20743             \\ \hline
+			\multicolumn{1}{|l|}{SOM-b\_12} & 35574            & 33798.3        & 35689.9         & 35381.9     & 35881             \\ \hline
+			\multicolumn{1}{|l|}{SOM-b\_13} & 4542             & 3955.94        & 4541.65         & 4466.66     & 4658              \\ \hline
+			\multicolumn{1}{|l|}{SOM-b\_14} & 16888            & 15500.5        & 16878.1         & 16644       & 16956             \\ \hline
+			\multicolumn{1}{|l|}{SOM-b\_15} & 36065            & 33870.9        & 36259.9         & 35934.8     & 36317             \\ \hline
+			\multicolumn{1}{|l|}{SOM-b\_16} & 62294            & 59575.7        & 62722.7         & 62128.6     & 62487             \\ \hline
+			\multicolumn{1}{|l|}{SOM-b\_17} & 6938             & 6135.27        & 6991.79         & 6934.05     & 7141              \\ \hline
+			\multicolumn{1}{|l|}{SOM-b\_18} & 25843            & 23954.5        & 25826.1         & 25642.2     & 26258             \\ \hline
+			\multicolumn{1}{|l|}{SOM-b\_19} & 55406            & 52741.8        & 55894.9         & 55400.2     & 56572             \\ \hline
+			\multicolumn{1}{|l|}{SOM-b\_20} & 96593            & 92657.6        & 96398.7         & 96375       & 97344             \\ \hline
+			\multicolumn{1}{|l|}{GKD-c\_21} & 17831.8          & 16483          & 18051.3         & 17663.6     & 19485,1875        \\ \hline
+			\multicolumn{1}{|l|}{GKD-c\_22} & 17973            & 16797.3        & 18188.1         & 17875.2     & 19701,53711       \\ \hline
+			\multicolumn{1}{|l|}{GKD-c\_23} & 17973.3          & 16574.8        & 18036.6         & 17592       & 19547,20703       \\ \hline
+			\multicolumn{1}{|l|}{GKD-c\_24} & 17860            & 16384.7        & 18052.7         & 17939.1     & 19596,46875       \\ \hline
+			\multicolumn{1}{|l|}{GKD-c\_25} & 17822.9          & 16702.6        & 18013.9         & 17675.1     & 19602,625         \\ \hline
+			\multicolumn{1}{|l|}{GKD-c\_26} & 17741.1          & 16505.8        & 17991.6         & 17858.9     & 19421,55078       \\ \hline
+			\multicolumn{1}{|l|}{GKD-c\_27} & 18016.5          & 16567.3        & 18161.9         & 17896.4     & 19534,30664       \\ \hline
+			\multicolumn{1}{|l|}{GKD-c\_28} & 17897.7          & 16522.3        & 18089.3         & 17900.1     & 19487,32031       \\ \hline
+			\multicolumn{1}{|l|}{GKD-c\_29} & 17784.5          & 16374.5        & 17817.6         & 17519.4     & 19221,63477       \\ \hline
+			\multicolumn{1}{|l|}{GKD-c\_30} & 17860.1          & 16578          & 18042.7         & 17850.2     & 19703,35156       \\ \hline
 		\end{tabular}
+		\caption{ Costes }
+		\label{costes}
+	\end{table}
+
+	
+	\begin{table}[H]
+		\begin{tabular}{l|l|l|l|l|}
+			\cline{2-5}
+			& \multicolumn{1}{c|}{Greedy} & \multicolumn{1}{c|}{Búsqueda local} & \multicolumn{1}{c|}{BS determinista} & \multicolumn{1}{c|}{BS greedy} \\ \hline
+			\multicolumn{1}{|l|}{MDG-a\_1}  & 0.249346                    & 1.29837                             & 1.67138                              & 0.259307                       \\ \hline
+			\multicolumn{1}{|l|}{MDG-a\_2}  & 0.251498                    & 1.25412                             & 1.64122                              & 0.299649                       \\ \hline
+			\multicolumn{1}{|l|}{MDG-a\_3}  & 0.25458                     & 1.32799                             & 1.64147                              & 0.281972                       \\ \hline
+			\multicolumn{1}{|l|}{MDG-a\_4}  & 0.264134                    & 1.30341                             & 1.66133                              & 0.310694                       \\ \hline
+			\multicolumn{1}{|l|}{MDG-a\_5}  & 0.258874                    & 1.30089                             & 1.71872                              & 0.285821                       \\ \hline
+			\multicolumn{1}{|l|}{MDG-a\_6}  & 0.259026                    & 1.33751                             & 1.74401                              & 0.334614                       \\ \hline
+			\multicolumn{1}{|l|}{MDG-a\_7}  & 0.260951                    & 1.34526                             & 1.69168                              & 0.297083                       \\ \hline
+			\multicolumn{1}{|l|}{MDG-a\_8}  & 0.258524                    & 1.35116                             & 1.71162                              & 0.314464                       \\ \hline
+			\multicolumn{1}{|l|}{MDG-a\_9}  & 0.257905                    & 1.43386                             & 1.76812                              & 0.259414                       \\ \hline
+			\multicolumn{1}{|l|}{MDG-a\_10} & 0.252341                    & 1.3025                              & 1.74672                              & 0.262792                       \\ \hline
+			\multicolumn{1}{|l|}{SOM-b\_11} & 0.003922                    & 0.0769007                           & 0.094339                             & 0.0115729                      \\ \hline
+			\multicolumn{1}{|l|}{SOM-b\_12} & 0.005933                    & 0.168331                            & 0.178364                             & 0.0135729                      \\ \hline
+			\multicolumn{1}{|l|}{SOM-b\_13} & 0.001846                    & 0.0198992                           & 0.0233178                            & 0.00484763                     \\ \hline
+			\multicolumn{1}{|l|}{SOM-b\_14} & 0.004533                    & 0.0882583                           & 0.11522                              & 0.010587                       \\ \hline
+			\multicolumn{1}{|l|}{SOM-b\_15} & 0.008492                    & 0.189072                            & 0.360455                             & 0.0206853                      \\ \hline
+			\multicolumn{1}{|l|}{SOM-b\_16} & 0.013224                    & 0.326374                            & 0.634729                             & 0.0254535                      \\ \hline
+			\multicolumn{1}{|l|}{SOM-b\_17} & 0.003302                    & 0.0304316                           & 0.0500629                            & 0.00627894                     \\ \hline
+			\multicolumn{1}{|l|}{SOM-b\_18} & 0.008476                    & 0.126879                            & 0.306938                             & 0.0167809                      \\ \hline
+			\multicolumn{1}{|l|}{SOM-b\_19} & 0.016259                    & 0.260259                            & 0.765596                             & 0.071728                       \\ \hline
+			\multicolumn{1}{|l|}{SOM-b\_20} & 0.025305                    & 0.456821                            & 1.14616                              & 0.0639032                      \\ \hline
+			\multicolumn{1}{|l|}{GKD-c\_21} & 0.003234                    & 0.0399083                           & 0.0699487                            & 0.00735801                     \\ \hline
+			\multicolumn{1}{|l|}{GKD-c\_22} & 0.003143                    & 0.0509766                           & 0.0709061                            & 0.00732955                     \\ \hline
+			\multicolumn{1}{|l|}{GKD-c\_23} & 0.003172                    & 0.0460402                           & 0.0729913                            & 0.01287                        \\ \hline
+			\multicolumn{1}{|l|}{GKD-c\_24} & 0.003158                    & 0.0489642                           & 0.0817394                            & 0.0074404                      \\ \hline
+			\multicolumn{1}{|l|}{GKD-c\_25} & 0.003188                    & 0.0501347                           & 0.0702928                            & 0.00716391                     \\ \hline
+			\multicolumn{1}{|l|}{GKD-c\_26} & 0.003173                    & 0.0519859                           & 0.0584565                            & 0.00720639                     \\ \hline
+			\multicolumn{1}{|l|}{GKD-c\_27} & 0.004301                    & 0.0562678                           & 0.0815131                            & 0.00846629                     \\ \hline
+			\multicolumn{1}{|l|}{GKD-c\_28} & 0.003306                    & 0.0476838                           & 0.0648686                            & 0.00651156                     \\ \hline
+			\multicolumn{1}{|l|}{GKD-c\_29} & 0.003221                    & 0.0512277                           & 0.0611578                            & 0.00678151                     \\ \hline
+			\multicolumn{1}{|l|}{GKD-c\_30} & 0.00325                     & 0.0478213                           & 0.0706898                            & 0.00764579                     \\ \hline
+		\end{tabular}
+		\caption{ Tiempos (s) }
+		\label{tiempos}
+	\end{table}
+
+	\begin{table}[H]
+		\begin{tabular}{l|l|l|l|l|}
+			\cline{2-5}
+			& Greedy & Búsqueda Local & BL Determinista & BL con greedy \\ \hline
+			\multicolumn{1}{|l|}{Desv}       & 3,81   & 10,25          & 5,12            & 4,17          \\ \hline
+			\multicolumn{1}{|l|}{Tiempo (s)} & 0,09   & 0,52           & 0,71            & 0,11          \\ \hline
+		\end{tabular}
+		\caption{ Comparativa entre algoritmos }
+		\label{comparativa}
+	\end{table}
+
+	\subsubsection{ Análisis }
+	
+	Comencemos observando la tabla \ref{comparativa} para obtener una visión general de los datos. Por un lado los tiempos no son para nada sorprendentes: La $BLD$ es el algoritmo más lento seguido de la búsqueda local clásica. Entenderemos mejor el tiempo obtenido para la $BL con greedy$ en los siguientes experimentos. \\
+	
+	Por otro lado el algoritmo $Greedy$ obtiene un valor $Desv$ menor que los de la búsqueda local. Sin embargo, si miramos la tabla \ref{costes} con más detenimiento nos damos cuenta de que efectivamente sobre los casos $MDG$ el algoritmo $Greedy$ obtiene mejores costes, pero en los demás casos la $BLD$ suele superarlo. Este es un claro ejemplo de como un algoritmo puede ser más efectivo frente a un caso de estudio particular y no serlo en otro. \\ 
+	
+	En cuanto a la $BL con Greedy$ era de esperar que tuviese valores como mínimo mejores que los del $Greedy$. Observamos que sin embargo estos valores no son notablemente mejores. Surgen por lo tanto dos preguntas: Por qué el tiempo de ejecución de $BL con Greedy$ es tan bajo y por qué su coste apenas mejora respecto al $Greedy$. Ambas preguntas serán contestadas en el segundo experimento. \\
+	
+	\subsection{ Experimento 2: exploración del vecindario }
+	
+	Motivado por las anteriores cuestiones he estudiado las iteraciones que toma cada algoritmo de búsqueda local hasta converger. Esto nos permite estudiar por un lado si la $BLD$ merece la pena y por otro comparar la convergencia de forma general. Estos han sido los resultados obtenidos. \\
+	
+	\begin{table}[H]
+		\begin{tabular}{l|l|l|l|}
+			\cline{2-4}
+			& Búsqueda Local & BS Determinista & BS con greedy \\ \hline
+			\multicolumn{1}{|l|}{MDG-a\_1}  & 333.34         & 458.93          & 1.06          \\ \hline
+			\multicolumn{1}{|l|}{MDG-a\_2}  & 341.42         & 460.72          & 3.375         \\ \hline
+			\multicolumn{1}{|l|}{MDG-a\_3}  & 333.32         & 445.39          & 3.615         \\ \hline
+			\multicolumn{1}{|l|}{MDG-a\_4}  & 334.15         & 450.24          & 4.035         \\ \hline
+			\multicolumn{1}{|l|}{MDG-a\_5}  & 341.59         & 466.07          & 2.615         \\ \hline
+			\multicolumn{1}{|l|}{MDG-a\_6}  & 350.235        & 484.405         & 7.455         \\ \hline
+			\multicolumn{1}{|l|}{MDG-a\_7}  & 342.575        & 452.6           & 2.71          \\ \hline
+			\multicolumn{1}{|l|}{MDG-a\_8}  & 337.055        & 477.755         & 3.9           \\ \hline
+			\multicolumn{1}{|l|}{MDG-a\_9}  & 357.475        & 479.48          & 1.095         \\ \hline
+			\multicolumn{1}{|l|}{MDG-a\_10} & 341.795        & 472.395         & 1.195         \\ \hline
+			\multicolumn{1}{|l|}{SOM-b\_11} & 77.785         & 371.73          & 1.555         \\ \hline
+			\multicolumn{1}{|l|}{SOM-b\_12} & 102.11         & 466.15          & 1             \\ \hline
+			\multicolumn{1}{|l|}{SOM-b\_13} & 44.015         & 189.585         & 1.205         \\ \hline
+			\multicolumn{1}{|l|}{SOM-b\_14} & 97.2           & 378.75          & 2             \\ \hline
+			\multicolumn{1}{|l|}{SOM-b\_15} & 115.06         & 543.42          & 2.495         \\ \hline
+			\multicolumn{1}{|l|}{SOM-b\_16} & 143.41         & 674.185         & 2.37          \\ \hline
+			\multicolumn{1}{|l|}{SOM-b\_17} & 56.64          & 252.86          & 1.145         \\ \hline
+			\multicolumn{1}{|l|}{SOM-b\_18} & 119.47         & 511.075         & 1.57          \\ \hline
+			\multicolumn{1}{|l|}{SOM-b\_19} & 145.545        & 720.03          & 12.72         \\ \hline
+			\multicolumn{1}{|l|}{SOM-b\_20} & 179.53         & 785.815         & 5.48          \\ \hline
+			\multicolumn{1}{|l|}{GKD-c\_21} & 38.005         & 255.305         & 2.28          \\ \hline
+			\multicolumn{1}{|l|}{GKD-c\_22} & 48.95          & 281.135         & 2.545         \\ \hline
+			\multicolumn{1}{|l|}{GKD-c\_23} & 42.24          & 268.165         & 3.3           \\ \hline
+			\multicolumn{1}{|l|}{GKD-c\_24} & 37.6           & 257.63          & 2.265         \\ \hline
+			\multicolumn{1}{|l|}{GKD-c\_25} & 50.375         & 281.54          & 2.135         \\ \hline
+			\multicolumn{1}{|l|}{GKD-c\_26} & 41.32          & 258.45          & 2.12          \\ \hline
+			\multicolumn{1}{|l|}{GKD-c\_27} & 38.74          & 306.75          & 2.495         \\ \hline
+			\multicolumn{1}{|l|}{GKD-c\_28} & 42.035         & 259.42          & 2.145         \\ \hline
+			\multicolumn{1}{|l|}{GKD-c\_29} & 41.83          & 281.97          & 3.25          \\ \hline
+			\multicolumn{1}{|l|}{GKD-c\_30} & 42.225         & 278.765         & 2.565         \\ \hline
+		\end{tabular}
+		\caption{ Estudio de convergencia (iteraciones) }
+		\label{iteraciones}	
 	\end{table}
 	
-
-\iffalse 	
+	\subsubsection{ Análisis }
+	
+	Observando los resultados quedan claramente resueltas las cuestiones planteadas inicialmente. La convergencia es terriblemente prematura en el caso de la $BL con Greedy$, y esto explica tanto los bajos valores de tiempos como la reducida mejora en coste respecto al $Greedy$ inicial. Conjeturo que esta convergencia se debe a la cota en el número de vecinos generados impuesto ($50.000$), a la manera de explorar el vecindario y a la calidad de la solución inicial obtenida con el $Greedy$. \\
+	
+	Por otra parte observamos que el número de iteraciones para la $BLD$ es considerablemente mayor que para la $BL$, llegando hasta a cuadruplicarse en ocasiones, como es el caso de $SOM-b_12$. Esto no indica que los reajustes realizados realmente merecen la pena en cuanto a costes, si bien en tiempo puede que no sea el caso si ejecutamos esta búsqueda de forma reiterada. \\
+	
+	En vista de estos últimos resultados otra alternativa sería aplicar la $BLD$ con solución inicial la obtenida por el $Greedy$. Este sería un algoritmo 100\% determinista que explotaría al en profundidad el entorno de la solución inicial. \\
+	
+	En base a los resultados anteriores se plantean un tercer experimento.  \\
+	
+	\subsection{ Experimento 3: búsqueda del óptimo }
+	
+	En el primer experimento podíamos observar como en algunos casos del problema obteníamos valores mejores que los óptimos conocidos, como es el caso de $SOMB-b_16$ en la tabla \ref{costes}. Dicha observación propicia el siguiente experimento, en este caso buscando la mejor solución posible. Para ello se han utilizado las tres búsquedas ya explicadas pero eliminando la cota de generación del vecindario.
+	
+	\subsection{ Experimento 4: estudio evolutivo de la exploración del entorno }
+	
+	En este último experimento estudiamos la convergencia de la búsqueda local clásica y la determinista iteración a iteración. Para ello ejecutamos estos algoritmos sobre los conjuntos de datos $MDG-a_21$ y $SOM-b_13$, escogidos por tener comportamientos particularmente distintos en las tablas \ref{costes} y \ref{iteraciones}. Volvemos a utilizar la cota en la exploración del vecindario, y en cada iteración obtenemos el coste actual de la solución en estudio. Podemos ver los resultados obtenidos en las siguientes gráficas.
+	
 	\begin{figure}[H] 
 		\centering
-		\includegraphics[scale=0.45]{capturas/prueba1.png} 
-		\caption{Bomba de prueba - gdb} \label{fig:figura25}
+		\includegraphics[scale=1]{../output/evolution/MDG-a_21} 
+		%\caption{Bomba de prueba - gdb} \label{fig:figura25}
 	\end{figure}
-\fi
 	
+	\begin{figure}[H] 
+		\centering
+		\includegraphics[scale=1]{../output/evolution/SOM-b_13} 
+		%\caption{Bomba de prueba - gdb} \label{fig:figura25}
+	\end{figure}
+
+	\subsubsection{ Análisis }
+	
+	Podemos ver como en los distintos casos la evolución es particularmente distinta. Por un lado, para $MDG-a_21$ la convergencia de ambos algoritmos es asintóticamente idéntica, manteniéndose la $BLD$ por encima en parte debido a la solución inicial ligeramente mejor.Por otro, en $SOM-b_13$ la mejora de la $BL$ respecto a la $BLD$ es sustancial pero esta se estanca rápidamente debido a que su exploración del espacio es peor. Este es otro ejemplo de como los mismos algoritmos pueden comportarse de formas completamente distintas para entradas diferentes.
+
 \end{document}

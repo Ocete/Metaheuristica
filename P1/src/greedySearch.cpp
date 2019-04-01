@@ -207,8 +207,12 @@ bool stepInNeighbourhood (solution &sol, vector<vector<double> > &mat) {
 
   orderSolutionByContribution(sol, mat);
 
-  percentage_studied = 0.1;
-  total_tries = 50000;
+  // percentage_studied = 0.1;
+  // total_tries = 50000;
+
+  percentage_studied = 1;
+  total_tries = numeric_limits<int>::max();
+
   max_i = max(percentage_studied * sol.v.size(), 1.0);
   max_randoms = total_tries / max_i;
 
@@ -262,6 +266,7 @@ double greedySearch(vector<vector<double> > &mat, int choosen) {
   while (!stop && iterations < 10000) {
     stop = stepInNeighbourhood(sol, mat);
     iterations++;
+    // cout << sol.fitness << "\t" << iterations << endl;
   }
   t_total = clock() - t_start;
 

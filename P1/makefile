@@ -60,6 +60,8 @@ examplesGS: $(BIN)/greedySearch
 		$(BIN)/greedySearch < $(IN)/SOM-b_16_n400_m160.txt
 		$(BIN)/greedySearch < $(IN)/MDG-a_21_n2000_m200.txt
 
+evolution: $(BIN)/localSearch $(BIN)/localSearchDet $(BIN)/greedySearch
+	./evolution.sh
 
 # Estadísticas
 
@@ -72,7 +74,7 @@ measureLSD: $(BIN)/localSearchDet $(BIN)/stats
 	./measure.sh $(BIN)/localSearchDet $(OUT)/measureLSD.dat 500
 
 measureGS: $(BIN)/greedySearch $(BIN)/stats
-	./measure.sh $(BIN)/greedySearch $(OUT)/measureGS.dat 500
+	./measure.sh $(BIN)/greedySearch $(OUT)/measureGS.dat 2
 
 stats: $(BIN)/stats
 	${BIN}/stats

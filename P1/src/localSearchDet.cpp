@@ -185,8 +185,12 @@ bool stepInNeighbourhoodDet (solution &sol, vector<vector<double> > &mat) {
   orderSolutionByContribution(sol, mat);
   obtainBestOrdering(best_ordering, sol, mat);
 
-  percent_i = 0.1;
-  total_tries = 50000;
+  // percent_i = 0.1;
+  // total_tries = 50000;
+
+  percent_i = 1;
+  total_tries = numeric_limits<int>::max();
+
   max_i = sol.v.size() * percent_i;
   max_k = min( total_tries / max_i, (unsigned) best_ordering.size());
 
@@ -243,6 +247,7 @@ double localSearchDet(vector<vector<double> > &mat, int choosen) {
   while (!stop && iterations < 10000) {
     stop = stepInNeighbourhoodDet(sol, mat);
     iterations++;
+    // cout << sol.fitness << "\t" << iterations << endl;
   }
   t_total = clock() - t_start;
 

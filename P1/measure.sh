@@ -48,6 +48,6 @@ done
 echo "Executing stats"
 ./bin/stats < ${out_temp} >> ${out}
 
-#rm ${out_temp}
+rm ${out_temp}
 
 exit 0

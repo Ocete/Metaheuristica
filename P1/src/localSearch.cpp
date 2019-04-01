@@ -147,8 +147,12 @@ bool stepInNeighbourhood (solution &sol, vector<vector<double> > &mat) {
 
   orderSolutionByContribution(sol, mat);
 
-  percentage_studied = 0.1;
-  total_tries = 50000;
+  // percentage_studied = 0.1;
+  // total_tries = 50000;
+
+  percentage_studied = 1;
+  total_tries = 1000000;
+
   max_i = max(percentage_studied * sol.v.size(), 1.0);
   max_randoms = total_tries / max_i;
 
@@ -188,7 +192,7 @@ bool stepInNeighbourhood (solution &sol, vector<vector<double> > &mat) {
 double localSearch(vector<vector<double> > &mat, int choosen) {
   solution sol;
   bool stop = false;
-  int iterations = -1;
+  int iterations = 0;
   clock_t t_start, t_total;
 
   // set seed
@@ -201,6 +205,7 @@ double localSearch(vector<vector<double> > &mat, int choosen) {
   while (!stop /*&& iterations < 10000*/) {
     stop = stepInNeighbourhood(sol, mat);
     iterations++;
+    // cout << sol.fitness << "\t" << iterations << endl;
   }
   t_total = clock() - t_start;
 

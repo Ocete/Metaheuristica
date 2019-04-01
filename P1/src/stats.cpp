@@ -33,16 +33,18 @@ void inputNames(vector<string> &input_names) {
 //////////////////// MAIN /////////////////////
 
 void computeStats(int iterations, string input) {
-  double mean_fitness = 0, mean_time = 0, time_read, fitness_read;
+  double mean_fitness = 0, mean_time = 0, time_read, fitness_read, max_fitness = 0;
   int mean_steps = 0, steps_read;
 
   for (int i=0; i<iterations; i++) {
     cin >> fitness_read >> time_read >> steps_read;
-    mean_fitness += fitness_read;
+    // mean_fitness += fitness_read;
+    max_fitness = max(max_fitness, fitness_read);
     mean_time += time_read;
     mean_steps += steps_read;
   }
-  cout << mean_fitness/iterations << "\t";
+  // cout << mean_fitness/iterations << "\t";
+  cout << max_fitness << "\t";
   cout << mean_time/iterations << "\t";
   cout << (double) mean_steps/iterations << endl;
 }
