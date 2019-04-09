@@ -8,15 +8,20 @@
 
 using namespace std;
 
+vector<vector<double> > MAT;
+
 /////////////////// INPUT //////////////////////
 
-void readInput (vector<vector<double> > &mat) {
+void readInput ( int size ) {
+  vector<double> v (size, 0);
+  vector<vector<double > > mat (size, v);
+  MAT = mat;
   unsigned i, j;
   double f;
-  for (i=1; i<mat.size(); i++) {
-    for (j=i+1; j<mat.size(); j++) {
+  for (i=1; i<MAT.size(); i++) {
+    for (j=i+1; j<MAT.size(); j++) {
       cin >> f >> f >> f;
-      mat[i][j] = mat[j][i] = f;
+      MAT[i][j] = MAT[j][i] = f;
     }
   }
 }
@@ -55,23 +60,23 @@ void printVector (vector<T> &v) {
 // Computes the contribution of the element "elem" for the solution "sol" given
 // AKA, the sum of the distances from elemet "elem" to each other element in sol
 
-template <class T>
-double singleContribution(T &container, vector<vector<double> > &mat, int elem) {
+double singleContribution(vector<bool> &v, int elem) {
   double result = 0;
-  typename T::iterator it;
-  for (it = container.begin(); it != container.end(); it++) {
-    result += mat[ elem ][ *it ];
+  for (unsigned i=0; i<v.size(); i++) {
+    if ( v[i] ) {
+      result += v[i] * MAT[ elem ][ i ];
+    }
   }
   return result;
 }
 
 // Returns the fitness of the whole solution
-template <class T>
-double evaluateContainer(T &container, vector<vector<double> > &mat) {
+double evaluateContainer(vector<bool> &v) {
   double fitness = 0;
-  typename T::iterator it;
-  for (it = container.begin(); it != container.end(); it++) {
-    fitness += singleContribution(container, mat, *it);
+  for (unsigned i=0; i<v.size(); i++) {
+    if ( v[i] ) {
+      fitness += singleContribution(v, i);
+    }
   }
   // Counting twice all the possible distances
   return fitness /= 2;
@@ -80,7 +85,7 @@ double evaluateContainer(T &container, vector<vector<double> > &mat) {
 ////////////////// GENETIC ///////////////////////
 
 struct solution {
-  vector<int> v;
+  vector<bool> v;
   double fitness;
   bool evaluated;
 };
@@ -90,36 +95,29 @@ int random(int a, int b) {
   return a + rand() % b;
 }
 
-double evaluateSolution(solution &sol, vector<vector<double> > &mat) {
-  sol.fitness = evaluateContainer(sol.v, mat);
+double evaluateSolution(solution &sol) {
+  sol.fitness = evaluateContainer(sol.v);
   sol.evaluated = true;
   return sol.fitness;
 }
 
 // Creates a random solution
 // Prec.: Random seed already set
-void randomSolution (solution &sol, int size, int choosen) {
-  int currently_choosen = 0, random;
-  unordered_set<int> s;
+void randomSolution (solution &sol, int choosen) {
+  int size = MAT.size();
+  int currently_choosen = 0, rand_n;
 
-  // Set the flag
+  // Set the flag and clear the solution
   sol.evaluated = false;
+  sol.v = vector<bool> (size, false);
 
   // Select 'choosen' elements
   while (currently_choosen  < choosen) {
-    random = rand() % size;
-    if ( s.find(random) == s.end() ) {
-      s.insert(random);
+    rand_n = random(0, size);
+    if ( !sol.v[rand_n] ) {
+      sol.v[rand_n] = true;
       currently_choosen++;
     }
-  }
-
-  // Dump the set into the solution
-  int i = 0;
-  sol.v.resize(choosen);
-  for (auto it = s.begin(); it != s.end(); it++) {
-    sol.v[i] = *it;
-    i++;
   }
 }
 
@@ -129,137 +127,93 @@ bool operator < (const pair<int,double> &p1, const pair<int,double> &p2) {
     return p1.second < p2.second;
 }
 
-// Order sol.v by conribution to the solution in ascending order
-void orderSolutionByContribution ( solution &sol, vector<vector<double> > &mat ) {
-  pair<int, double> p (0, 0.0);
-  vector< pair<int, double> > pairs_v ( sol.v.size(), p);
+///////////////////////////// GENETIC ///////////////////////////////////////
 
-  // Initialize the auxiliar vector
-  for (unsigned i=0; i< pairs_v.size(); i++) {
-    pairs_v[i].first = sol.v[i];
-    pairs_v[i].second = singleContribution(sol.v, mat, pairs_v[i].first);
-  }
-
-  // Order the vector by contribution
-  sort(pairs_v.begin(), pairs_v.end());
-
-  // Save the ordering
-  for (unsigned i=0; i< pairs_v.size(); i++) {
-    sol.v[i] = pairs_v[i].first;
-  }
-}
-
-// Computes a single step in the exploration, changing "sol"
-bool stepInNeighbourhood (solution &sol, vector<vector<double> > &mat) {
-  double percentage_studied;
-  unsigned i = 0, j, element_out, total_tries, max_i, max_randoms, k;
-  double newContribution, oldContribution;
-
-  orderSolutionByContribution(sol, mat);
-
-  // percentage_studied = 0.1;
-  // total_tries = 50000;
-
-  percentage_studied = 1;
-  total_tries = 1000000;
-
-  max_i = max(percentage_studied * sol.v.size(), 1.0);
-  max_randoms = total_tries / max_i;
-
-  // Fill hash with our used values
-  unordered_set<int> s;
-  for (unsigned i=0; i<sol.v.size(); i++) {
-    s.insert( sol.v[i] );
-  }
-
-  // Explore the neighbourhood and return the firstly found better option
-  while (i < max_i) {
-    // Save data of the element we are trying to swap
-    element_out = sol.v[i];
-    oldContribution = singleContribution(sol.v, mat, element_out);
-
-    k = 0;
-    j = rand() % mat.size();
-    while (j < mat.size() && k < max_randoms) {
-      // Try the swap if the element 'j' is not in the current solution
-      if ( s.find(j) == s.end() ) {
-        newContribution = singleContribution(sol.v, mat, j) - mat[j][element_out];
-        if ( newContribution > oldContribution ) {
-          sol.v[i] = j;
-          sol.fitness = sol.fitness + newContribution - oldContribution;
-          return false;
-        }
-        k++;
-      }
-      j = rand() % mat.size();
-    }
-    i++;
-  }
-  return true;
-}
-
-void initializePop(vector<solution> &pop, int tam_pob, int size, int choosen) {
+void initializePop(vector<solution> &pop, int tam_pob, int choosen) {
+  int size = MAT.size();
   pop.resize(tam_pob);
   for (unsigned i=0; i<tam_pob; i++) {
-    randomSolution(pop[i], size, choosen);
+    randomSolution(pop[i], choosen);
   }
 }
 
-void evaluatePop(vector<solution> &pop, vector<vector<double> > &mat,
-      int &iterations) {
+void evaluatePop(vector<solution> &pop, int &iterations) {
   for (unsigned i=0; i<pop.size(); i++) {
     if ( !pop[i].evaluated ) {
-      evaluateSolution(pop[i], mat);
+      evaluateSolution( pop[i] );
       iterations++;
     }
   }
 }
 
+// Assumes the population is evaluated
+int binaryTournament(vector<solution> &pop) {
+  int r1 = random(0, pop.size());
+  int r2 = random(0, pop.size());
+  r1 = pop[r1].fitness > pop[r2].fitness ? r1 : r2;
+  return  r1;
+}
+
 void selection(vector<solution> &pop, vector<solution> &new_pop) {
   unsigned pop_tam = pop.size();
-  int r1, r2;
+  int select;
   new_pop.resize(pop_tam);
   for (unsigned i=0; i<n_crosses; i++) {
-    r1 = random(0, pop_tam);
-    r2 = random(0, pop_tam);
-    r1 = min (r1,r2);
-    new_pop[i] = pop[r1];
+    select = binaryTournament ( pop );
+    new_pop[i] = pop[select];
   }
 }
 
-bool mutateSolution(solution &sol, int choosen) {
-  unordered_set<int> s;
-  int r1, r2;
-  bool evaluated;
+// Mutate the solution by swapping two random elements
+void mutateSolution(solution &sol, int &iterations) {
+  int r_on, r_off;
 
-  for ( i in sol.v ) {
-    s.insert(i);
-  }
+  // Find elements to swap
+  do {
+    r_on = random(0, choosen);
+  } while ( !sol.v[r_on] );
 
   do {
-    r_in = random(0, choosen);
     r_out = random(0, choosen);
-  } while ( /* TODO COMPLETAR CON EL FIND DE LA CLASE VECTOR Y QUITAR EL SET */  );
+  } while ( sol.v[r_off] );
 
-  // Necesitamos la posicion para despues reemplazarlo. Se puede usar un map!!!!!!!
+  // Swap elements
+  sol.v[r_on] = false;
+  sol.v[r_off] = true;
 
+  // Update the fitness if possible
+  if ( sol.evaluated ) {
+    double oldContribution = singleContribution(sol.v, r_on) - MAT[r_on][r_off];
+    double newContribution = singleContribution(sol.v, r_off);
+    sol.fitness = sol.fitness + newContribution - oldContribution;
+    iterations++;
+  }
 }
 
 void mutatePop(vector<solution> &pop, double &mut_prob,
       int choosen, int &iterations) {
   int r_sol, n_mut = mut_prob*pop.size();
-  bool evaluated;
   for (unsigned i=0; i<n_mut; i++) {
     r_sol = random(0,pop.size());
-    evaluated = mutateSolution(pop[r_sol]);
-    if ( evaluated ) {
-      iterations++;
-    }
+    mutateSolution( pop[r_sol], iterations );
   }
 }
 
+void cross(vector <solution> &pop, double cross_prob) {
+
+}
+
+void replace(vector<solution> &new_pop, vector<solution> &pop) {
+  pop.swap(new_pop);
+
+  // TODO falta por hacer el elitismo. Para eso lo mas facil seria hacer una
+  // struct de "pop" que mantenga guardado el fitness maximo de sus elementos
+  // y quizas tambien la posicion del mejor elemento
+}
+
 // Computes the local search algorithm for a random starting solution
-double genetic(vector<vector<double> > &mat, int choosen) {
+// This implementation doesn't assume the pop is ordered
+double genetic( int choosen, int MAX_EVALUATIONS ) {
   int evaluations = 0, MAX_EVALUATIONS = 50000, tam_pob = 50, generations = 0;
   double mut_prob = 0.7, cross_prob = 0.001;
   clock_t t_start, t_total;
@@ -269,12 +223,10 @@ double genetic(vector<vector<double> > &mat, int choosen) {
   srand (time(NULL));
   t_start = clock();
 
-  initializePop(pop, tam_pob, mat.size(), choosen);
-  evaluatePop(pop, mat, iterations);
+  initializePop(pop, tam_pob, choosen);
+  evaluatePop(pop, iterations);
 
   while (evaluations < MAX_EVALUATIONS) {
-    // NOTE AHORA MISMO EL OP. DE SELECCION ASUME QUE HAY ORDEN, PERO NO HAY ORDEN
-    // ESTUDIAR SI MERECE LA PENA
     generations++;
     selection(pop, new_pop);
     cross(new_pop, cross_prob);
@@ -296,14 +248,13 @@ double genetic(vector<vector<double> > &mat, int choosen) {
 
 int main( int argc, char *argv[] ) {
   int size, choosen;
+  int MAX_EVALUATIONS = 50000;
+
+  // set seed
+  srand (time(NULL));
 
   cin >> size >> choosen;
-  vector<double> v (size, 0);
-  vector<vector<double > > mat (size, v);
-  readInput(mat);
+  readInput(size);
 
-  // testEvaluation(mat, size, choosen);
-  // testFactorization(mat, size, choosen);
-
-  localSearch(mat, choosen);
+  genetic(choosen, MAX_EVALUATIONS);
 }

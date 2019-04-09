@@ -162,7 +162,7 @@ bool stepInNeighbourhood ( solution &sol, int &tries, int max_tries ) {
   percentage_studied = 0.2;
 
   max_i = max(percentage_studied * sol.v.size(), 1.0);
-  max_randoms = max_tries / max_i;
+  max_randoms = (max_tries - tries) / max_i;
 
   // Explore the neighbourhood and return the firstly found better option
   i = 0;
@@ -225,9 +225,6 @@ int main( int argc, char *argv[] ) {
 
   cin >> size >> choosen;
   readInput(size);
-
-  // testEvaluation(mat, size, choosen);
-  // testFactorization(mat, size, choosen);
 
   localSearch(choosen, tries, max_tries);
 }
