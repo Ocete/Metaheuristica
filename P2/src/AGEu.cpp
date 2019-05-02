@@ -3,7 +3,7 @@
 #include <set>
 #include <unordered_set>
 #include <stdlib.h>     // srand y rand
-#include <algorithm>    // sort
+#include <algorithm>    // sort y random_shuffle
 #include <time.h>
 
 using namespace std;
@@ -121,61 +121,79 @@ void randomSolution (solution &sol, int choosen) {
   }
 }
 
-// Comparison operator for ordering the solution vector
-// Keeps at the front the element with less contribution to the fitness
-bool operator < (const pair<int,double> &p1, const pair<int,double> &p2) {
-    return p1.second < p2.second;
-}
-
 ///////////////////////////// GENETIC ///////////////////////////////////////
 
-void initializePop(vector<solution> &pop, int tam_pob, int choosen) {
-  int size = MAT.size();
-  pop.resize(tam_pob);
-  for (unsigned i=0; i<tam_pob; i++) {
-    randomSolution(pop[i], choosen);
+class population {
+public:
+  vector<solution> v;
+  double max_fitness;
+  int best_sol;
+  int tam;
+
+  population() {
+    best_sol = 0;
+    tam = 0;
+    max_fitness = 0;
   }
+};
+
+// Comparison operator for ordering the population
+// Keeps at the front the element with the highest fitness
+bool operator < (const solution &s1, const solution &s2) {
+    return s1.fitness > s2.fitness;
 }
 
-void evaluatePop(vector<solution> &pop, int &iterations) {
-  for (unsigned i=0; i<pop.size(); i++) {
-    if ( !pop[i].evaluated ) {
-      evaluateSolution( pop[i] );
-      iterations++;
+void initializePop(population &pop, int tam_pob, int choosen) {
+  pop.v.resize(tam_pob);
+  for (int i=0; i<tam_pob; i++) {
+    randomSolution(pop.v[i], choosen);
+  }
+  pop.tam = pop.v.size();
+}
+
+void evaluatePop(population &pop, int &evaluations) {
+  for (int i=0; i<pop.tam; i++) {
+    if ( !pop.v[i].evaluated ) {
+      evaluateSolution( pop.v[i] );
+      if ( pop.v[i].fitness > pop.max_fitness ) {
+        pop.best_sol = i;
+        pop.max_fitness = pop.v[i].fitness;
+      }
+      evaluations++;
     }
   }
 }
 
-// Assumes the population is evaluated
-int binaryTournament(vector<solution> &pop) {
-  int r1 = random(0, pop.size());
-  int r2 = random(0, pop.size());
-  r1 = pop[r1].fitness > pop[r2].fitness ? r1 : r2;
+// Prec: Assumes the population is evaluated
+int binaryTournament(population &pop) {
+  int r1 = random(0, pop.tam);
+  int r2 = random(0, pop.tam);
+  r1 = pop.v[r1].fitness > pop.v[r2].fitness ? r1 : r2;
   return  r1;
 }
 
-void selection(vector<solution> &pop, vector<solution> &new_pop) {
-  unsigned pop_tam = pop.size();
-  int select;
-  new_pop.resize(pop_tam);
-  for (unsigned i=0; i<n_crosses; i++) {
-    select = binaryTournament ( pop );
-    new_pop[i] = pop[select];
-  }
+void selectPair(population &pop, solution &s1, solution &s2) {
+  int i1, i2;
+  i1 = binaryTournament ( pop );
+  do {
+    i2 = binaryTournament ( pop );
+  } while (i1 == i2);
+  s1 = pop.v[i1];
+  s2 = pop.v[i2];
 }
 
 // Mutate the solution by swapping two random elements
-void mutateSolution(solution &sol, int &iterations) {
+void mutateSolution(solution &sol, int &evaluations) {
   int r_on, r_off;
 
   // Find elements to swap
   do {
-    r_on = random(0, choosen);
+    r_on = random(0, sol.v.size());
   } while ( !sol.v[r_on] );
 
   do {
-    r_out = random(0, choosen);
-  } while ( sol.v[r_off] );
+    r_off = random(0, sol.v.size());
+  } while ( sol.v[r_off] || r_off == r_on);
 
   // Swap elements
   sol.v[r_on] = false;
@@ -186,58 +204,108 @@ void mutateSolution(solution &sol, int &iterations) {
     double oldContribution = singleContribution(sol.v, r_on) - MAT[r_on][r_off];
     double newContribution = singleContribution(sol.v, r_off);
     sol.fitness = sol.fitness + newContribution - oldContribution;
-    iterations++;
+    evaluations++;
   }
 }
 
-void mutatePop(vector<solution> &pop, double &mut_prob,
-      int choosen, int &iterations) {
-  int r_sol, n_mut = mut_prob*pop.size();
-  for (unsigned i=0; i<n_mut; i++) {
-    r_sol = random(0,pop.size());
-    mutateSolution( pop[r_sol], iterations );
+void mutatePair(solution &c1, solution &c2, double mut_prob, int &evaluations) {
+  if ( rand() < mut_prob ) {
+    mutateSolution( c1, evaluations );
   }
 }
 
-void cross(vector <solution> &pop, double cross_prob) {
+// TODO implementar el operador que realmente hay que implementar
+void repairSolution(solution &sol, int n_chosen) {
+  int actualy_chosen = 0, r;
+  for (unsigned i=0; i<sol.v.size(); i++) {
+    if ( sol.v[i] ) {
+      actualy_chosen++;
+    }
+  }
 
+  while (actualy_chosen > n_chosen) {
+    r = random(0, sol.v.size());
+    if ( sol.v[r] ) {
+      sol.v[r] = false;
+      actualy_chosen--;
+    }
+  }
+
+  while (actualy_chosen < n_chosen) {
+    r = random(0, sol.v.size());
+    if ( !sol.v[r] ) {
+      sol.v[r] = true;
+      actualy_chosen++;
+    }
+  }
 }
 
-void replace(vector<solution> &new_pop, vector<solution> &pop) {
-  pop.swap(new_pop);
+// Operador de cruce uniforme
+solution uniformCross(solution &p1, solution &p2) {
+  solution child = p1;
+  child.evaluated = false;
+  int n_chosen = 0;
 
-  // TODO falta por hacer el elitismo. Para eso lo mas facil seria hacer una
-  // struct de "pop" que mantenga guardado el fitness maximo de sus elementos
-  // y quizas tambien la posicion del mejor elemento
+  for (unsigned i=0; i<p1.v.size(); i++) {
+    if ( p1.v[i] ) {
+      n_chosen++;
+    }
+    if ( p1.v[i] && p2.v[i] ) {
+      child.v[i] = true;
+    } else if ( !p1.v[i] && !p2.v[i] ) {
+      child.v[i] = false;
+    } else {
+      child.v[i] = random(0,2) == 0;
+    }
+  }
+
+  repairSolution (child, n_chosen);
+  return child;
+}
+
+void crossPair(solution &s1, solution &s2, solution &c1, solution &c2) {
+  c1 = uniformCross( s1, s2 );
+  c2 = uniformCross( s1, s2 );
+}
+
+void replace(population &pop, solution &s1, solution &s2) {
+  pop.v.push_back(s1);
+  pop.v.push_back(s2);
+  sort( pop.v.begin(), pop.v.end() );
+  pop.v.resize( pop.v.size() - 2);
 }
 
 // Computes the local search algorithm for a random starting solution
 // This implementation doesn't assume the pop is ordered
-double genetic( int choosen, int MAX_EVALUATIONS ) {
-  int evaluations = 0, MAX_EVALUATIONS = 50000, tam_pob = 50, generations = 0;
-  double mut_prob = 0.7, cross_prob = 0.001;
+double AGGu( int choosen, int MAX_EVALUATIONS ) {
+  int evaluations = 0, tam_pob = 50, generations = 0;
+  double mut_prob = 0.001;
   clock_t t_start, t_total;
-  vector<solution> new_pop, pop;
+  population new_pop, pop;
+  solution p1, p2, c1, c2;
 
   // set seed
   srand (time(NULL));
   t_start = clock();
 
   initializePop(pop, tam_pob, choosen);
-  evaluatePop(pop, iterations);
+  evaluatePop(pop, evaluations);
+  sort(pop.v.begin(), pop.v.end());
+  pop.best_sol = 0;
 
   while (evaluations < MAX_EVALUATIONS) {
     generations++;
-    selection(pop, new_pop);
-    cross(new_pop, cross_prob);
-    mutatePop(new_pop, mut_prob, choosen, iterations);
-    replace(new_pop, pop);
-    evaluatePop(new_pop, iterations);
+    selectPair(pop, p1, p2);
+    crossPair(p1, p2, c1, c2);
+    mutatePair(c1, c2, mut_prob*tam_pob, evaluations);
+    evaluateSolution(p1);
+    evaluateSolution(p2);
+    evaluations += 2;
+    replace(pop, p1, p2);
   }
   t_total = clock() - t_start;
 
-  solution sol;
-  getBestSolution(pop, sol);
+  solution sol = pop.v[ pop.best_sol ];
 
   // output: Fitness - Time - Iterations
   cout << sol.fitness << "\t" << (double) t_total / CLOCKS_PER_SEC << "\t" << generations<< endl;
@@ -256,5 +324,5 @@ int main( int argc, char *argv[] ) {
   cin >> size >> choosen;
   readInput(size);
 
-  genetic(choosen, MAX_EVALUATIONS);
+  AGGu(choosen, MAX_EVALUATIONS);
 }

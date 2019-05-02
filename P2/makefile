@@ -23,42 +23,54 @@ execute: $(BIN)/greedy $(BIN)/localSearch
 	./execute.sh
 
 # Compilamos
-$(BIN)/greedy :
-	g++ $(OPT) $(SRC)/greedy.cpp -o $(BIN)/greedy
+$(BIN)/AGGp :
+	g++ $(OPT) $(SRC)/AGGp.cpp -o $(BIN)/AGGp
 
-$(BIN)/localSearch :
-	g++ $(OPT) $(SRC)/localSearch.cpp -o $(BIN)/localSearch
+$(BIN)/AGGu :
+	g++ $(OPT) $(SRC)/AGGu.cpp -o $(BIN)/AGGu
 
-$(BIN)/localSearchDet :
-	g++ $(OPT) $(SRC)/localSearchDet.cpp -o $(BIN)/localSearchDet
+$(BIN)/AGEu :
+	g++ $(OPT) $(SRC)/AGEu.cpp -o $(BIN)/AGEu
 
-$(BIN)/greedySearch :
-	g++ $(OPT) $(SRC)/greedySearch.cpp -o $(BIN)/greedySearch
+$(BIN)/AGEp :
+	g++ $(OPT) $(SRC)/AGEp.cpp -o $(BIN)/AGEp
+
+$(BIN)/AM :
+	g++ $(OPT) $(SRC)/AM.cpp -o $(BIN)/AM
+
+
 
 $(BIN)/stats :
 	g++ $(OPT) $(SRC)/stats.cpp -o $(BIN)/stats
 
 # Ejemplos
 
-examplesGreedy: $(BIN)/greedy
-	$(BIN)/greedy < $(IN)/GKD-c_1_n500_m50.txt
-	$(BIN)/greedy < $(IN)/SOM-b_16_n400_m160.txt
-	$(BIN)/greedy < $(IN)/MDG-a_21_n2000_m200.txt
+examplesAGGu: $(BIN)/AGGu
+	$(BIN)/AGGu < $(IN)/GKD-c_1_n500_m50.txt
+	$(BIN)/AGGu < $(IN)/SOM-b_16_n400_m160.txt
+	$(BIN)/AGGu < $(IN)/MDG-a_21_n2000_m200.txt
 
-examplesLS: $(BIN)/localSearch
-	$(BIN)/localSearch < $(IN)/GKD-c_1_n500_m50.txt
-	$(BIN)/localSearch < $(IN)/SOM-b_16_n400_m160.txt
-	$(BIN)/localSearch < $(IN)/MDG-a_21_n2000_m200.txt
+examplesAGGp: $(BIN)/AGGp
+	$(BIN)/AGGp < $(IN)/GKD-c_1_n500_m50.txt
+	$(BIN)/AGGp < $(IN)/SOM-b_16_n400_m160.txt
+	$(BIN)/AGGp < $(IN)/MDG-a_21_n2000_m200.txt
 
-examplesLSD: $(BIN)/localSearchDet
-	$(BIN)/localSearchDet < $(IN)/GKD-c_1_n500_m50.txt
-	$(BIN)/localSearchDet < $(IN)/SOM-b_16_n400_m160.txt
-	$(BIN)/localSearchDet < $(IN)/MDG-a_21_n2000_m200.txt
+examplesAGEu: $(BIN)/AGEu
+	$(BIN)/AGEu < $(IN)/GKD-c_1_n500_m50.txt
+	$(BIN)/AGEu < $(IN)/SOM-b_16_n400_m160.txt
+	$(BIN)/AGEu < $(IN)/MDG-a_21_n2000_m200.txt
 
-examplesGS: $(BIN)/greedySearch
-		$(BIN)/greedySearch < $(IN)/GKD-c_1_n500_m50.txt
-		$(BIN)/greedySearch < $(IN)/SOM-b_16_n400_m160.txt
-		$(BIN)/greedySearch < $(IN)/MDG-a_21_n2000_m200.txt
+examplesAGEp: $(BIN)/AGEp
+	$(BIN)/AGEp < $(IN)/GKD-c_1_n500_m50.txt
+	$(BIN)/AGEp < $(IN)/SOM-b_16_n400_m160.txt
+	$(BIN)/AGEp < $(IN)/MDG-a_21_n2000_m200.txt
+
+examplesAM: $(BIN)/AM
+	$(BIN)/AM < $(IN)/GKD-c_1_n500_m50.txt
+	$(BIN)/AM < $(IN)/SOM-b_16_n400_m160.txt
+	$(BIN)/AM < $(IN)/MDG-a_21_n2000_m200.txt
+
+
 
 evolution: $(BIN)/localSearch $(BIN)/localSearchDet $(BIN)/greedySearch
 	./evolution.sh
@@ -70,11 +82,7 @@ measureAll: measureLS measureLSD measureGS
 measureLS: $(BIN)/localSearch $(BIN)/stats
 	./measure.sh $(BIN)/localSearch $(OUT)/measureLS.dat 200
 
-measureLSD: $(BIN)/localSearchDet $(BIN)/stats
-	./measure.sh $(BIN)/localSearchDet $(OUT)/measureLSD.dat 200
 
-measureGS: $(BIN)/greedySearch $(BIN)/stats
-	./measure.sh $(BIN)/greedySearch $(OUT)/measureGS.dat 200
 
 stats: $(BIN)/stats
 	${BIN}/stats
