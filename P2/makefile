@@ -90,7 +90,7 @@ examplesLSD: $(BIN)/LSD
 
 $repts="2"
 
-measureAll: clean measureAGGu measureAGEu  # measureAGGp measureAGEp measureAM
+measureAll: clean measureAM measureAMM measureLSD # measureAGGu measureAGEu measureAGGp measureAGEp
 
 measureAGGu: $(BIN)/AGGu $(BIN)/stats
 	./measure.sh $(BIN)/AGGu $(OUT)/AGGu.dat $(repts)
@@ -109,9 +109,9 @@ measureAM: $(BIN)/AM $(BIN)/stats
 
 measureAMM: $(BIN)/AMM $(BIN)/stats
 	./measure.sh $(BIN)/AMM $(OUT)/AMM.dat $(repts)
-	
+
 measureLSD: $(BIN)/LSD $(BIN)/stats
-	./measure.sh $(BIN)/LSD $(OUT)/LSD.dat $(repts)
+	./measure.sh $(BIN)/AMM $(OUT)/AMM.dat $(repts)
 
 stats: $(BIN)/stats
 	${BIN}/stats
