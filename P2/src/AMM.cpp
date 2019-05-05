@@ -142,23 +142,64 @@ void orderSolutionByContribution(solution_int &sol) {
   }
 }
 
+// Compute a good order to try the swaps
+// Orders the element from (0 .. mat.size()) that are not in sol.v
+// in ascending order of how they contribute to the solution
+void obtainBestOrdering (vector<int> &best_ordering, solution_int &sol) {
+  set<int> sol_elements;
+
+  // Put the elements the already appear on the solution into a set
+  for (unsigned i=0; i<sol.v.size(); i++) {
+    sol_elements.insert( sol.v[i] );
+  }
+
+  // Initialize the auxiliar vector
+  pair<int, double> p (0, 0.0);
+  int tam = MAT.size() - sol.v.size();
+  unsigned j = 0;
+  vector< pair<int, double> > pairs_v (tam, p);
+
+  for (unsigned i=0; i<MAT.size(); i++) {
+    if ( sol_elements.find(i) == sol_elements.end() ) {
+      pairs_v[j].first = i;
+      pairs_v[j].second = singleContribution(sol.v, pairs_v[j].first);
+      j++;
+    }
+  }
+
+  // Order the vector by contribution
+  sort(pairs_v.begin(), pairs_v.end());
+
+  // Save the ordering
+  best_ordering.resize(pairs_v.size());
+  for (int i=pairs_v.size()-1; i>=0; i--) {
+    best_ordering[i] = pairs_v[i].first;
+  }
+}
+
 // Computes a single step in the exploration, changing "sol"
-bool stepInNeighbourhood (solution_int &sol, int &evaluations, int MAX) {
-  double percentage_studied;
-  unsigned i = 0, j, element_out, total_tries, max_i, max_randoms, k;
-  double newContribution, oldContribution;
+// The element chosen depending on how it contributes to the current solution
+bool stepInNeighbourhoodDet (solution_int &sol, int &evaluations, int MAX) {
+  unsigned i = 0, j, k, element_out, total_tries, max_i, max_k;
+  double newContribution, oldContribution, percent_i;
+  vector<int> best_ordering;
   int real_evaluations = 0;
 
   orderSolutionByContribution(sol);
+  obtainBestOrdering(best_ordering, sol);
 
-  // percentage_studied = 0.1;
-  // total_tries = 50000;
+  percent_i = 0.1;
+  total_tries = MAX*sol.v.size();
 
-  percentage_studied = 0.1;
-  total_tries = MAX;
+  // percent_i = 1;
+  // total_tries = numeric_limits<int>::max();
 
-  max_i = max(percentage_studied * sol.v.size(), 1.0);
-  max_randoms = total_tries / max_i;
+  max_i = sol.v.size() * percent_i;
+  max_k = min( total_tries / max_i, (unsigned) best_ordering.size());
+
+  if ( max_k == best_ordering.size() ) {
+    max_i = min(total_tries / max_k, (unsigned) sol.v.size());
+  }
 
   // Fill hash with our used values
   unordered_set<int> s;
@@ -166,24 +207,24 @@ bool stepInNeighbourhood (solution_int &sol, int &evaluations, int MAX) {
     s.insert( sol.v[i] );
   }
 
-  // Explore the neighbourhood and return the firstly found better option
+  // Explore the neighbourhood wisely and return the firstly found better option
   while (i < max_i) {
     // Save data of the element we are trying to swap
+    oldContribution = singleContribution(sol.v, sol.v[i]);
     element_out = sol.v[i];
-    oldContribution = singleContribution(sol.v, element_out);
-
     k = 0;
-    j = rand() % MAT.size();
-    while (j < MAT.size() && k < max_randoms) {
+    while (k < max_k) {
+      j = best_ordering[k];
       // Try the swap if the element 'j' is not in the current solution
       if ( s.find(j) == s.end() ) {
         newContribution = singleContribution(sol.v, j) - MAT[j][element_out];
         if ( newContribution > oldContribution ) {
           sol.v[i] = j;
           sol.fitness = sol.fitness + newContribution - oldContribution;
+          s.erase(element_out);
+          s.insert(j);
           return false;
         }
-        k++;
 
         real_evaluations++;
         if (real_evaluations % sol.v.size() == 0) {
@@ -191,7 +232,7 @@ bool stepInNeighbourhood (solution_int &sol, int &evaluations, int MAX) {
           real_evaluations = 0;
         }
       }
-      j = rand() % MAT.size();
+      k++;
     }
     i++;
   }
@@ -221,22 +262,24 @@ void IntToBits(solution_int &sol, solution &sol_bits, int tam) {
 }
 
 // Computes the local search algorithm for a random starting solution
-int localSearch(solution &sol_bits, int MAX_EVALUATIONS) {
-  int tam_sol_bits = sol_bits.v.size();
+int localSearchDet(solution &sol_bits, int MAX_EVALUATIONS ) {
   solution_int sol;
   bool stop = false;
-  int evaluations = 0;
+  int iterations = -1, evaluations = 0;
+  int tam_sol_bits = sol_bits.v.size();
 
   BitsToInt(sol_bits, sol);
   updateSolution(sol);
 
   while (!stop && evaluations < MAX_EVALUATIONS) {
-    stop = stepInNeighbourhood(sol, evaluations, MAX_EVALUATIONS-evaluations);
+    stop = stepInNeighbourhoodDet(sol, evaluations, MAX_EVALUATIONS-evaluations);
+    iterations++;
     // cout << sol.fitness << "\t" << iterations << endl;
   }
 
   // output: Fitness - Time - Iterations
   // cout << sol.fitness << "\t" << (double) t_total / CLOCKS_PER_SEC << "\t" << iterations<< endl;
+
   IntToBits(sol, sol_bits, tam_sol_bits);
   return evaluations;
 }
@@ -471,7 +514,7 @@ void memetize(population &pop, int mem_type, int max_iterations,
   int pop_tam = pop.v.size();
   if ( mem_type == 0 ) {
     for ( int i=0; i<pop_tam; i++) {
-      evaluations += localSearch( pop.v[i], max_iterations );
+      evaluations += localSearchDet( pop.v[i], max_iterations );
       evaluateSolution( pop.v[i] );
       if  ( pop.v[i].fitness > pop.max_fitness ) {
         pop.max_fitness = pop.v[i].fitness;
@@ -483,7 +526,7 @@ void memetize(population &pop, int mem_type, int max_iterations,
     if (n_mems >= 1) {
       for (int i=0; i<n_mems; i++) {
         int r_rand = random(0, pop_tam);
-        evaluations += localSearch( pop.v[r_rand], max_iterations );
+        evaluations += localSearchDet( pop.v[r_rand], max_iterations );
         evaluateSolution( pop.v[ r_rand ] );
         if  ( pop.v[ r_rand ].fitness > pop.max_fitness ) {
           pop.max_fitness = pop.v[ r_rand ].fitness;
@@ -493,7 +536,7 @@ void memetize(population &pop, int mem_type, int max_iterations,
     } else {
       if ( rand() < p_mem ) {
         int r_rand = random(0, pop_tam);
-        evaluations += localSearch( pop.v[r_rand], max_iterations );
+        evaluations += localSearchDet( pop.v[r_rand], max_iterations );
         if  ( pop.v[ r_rand ].fitness > pop.max_fitness ) {
           pop.max_fitness = pop.v[ r_rand ].fitness;
           pop.best_sol = r_rand;
@@ -501,7 +544,7 @@ void memetize(population &pop, int mem_type, int max_iterations,
       }
     }
   } else if ( mem_type == 2 ) {
-    evaluations += localSearch( pop.v[ pop.best_sol ], max_iterations);
+    evaluations += localSearchDet( pop.v[ pop.best_sol ], max_iterations);
     evaluateSolution( pop.v[ pop.best_sol ] );
     pop.max_fitness = pop.v[ pop.best_sol ].fitness;
   }
@@ -509,7 +552,7 @@ void memetize(population &pop, int mem_type, int max_iterations,
 
 // Computes the local search algorithm for a random starting solution
 // This implementation doesn't assume the pop is ordered
-double AM( int choosen, int MAX_EVALUATIONS, int mem_type) {
+double AMM( int choosen, int MAX_EVALUATIONS, int mem_type) {
   int evaluations = 0, tam_pob = 50, generations = 0, max_iterations = 400;
   double mut_prob = 0.001, cross_prob = 0.7, p_mem = 0.1;
   clock_t t_start, t_total;
@@ -554,5 +597,5 @@ int main( int argc, char *argv[] ) {
   cin >> size >> choosen;
   readInput(size);
 
-  AM(choosen, MAX_EVALUATIONS, 1);
+  AMM(choosen, MAX_EVALUATIONS, 2);
 }

@@ -319,7 +319,7 @@ double AGEp( int choosen, int MAX_EVALUATIONS ) {
   solution sol = pop.v[ pop.best_sol ];
 
   // output: Fitness - Time - Iterations
-  cout << sol.fitness << "\t" << (double) t_total / CLOCKS_PER_SEC << "\t" << generations<< endl;
+  cout << sol.fitness << "\t" << (double) t_total / CLOCKS_PER_SEC << "\t" << generations << endl;
   return sol.fitness;
 }
 

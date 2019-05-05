@@ -35,6 +35,9 @@ $(BIN)/AGEp :
 $(BIN)/AM :
 	g++ $(OPT) $(SRC)/AM.cpp -o $(BIN)/AM
 
+$(BIN)/AMM :
+	g++ $(OPT) $(SRC)/AMM.cpp -o $(BIN)/AMM
+
 $(BIN)/stats :
 	g++ $(OPT) $(SRC)/stats.cpp -o $(BIN)/stats
 
@@ -65,6 +68,11 @@ examplesAM: $(BIN)/AM
 	$(BIN)/AM < $(IN)/SOM-b_16_n400_m160.txt
 	$(BIN)/AM < $(IN)/MDG-a_21_n2000_m200.txt
 
+examplesAMM: $(BIN)/AMM
+	$(BIN)/AMM < $(IN)/GKD-c_1_n500_m50.txt
+	$(BIN)/AMM < $(IN)/SOM-b_16_n400_m160.txt
+	$(BIN)/AMM < $(IN)/MDG-a_21_n2000_m200.txt
+
 
 # Practica 1
 # evolution: $(BIN)/localSearch $(BIN)/localSearchDet $(BIN)/greedySearch
@@ -77,19 +85,22 @@ $repts="2"
 measureAll: clean measureAGGu measureAGEu  # measureAGGp measureAGEp measureAM
 
 measureAGGu: $(BIN)/AGGu $(BIN)/stats
-	./measure.sh $(BIN)/AGGu $(OUT)/AGGu.dat $repts
+	./measure.sh $(BIN)/AGGu $(OUT)/AGGu.dat $(repts)
 
 measureAGGp: $(BIN)/AGGp $(BIN)/stats
-	./measure.sh $(BIN)/AGGp $(OUT)/AGGp.dat $repts
+	./measure.sh $(BIN)/AGGp $(OUT)/AGGp.dat $(repts)
 
 measureAGEp: $(BIN)/AGEp $(BIN)/stats
-	./measure.sh $(BIN)/AGEp $(OUT)/AGEp.dat $repts
+	./measure.sh $(BIN)/AGEp $(OUT)/AGEp.dat $(repts)
 
 measureAGEu: $(BIN)/AGEu $(BIN)/stats
-	./measure.sh $(BIN)/AGEu $(OUT)/AGEu.dat $repts
+	./measure.sh $(BIN)/AGEu $(OUT)/AGEu.dat $(repts)
 
 measureAM: $(BIN)/AM $(BIN)/stats
-	./measure.sh $(BIN)/AM $(OUT)/AM2.dat $repts
+	./measure.sh $(BIN)/AM $(OUT)/AM2.dat $(repts)
+
+measureAMM: $(BIN)/AMM $(BIN)/stats
+	./measure.sh $(BIN)/AMM $(OUT)/AMM.dat $(repts)
 
 
 
