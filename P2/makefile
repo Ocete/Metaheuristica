@@ -14,13 +14,10 @@ OUT=./output
 OPT=-Wall -O2
 
 # Nombre de la práctica
-PRJ=practica1
+PRJ=practica2
 
 # Macros
-all: examplesGreedy examplesLS examplesLSD examplesGS
-
-execute: $(BIN)/greedy $(BIN)/localSearch
-	./execute.sh
+all:
 
 # Compilamos
 $(BIN)/AGGp :
@@ -37,8 +34,6 @@ $(BIN)/AGEp :
 
 $(BIN)/AM :
 	g++ $(OPT) $(SRC)/AM.cpp -o $(BIN)/AM
-
-
 
 $(BIN)/stats :
 	g++ $(OPT) $(SRC)/stats.cpp -o $(BIN)/stats
@@ -71,16 +66,30 @@ examplesAM: $(BIN)/AM
 	$(BIN)/AM < $(IN)/MDG-a_21_n2000_m200.txt
 
 
-
-evolution: $(BIN)/localSearch $(BIN)/localSearchDet $(BIN)/greedySearch
-	./evolution.sh
+# Practica 1
+# evolution: $(BIN)/localSearch $(BIN)/localSearchDet $(BIN)/greedySearch
+# 	./evolution.sh
 
 # Estadísticas
 
-measureAll: measureLS measureLSD measureGS
+$repts="1"
 
-measureLS: $(BIN)/localSearch $(BIN)/stats
-	./measure.sh $(BIN)/localSearch $(OUT)/measureLS.dat 200
+measureAll: clean measureAGGu measureAGEu  # measureAGGp measureAGEp measureAM
+
+measureAGGu: $(BIN)/AGGu $(BIN)/stats
+	./measure.sh $(BIN)/AGGu $(OUT)/AGGu.dat 20
+
+measureAGGp: $(BIN)/AGGp $(BIN)/stats
+	./measure.sh $(BIN)/AGGp $(OUT)/AGGp.dat 2
+
+measureAGEp: $(BIN)/AGEp $(BIN)/stats
+	./measure.sh $(BIN)/AGEp $(OUT)/AGEp.dat 2
+
+measureAGEu: $(BIN)/AGEu $(BIN)/stats
+	./measure.sh $(BIN)/AGEu $(OUT)/AGEu.dat 20
+
+measureAM: $(BIN)/AM $(BIN)/stats
+	./measure.sh $(BIN)/AM $(OUT)/AM2.dat 2
 
 
 
