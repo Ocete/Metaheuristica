@@ -215,14 +215,21 @@ void mutateSolution(solution &sol, int &iterations) {
 
 void mutatePop(population &pop, double &mut_prob,
       int choosen, int &iterations) {
-  int r_sol, n_mut = mut_prob*pop.tam;
-  for (int i=0; i<n_mut; i++) {
-    r_sol = random(0, pop.tam);
-    mutateSolution( pop.v[r_sol], iterations );
-    if (pop.max_fitness < pop.v[r_sol].fitness) {
-      pop.max_fitness = pop.v[r_sol].fitness;
-      pop.best_sol = r_sol;
+  int r_sol=0, n_mut = mut_prob*pop.tam;
+  if (n_mut > 0) {
+    for (int i=0; i<n_mut; i++) {
+      r_sol = random(0, pop.tam);
+      mutateSolution( pop.v[r_sol], iterations );
     }
+  } else {
+    if ( rand() < mut_prob*pop.tam ) {
+      r_sol = random(0, pop.tam);
+      mutateSolution( pop.v[r_sol], iterations );
+    }
+  }
+  if (pop.max_fitness < pop.v[r_sol].fitness) {
+    pop.max_fitness = pop.v[r_sol].fitness;
+    pop.best_sol = r_sol;
   }
 }
 

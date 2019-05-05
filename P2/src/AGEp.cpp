@@ -208,9 +208,10 @@ void mutateSolution(solution &sol, int &evaluations) {
   }
 }
 
-void mutatePair(solution &c1, solution &c2, double mut_prob, int &evaluations) {
-  if ( rand() < mut_prob ) {
-    mutateSolution( c1, evaluations );
+void mutatePair(solution &c1, solution &c2, double mut_prob) {
+  int aux = 0;
+  if ( rand() < mut_prob*2 ) {
+    mutateSolution( c1, aux );
   }
 }
 
@@ -287,7 +288,7 @@ void replace(population &pop, solution &s1, solution &s2) {
 
 // Computes the local search algorithm for a random starting solution
 // This implementation doesn't assume the pop is ordered
-double AGGu( int choosen, int MAX_EVALUATIONS ) {
+double AGEp( int choosen, int MAX_EVALUATIONS ) {
   int evaluations = 0, tam_pob = 50, generations = 0;
   double mut_prob = 0.001;
   clock_t t_start, t_total;
@@ -307,11 +308,11 @@ double AGGu( int choosen, int MAX_EVALUATIONS ) {
     generations++;
     selectPair(pop, p1, p2);
     crossPair(p1, p2, c1, c2);
-    mutatePair(c1, c2, mut_prob*tam_pob, evaluations);
-    evaluateSolution(p1);
-    evaluateSolution(p2);
+    mutatePair(c1, c2, mut_prob*tam_pob);
+    evaluateSolution(c1);
+    evaluateSolution(c2);
     evaluations += 2;
-    replace(pop, p1, p2);
+    replace(pop, c1, c2);
   }
   t_total = clock() - t_start;
 
@@ -334,5 +335,5 @@ int main( int argc, char *argv[] ) {
   cin >> size >> choosen;
   readInput(size);
 
-  AGGu(choosen, MAX_EVALUATIONS);
+  AGEp(choosen, MAX_EVALUATIONS);
 }
