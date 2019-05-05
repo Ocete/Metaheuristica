@@ -72,24 +72,24 @@ examplesAM: $(BIN)/AM
 
 # Estadísticas
 
-$repts="1"
+$repts="2"
 
 measureAll: clean measureAGGu measureAGEu  # measureAGGp measureAGEp measureAM
 
 measureAGGu: $(BIN)/AGGu $(BIN)/stats
-	./measure.sh $(BIN)/AGGu $(OUT)/AGGu.dat 20
+	./measure.sh $(BIN)/AGGu $(OUT)/AGGu.dat $repts
 
 measureAGGp: $(BIN)/AGGp $(BIN)/stats
-	./measure.sh $(BIN)/AGGp $(OUT)/AGGp.dat 2
+	./measure.sh $(BIN)/AGGp $(OUT)/AGGp.dat $repts
 
 measureAGEp: $(BIN)/AGEp $(BIN)/stats
-	./measure.sh $(BIN)/AGEp $(OUT)/AGEp.dat 2
+	./measure.sh $(BIN)/AGEp $(OUT)/AGEp.dat $repts
 
 measureAGEu: $(BIN)/AGEu $(BIN)/stats
-	./measure.sh $(BIN)/AGEu $(OUT)/AGEu.dat 20
+	./measure.sh $(BIN)/AGEu $(OUT)/AGEu.dat $repts
 
 measureAM: $(BIN)/AM $(BIN)/stats
-	./measure.sh $(BIN)/AM $(OUT)/AM2.dat 2
+	./measure.sh $(BIN)/AM $(OUT)/AM2.dat $repts
 
 
 
