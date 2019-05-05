@@ -38,8 +38,12 @@ $(BIN)/AM :
 $(BIN)/AMM :
 	g++ $(OPT) $(SRC)/AMM.cpp -o $(BIN)/AMM
 
+$(BIN)/LSD :
+	g++ $(OPT) $(SRC)/LSD.cpp -o $(BIN)/LSD
+
 $(BIN)/stats :
 	g++ $(OPT) $(SRC)/stats.cpp -o $(BIN)/stats
+
 
 # Ejemplos
 
@@ -73,6 +77,10 @@ examplesAMM: $(BIN)/AMM
 	$(BIN)/AMM < $(IN)/SOM-b_16_n400_m160.txt
 	$(BIN)/AMM < $(IN)/MDG-a_21_n2000_m200.txt
 
+examplesLSD: $(BIN)/LSD
+	$(BIN)/LSD < $(IN)/GKD-c_1_n500_m50.txt
+	$(BIN)/LSD < $(IN)/SOM-b_16_n400_m160.txt
+	$(BIN)/LSD < $(IN)/MDG-a_21_n2000_m200.txt
 
 # Practica 1
 # evolution: $(BIN)/localSearch $(BIN)/localSearchDet $(BIN)/greedySearch
@@ -101,8 +109,9 @@ measureAM: $(BIN)/AM $(BIN)/stats
 
 measureAMM: $(BIN)/AMM $(BIN)/stats
 	./measure.sh $(BIN)/AMM $(OUT)/AMM.dat $(repts)
-
-
+	
+measureLSD: $(BIN)/LSD $(BIN)/stats
+	./measure.sh $(BIN)/LSD $(OUT)/LSD.dat $(repts)
 
 stats: $(BIN)/stats
 	${BIN}/stats
