@@ -18,8 +18,8 @@
 
 % Meta
 \title{Problema de Máxima Diversidad (MDP) 
-	\\\medskip \large Técnicas de búsqueda local y algoritmos greedy \\\medskip
-	\large Metaheurísticas: Práctica 1, Grupo 1}
+	\\\medskip \large Técnicas basadas en poblaciones \\\medskip
+	\large Metaheurísticas: Práctica 2, Grupo 1}
 \author{José Antonio Álvarez Ocete - 77553417Q \\ joseantonioao@correo.ugr.es}
 \date{ \today }
 
@@ -27,8 +27,16 @@
 \providecommand{\abs}[1]{\lvert#1\rvert}
 \setlength\parindent{0pt}
 \definecolor{Light}{gray}{.90}
-\newcommand\ddfrac[2]{\frac{\displaystyle #1}{\displaystyle #2}}
 \setlength{\parindent}{1.5em} %sangria
+
+% Thicker lines in tables
+\makeatletter
+\newcommand{\thickhline}{%
+	\noalign {\ifnum 0=`}\fi \hrule height 1pt
+	\futurelet \reserved@a \@xhline
+}
+\newcolumntype{'}{@{\hskip\tabcolsep\vrule width 1pt\hskip\tabcolsep}}
+\makeatother
 
 % Displaying code with lstlisting
 \lstset { %
@@ -38,7 +46,8 @@
 }
 
 \usepackage[ruled]{algorithm2e}
-
+\SetKwRepeat{Do}{do}{while}%
+\SetEndCharOfAlgoLine{}
 
 \begin{document}	
 	
@@ -47,6 +56,9 @@
 	\tableofcontents
 	\newpage
 	
+	\section{Introducción: práctica 2}
+	
+	De cara a la segunda práctica se han añadido a la memoria las secciones 2.2, 3.X, 4.2 y 5.2. El resto permanece invariante.
 	
 	\section{El problema}
 	
@@ -78,7 +90,9 @@
 	
 	El lenguaje utilizado para la implementación de la práctica ha sido $C++$. 
 	
-	\subsection{Representación de la soluciones}
+	\subsection{Práctica 1}
+	
+	\subsubsection{Representación de la soluciones}
 	
 	El esquema de representación de una solución es el siguiente:
 
@@ -95,7 +109,7 @@
 	
 	Estos datos se han almacenado en una matriz simétrica de tamaño $n$ x $n$ que de aquí en adelante denotaremos por $MAT$.
 	
-	\subsection{Función objetivo}
+	\subsubsection{Función objetivo}
 	
 	Para la función objetivo se ha dividido la implementación en dos funciones ya que algunos algoritmos utilizarán unicamente una de las dos y otros, ambas. La primera calcula la contribución del elemento $i$ a la solución actual. La segunda calcula el $fitness$ total utilizando la función anterior. \\
 
@@ -125,8 +139,226 @@
 			fitness $\leftarrow$ fitness / 2
 		}
 	\end{algorithm}
+
+	\subsection{Práctica 2}
 	
+	\subsubsection{Representación de la soluciones}
+	
+	De cara a trabajar con técnicas basadas en poblaciones se ha implementado una segunda representación de las soluciones basada en \emph{booleanos} en vez de enteros. Se almacena además un \emph{booleano} adicional para saber si la solución esta actualmente evaluada, así como su valor \emph{fitness} Esto representará un cromosoma de nuestra población.
+	
+	\begin{lstlisting}
+	struct solution {
+		vector<bool> v;
+		double fitness;
+		bool evaluated;
+	};
+	\end{lstlisting}
+	
+	Se ha utilizado también una clase para almacenar una población. Esta encapsula además de los cromosomas, la posición actual del mejor cromosoma y su valor \emph{fitness}. Esto será especialmente útil en los algoritmos genéticos generacionales y meméticos, que no mantendrán la población ordenada sino unicamente cuál es el mejor cromosoma.
+	
+	\begin{lstlisting}
+	class population {
+	public:
+		vector<solution> v;
+		double max_fitness;
+		int best_sol;
+		int tam;
+		
+		[...]
+	};
+	\end{lstlisting}
+	
+	Debido a que la implementación de las técnicas locales utiliza el esquema de representación de enteros se han implementado también sendos algoritmos de transformación de una representación a otra. La implementación de los mismo es trivial y por ello no se incluye en esta memoria. \\
+	
+	Cabe destacar que aunque ambas representaciones se llamen de la misma forma, se usan en contextos distintos y no hay ambigüedad posible. En el único caso en el que no es así (los algoritmos meméticos), la representación que utilizada enteros se denominará \textbf{solution\_int}.
+	
+	\subsubsection{Función objetivo}
+
+	Se ha desarrollado otra función objetivo análoga a la implementada para la representación con enteros que utiliza de nuevo la función \emph{SingleContribution}, reimplementando también ésta para la codificación con \emph{booleanos}.
+	
+	\begin{algorithm}
+		\caption{evaluatesolution}
+		\KwData{v : $vector<bool>$, elem: int }
+		\KwResult{result : double}
+		\Begin{
+			result $\leftarrow$ 0 \\
+			\ForEach{ i $\in [0, v.size)$}{
+				result $\leftarrow$ v[ i ] * MAT[ i ][ elem ] \\
+			}
+		}
+	\end{algorithm}
+	
+	\begin{algorithm}
+		\caption{evaluatesolution}
+		\KwData{sol : solution }
+		\KwResult{fitness : double}
+		\Begin{
+			sol.fitness $\leftarrow$ 0 \\
+			\ForEach{ i $\in [0, sol.v.size)$}{
+				\If{ sol.v[ i ] }{
+					sol.fitness $\leftarrow$ SingleContribution ( sol , i ) \\
+				}
+			}		
+			// Counting twice all the possible distances \\
+			sol.fitness $\leftarrow$ sol.fitness / 2 \\
+			sol.evaluated $\leftarrow$ true \\
+		}
+	\end{algorithm}
+	
+	\subsubsection{Operadores}
+	
+	Para esta práctica se han implementado dos operadores distintos de cruce y dos de reemplazamiento. Los operadores de mutación, selección (por torneo binario) e inicialización aleatoria son compartidos por todos los algoritmos. Procedemos a estudiar cada operador por separado. En primer lugar, el operador de selección utilizado ha sido torneo binario. Para ello utilizamos la función \emph{random(a,b)}, que devuelve un entero aleatorio en el intervalo $[a,b)$.
+	
+	\begin{algorithm}
+		\caption{binaryTournament}
+		\KwData{pop : population}
+		\KwResult{elem : int}
+		\Begin{
+			r1 $\leftarrow$ random(0, pop.tam) \\
+			r2 $\leftarrow$ random(0, pop.tam) \\
+			\uIf{ pop.v[r1].fitness $>$ pop.v[r2].fitness } {
+				 elem $\leftarrow$ r1
+			}
+			\Else {
+				elem $\leftarrow$ r2
+			}
+		}
+	\end{algorithm}
+
+	Para el operador de mutación simplemente se cambia uno de los valores elegidos por otro que no este escogido ya, de forma aleatoria: 
+	
+	\begin{algorithm}[H]
+		\caption{mutateSolution}
+		\KwData{pop : population}
+		\KwResult{elem : int}
+		\Begin{
+			r1 $\leftarrow$ random(0, pop.tam) \\
+			r2 $\leftarrow$ random(0, pop.tam) \\
+			\Do{ $!sol.v[ r\_on ]$ } {
+				r\_on $\leftarrow$ random(0, sol.v.size())
+			}
+			\Do{ $!sol.v[ r\_off ]$ OR r\_on == r\_off } {
+				r\_off $\leftarrow$ random(0, sol.v.size())
+			}
+			sol.v[r\_on] $\leftarrow$ false \\
+			sol.v[r\_off] $\leftarrow$ true \\
+			
+			\If { sol.evaluated } {
+				oldContribution $\leftarrow$ singleContribution(sol.v, r\_on) - MAT[r\_on][r\_off] \\
+				NewContribution $\leftarrow$ singleContribution(sol.v, r\_off) \\
+				sol.fitness $\leftarrow$  sol.fitness + newContribution - oldContribution \\
+				TOTAL\_EVALUATIONS $\leftarrow$ TOTAL\_EVALUATIONS + 1
+			}
+		}
+	\end{algorithm}
+	
+	En este algoritmos hay un par de detalles adicionales que explicar. Por un lado en el último bloque \emph{if} utilizamos una evaluación de la solución factorizada equivalente a la de la práctica 1. Esta es aplicable unicamente cuando la solución estaba correctamente evaluada antes de la mutación. Adicionalmente consideramos \textbf{TOTAL\_EVALUATIONS} como el número de evaluaciones totales del algoritmo actual. Cuando evaluamos la solución, aumentamos en $1$ el número de evaluaciones. \\
+	
+	Debido a las características de la aproximación al problema esta mejora se verá reflejada unicamente en el tiempo, ya que a pesar de haber reducido la evaluación de $O(n^2)$ a $O(n)$, contamos la evaluación como una completa. \\
+	
+	Pasamos a explicar los operadores de cruce. En primer lugar se ha implementado un cruce uniforme así como un operador de reparación. Por un lado el cruce uniforme mantiene en los hijos las elecciones (eligir o no elegir un elemento) comunes de los dos padres, y asigna elecciones aleatorias para los demás valores. Acto seguido se aplica el operador de reparación para que los hijos sean soluciones válidas. Es decir, escojan exactamente $m$ elementos.
+	
+	\begin{algorithm}[H]
+		\caption{uniformCross}
+		\KwData{p1 : solution, p2 : solution}
+		\KwResult{child : solution}
+		\Begin{
+			child $\leftarrow$ p1 \\
+			child.evaluated $\leftarrow$ false \\
+			m $\leftarrow$ 0 \\
+			\ForEach{ $ i \in [0, p1.v.size())$ }{
+				\If { p1.v[ i ] } {
+					m $\leftarrow$ m + 1
+				}
+				\uIf { p1.v[ i ] AND p2.v[ i ] } {
+					child.v[ i ] $\leftarrow$ true
+				} \uElseIf { !p1.v[ i ] AND !p2.v[ i ] } {
+					child.v[ i ] $\leftarrow$ false
+				} \Else {
+					child.v[ i ] $\leftarrow$ random(0,2) == 0
+				}
+			}
+			
+			child $\leftarrow$ repairSolution(child, m)
+		}
+	\end{algorithm}
+
+	\begin{algorithm}[H]
+		\caption{repairSolution}
+		\KwData{child : solution, m : int}
+		\KwResult{child : solution}
+		\Begin{
+			nTrues $\leftarrow$ countTrues(child.v) \\
+			\While { nTrues < m }{
+				r $\leftarrow$ random(0, sol.v.size()) \\
+				\If { sol.v[ r ] } {
+					sol.v[r] $\leftarrow$ false
+					nTrues $\leftarrow$ nTrues + 1
+				}
+			}
+			\While { nTrues > m }{
+				r $\leftarrow$ random(0, sol.v.size()) \\
+				\If { !sol.v[ r ] } {
+					sol.v[r] $\leftarrow$ true
+					nTrues $\leftarrow$ nTrues - 1
+				}
+			}
+		}
+	\end{algorithm}
+
+	El algoritmo de reparación utilizado ha sido este en lugar del que aparece en las transparencias por la enorme carga de trabajo que suponía el presentado en clase ( $O(n^2)$ ). \\ 
+	
+	En segundo lugar presentamos el operador de cruce posicional. Este las elecciones positivas comunes entre los padres y asigna un reordenamiento del resto de elementos a los no asignados. 
+
+	\begin{algorithm}[H]
+		\caption{positionalCross}
+		\KwData{p1 : solution, p2 : solution}
+		\KwResult{c1 : solution, c2 : solution}
+		\Begin{
+			c1 $\leftarrow$ p1 \\
+			c2 $\leftarrow$ p2 \\
+			c1.evaluated $\leftarrow$ false \\
+			c2.evaluated $\leftarrow$ false \\
+			shuffled = vector<int> (size = c1.v.size(), value=false) \\
+			\ForEach{ $ i \in [0, p1.v.size())$ }{
+				\uIf { p1.v[ i ] AND p2.v[ i ] } {
+					c1.v[ i ] $\leftarrow$ true \\
+					c2.v[ i ] $\leftarrow$ true \\
+				} \Else {
+					shuffled[ i ] $\leftarrow$ true \\
+					to\_shuffle[ i ] $\leftarrow$ p1.v[i] \\
+				} 
+			}
+			to\_shuffle1 $\leftarrow$ randomShuffle( to\_shuffle ) \\
+			to\_shuffle2 $\leftarrow$ randomShuffle( to\_shuffle ) \\
+			\ForEach{ $ i \in [0, p1.v.size())$ }{
+				\If { shuffled[ i ] } {
+					c1.v[ i ] $\leftarrow$ to\_shuffle1[ i ] \\
+					c2.v[ i ] $\leftarrow$ to\_shuffle2[ i ] \\
+				}
+			}
+		}
+	\end{algorithm}
+
+	Finalmente detallamos los algoritmos de reemplazamiento. Para el generacional elitista basta con sustituir la población completa por la nueva y, en caso de que nuestra mejor solución empeore, sustituir una solución de la nueva generación por la mejor de la generación anterior. \\
+	
+	Para el estacionario unicamente generaremos dos hijos por generación. El reemplazamiento se realiza introduciendo estos dos descendientes en la población, la ordenamos en función de su fitness y la truncamos para mantener el número de cromosomas invariante.
+	
+	\begin{algorithm}[H]
+		\caption{replace}
+		\KwData{pop : population, child1 : solution, child2 : solution}
+		\KwResult{pop : population}
+		\Begin{
+			pop.v.append( child1 ) \\
+			pop.v.append( child2 ) \\
+			pop.v $\leftarrow$ sort( pop.v ) \\
+			pop.v $\leftarrow$ pop.v.resize( pop.v.size() - 2) \\
+		}
+	\end{algorithm}
+
 	\section{Algoritmos}
+	
+ 	\subsection{Práctica 1}
 	
 	Para esta práctica se han implementado un total de 4 algoritmos que a continuación describiremos en profundidad. Son los siguientes:
 	\begin{itemize}
@@ -136,7 +368,7 @@
 		\item Búsqueda local con greedy ($BL con greedy$)
 	\end{itemize}
 		
-	\subsection{Greedy}
+	\subsubsection{Greedy}
 	
 	Como ya se ha comentado, la concepción inicial de la práctica era utilizar la idea del $baricentro$. Para ello en cada iteración se calcularía el baricentro de los elementos de la solución y se escogería el punto más alejado a este entre los aún no escogidos. Intentando simular esta estrategia utilizaremos la suma de las distancias al resto de elementos de la solución para cada punto aún no he escogido. \\
 	
@@ -188,8 +420,7 @@
 		}
 	\end{algorithm}
 
-
-	\subsection{Búsqueda local}
+	\subsubsection{Búsqueda local}
 	
 	Desgranemos la búsqueda local paso por paso. En primer lugar generamos una solución aleatoria que será el punto de partida. En cada iteración exploramos el vecindario hasta encontrar una solución mejor y sustituimos la actual por la encontrada. Repetimos este proceso hasta que la exploración del vecindario no encuentre una solución mejor. \\
 	
@@ -281,7 +512,7 @@
 		}
 	\end{algorithm}
 
-	\subsection{Búsqueda local determinista}
+	\subsubsection{Búsqueda local determinista}
 	
 	Este algoritmo esta basado en la búsqueda local recién explicada pero con una pequeña mejora. A la hora de explorar el vecindario también ordenaremos los elementos no seleccionados en función de los más prometedores. Para ello utilizamos la función $obtainBestOrdering$. \\
 	
@@ -368,7 +599,7 @@
 	
 	Cabe destacar que este algoritmo no es determinista por completo ya que la solución inicial tomada es puramente aleatoria. Este detalle es importante puesto que por ello merecerá la pena ejecutarlo múltiples veces en vez de una única vez. \\
 	
-	\subsection{Búsqueda local con greedy}
+	\subsubsection{Búsqueda local con greedy}
 	
 	El último algoritmo presentado es otra mejora a la búsqueda local. Consiste simplemente en tomar como solución inicial la obtenida por el greedy. 
 	
@@ -384,6 +615,38 @@
 		}
 	}
 	\end{algorithm}
+
+	\subsection{Práctica 2}
+	
+	Para esta práctica se han implementado un total de 4 algoritmos que a continuación describiremos en profundidad. Son los siguientes:
+	\begin{itemize}
+		\item Algoritmo Genético Generacional con cruce uniforme - \textbf{AGGu}
+		\item Algoritmo Genético Generacional con cruce posicional - \textbf{AGGp}
+		\item Algoritmo Genético Estacionario con cruce uniforme - \textbf{AGEu}
+		\item Algoritmo Genético Estacionario con cruce posicional - \textbf{AGEp}
+		\item Algoritmo Memético - \textbf{AM}
+	\end{itemize}
+
+	En la siguiente tabla se resume la elección de operador para cada algoritmo. Recordemos que los operadores de mutación y y selección por torneo binario son compartidos entre todos los algoritmos.
+	
+	\begin{table}[H]
+		\centering
+		\begin{tabular}{c|c c|c c|}
+			\cline{2-5}
+			& \begin{tabular}[c]{@{}c@{}}Cruce\\ Uniforme\end{tabular} & \begin{tabular}[c]{@{}c@{}}Cruce\\ Positional\end{tabular} & \begin{tabular}[c]{@{}c@{}}Reemplazo\\ Generacional\\ Elitista\end{tabular} & \begin{tabular}[c]{@{}c@{}}Reemplazo\\ Estacionario\end{tabular} \\ \hline
+			\multicolumn{1}{|l|}{AGGp} & & X & X & \\ \hline
+			\multicolumn{1}{|l|}{AGGu} & X & & X & \\ \hline
+			\multicolumn{1}{|l|}{AGEp} & & X & & X \\ \hline
+			\multicolumn{1}{|l|}{AGEu} & X & & & X \\ \hline
+			\multicolumn{1}{|l|}{AM}   & & X & X & \\ \hline
+		\end{tabular}
+		\caption{ Selección de operador por algoritmo }
+	\end{table}
+	
+	\subsubsection{ Algoritmos Genéticos Generacionales - AGG}	
+
+	
+
 
 
 	\section{Procedimiento de desarrollo}
@@ -712,13 +975,13 @@
 	
 	\begin{figure}[H] 
 		\centering
-		\includegraphics[scale=1]{../output/evolution/MDG-a_21}
+		\includegraphics[scale=1]{../output/P1/MDG-a_21}
 		%\caption{my-captino} \label{my-label}
 	\end{figure}
 	
 	\begin{figure}[H] 
 		\centering
-		\includegraphics[scale=1]{../output/evolution/SOM-b_13}%\caption{my-captino} \label{my-label}
+		\includegraphics[scale=1]{../output/P1/SOM-b_13}%\caption{my-captino} \label{my-label}
 	\end{figure}
 
 	\subsubsection{ Análisis }

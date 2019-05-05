@@ -1,22 +1,31 @@
 \babel@toc {spanish}{}
-\contentsline {section}{\numberline {1}El problema}{3}{section.1}
-\contentsline {subsection}{\numberline {1.1}Descripci\IeC {\'o}n del problema}{3}{subsection.1.1}
-\contentsline {subsection}{\numberline {1.2}Casos considerados}{3}{subsection.1.2}
-\contentsline {section}{\numberline {2}Descripci\IeC {\'o}n de la aplicaci\IeC {\'o}n de los algoritmos}{3}{section.2}
-\contentsline {subsection}{\numberline {2.1}Representaci\IeC {\'o}n de la soluciones}{3}{subsection.2.1}
-\contentsline {subsection}{\numberline {2.2}Funci\IeC {\'o}n objetivo}{4}{subsection.2.2}
-\contentsline {section}{\numberline {3}Algoritmos}{4}{section.3}
-\contentsline {subsection}{\numberline {3.1}Greedy}{5}{subsection.3.1}
-\contentsline {subsection}{\numberline {3.2}B\IeC {\'u}squeda local}{6}{subsection.3.2}
-\contentsline {subsection}{\numberline {3.3}B\IeC {\'u}squeda local determinista}{8}{subsection.3.3}
-\contentsline {subsection}{\numberline {3.4}B\IeC {\'u}squeda local con greedy}{11}{subsection.3.4}
-\contentsline {section}{\numberline {4}Procedimiento de desarrollo}{11}{section.4}
-\contentsline {section}{\numberline {5}Experimentos realizados}{12}{section.5}
-\contentsline {subsection}{\numberline {5.1}Experimentos 1: resultados iniciales}{12}{subsection.5.1}
-\contentsline {subsubsection}{\numberline {5.1.1} An\IeC {\'a}lisis }{13}{subsubsection.5.1.1}
-\contentsline {subsection}{\numberline {5.2} Experimento 2: exploraci\IeC {\'o}n del vecindario }{14}{subsection.5.2}
-\contentsline {subsubsection}{\numberline {5.2.1} An\IeC {\'a}lisis }{15}{subsubsection.5.2.1}
-\contentsline {subsection}{\numberline {5.3} Experimento 3: b\IeC {\'u}squeda del \IeC {\'o}ptimo }{16}{subsection.5.3}
-\contentsline {subsubsection}{\numberline {5.3.1} An\IeC {\'a}lisis }{18}{subsubsection.5.3.1}
-\contentsline {subsection}{\numberline {5.4} Experimento 4: estudio evolutivo de la exploraci\IeC {\'o}n del entorno }{19}{subsection.5.4}
-\contentsline {subsubsection}{\numberline {5.4.1} An\IeC {\'a}lisis }{20}{subsubsection.5.4.1}
+\contentsline {section}{\numberline {1}Introducci\IeC {\'o}n: pr\IeC {\'a}ctica 2}{3}{section.1}% 
+\contentsline {section}{\numberline {2}El problema}{3}{section.2}% 
+\contentsline {subsection}{\numberline {2.1}Descripci\IeC {\'o}n del problema}{3}{subsection.2.1}% 
+\contentsline {subsection}{\numberline {2.2}Casos considerados}{3}{subsection.2.2}% 
+\contentsline {section}{\numberline {3}Descripci\IeC {\'o}n de la aplicaci\IeC {\'o}n de los algoritmos}{3}{section.3}% 
+\contentsline {subsection}{\numberline {3.1}Pr\IeC {\'a}ctica 1}{4}{subsection.3.1}% 
+\contentsline {subsubsection}{\numberline {3.1.1}Representaci\IeC {\'o}n de la soluciones}{4}{subsubsection.3.1.1}% 
+\contentsline {subsubsection}{\numberline {3.1.2}Funci\IeC {\'o}n objetivo}{4}{subsubsection.3.1.2}% 
+\contentsline {subsection}{\numberline {3.2}Pr\IeC {\'a}ctica 2}{5}{subsection.3.2}% 
+\contentsline {subsubsection}{\numberline {3.2.1}Representaci\IeC {\'o}n de la soluciones}{5}{subsubsection.3.2.1}% 
+\contentsline {subsubsection}{\numberline {3.2.2}Funci\IeC {\'o}n objetivo}{5}{subsubsection.3.2.2}% 
+\contentsline {subsubsection}{\numberline {3.2.3}Operadores}{6}{subsubsection.3.2.3}% 
+\contentsline {section}{\numberline {4}Algoritmos}{9}{section.4}% 
+\contentsline {subsection}{\numberline {4.1}Pr\IeC {\'a}ctica 1}{9}{subsection.4.1}% 
+\contentsline {subsubsection}{\numberline {4.1.1}Greedy}{10}{subsubsection.4.1.1}% 
+\contentsline {subsubsection}{\numberline {4.1.2}B\IeC {\'u}squeda local}{11}{subsubsection.4.1.2}% 
+\contentsline {subsubsection}{\numberline {4.1.3}B\IeC {\'u}squeda local determinista}{13}{subsubsection.4.1.3}% 
+\contentsline {subsubsection}{\numberline {4.1.4}B\IeC {\'u}squeda local con greedy}{16}{subsubsection.4.1.4}% 
+\contentsline {subsection}{\numberline {4.2}Pr\IeC {\'a}ctica 2}{16}{subsection.4.2}% 
+\contentsline {subsubsection}{\numberline {4.2.1} Algoritmos Gen\IeC {\'e}ticos Generacionales - AGG}{16}{subsubsection.4.2.1}% 
+\contentsline {section}{\numberline {5}Procedimiento de desarrollo}{16}{section.5}% 
+\contentsline {section}{\numberline {6}Experimentos realizados}{17}{section.6}% 
+\contentsline {subsection}{\numberline {6.1}Experimentos 1: resultados iniciales}{17}{subsection.6.1}% 
+\contentsline {subsubsection}{\numberline {6.1.1} An\IeC {\'a}lisis }{19}{subsubsection.6.1.1}% 
+\contentsline {subsection}{\numberline {6.2} Experimento 2: exploraci\IeC {\'o}n del vecindario }{20}{subsection.6.2}% 
+\contentsline {subsubsection}{\numberline {6.2.1} An\IeC {\'a}lisis }{21}{subsubsection.6.2.1}% 
+\contentsline {subsection}{\numberline {6.3} Experimento 3: b\IeC {\'u}squeda del \IeC {\'o}ptimo }{22}{subsection.6.3}% 
+\contentsline {subsubsection}{\numberline {6.3.1} An\IeC {\'a}lisis }{24}{subsubsection.6.3.1}% 
+\contentsline {subsection}{\numberline {6.4} Experimento 4: estudio evolutivo de la exploraci\IeC {\'o}n del entorno }{25}{subsection.6.4}% 
+\contentsline {subsubsection}{\numberline {6.4.1} An\IeC {\'a}lisis }{26}{subsubsection.6.4.1}% 
