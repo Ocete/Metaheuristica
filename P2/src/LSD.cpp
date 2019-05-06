@@ -258,7 +258,7 @@ double localSearchDet(vector<vector<double> > &mat, int choosen,
   t_total = clock() - t_start;
 
   // output: Fitness - Time - Iterations
-  cout << sol.fitness << "\t" << (double) t_total / CLOCKS_PER_SEC << endl;
+  cout << sol.fitness << "\t" << (double) t_total / CLOCKS_PER_SEC << " " << evaluations << endl;
   return sol.fitness;
 }
 
