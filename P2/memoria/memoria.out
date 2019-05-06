@@ -17,14 +17,26 @@
 \BOOKMARK [3][-]{subsubsection.4.1.3}{B\372squeda local determinista}{subsection.4.1}% 17
 \BOOKMARK [3][-]{subsubsection.4.1.4}{B\372squeda local con greedy}{subsection.4.1}% 18
 \BOOKMARK [2][-]{subsection.4.2}{Pr\341ctica 2}{section.4}% 19
-\BOOKMARK [3][-]{subsubsection.4.2.1}{ Algoritmos Gen\351ticos Generacionales - AGG}{subsection.4.2}% 20
-\BOOKMARK [1][-]{section.5}{Procedimiento de desarrollo}{}% 21
-\BOOKMARK [1][-]{section.6}{Experimentos realizados}{}% 22
-\BOOKMARK [2][-]{subsection.6.1}{Experimentos 1: resultados iniciales}{section.6}% 23
-\BOOKMARK [3][-]{subsubsection.6.1.1}{ An\341lisis }{subsection.6.1}% 24
-\BOOKMARK [2][-]{subsection.6.2}{ Experimento 2: exploraci\363n del vecindario }{section.6}% 25
-\BOOKMARK [3][-]{subsubsection.6.2.1}{ An\341lisis }{subsection.6.2}% 26
-\BOOKMARK [2][-]{subsection.6.3}{ Experimento 3: b\372squeda del \363ptimo }{section.6}% 27
-\BOOKMARK [3][-]{subsubsection.6.3.1}{ An\341lisis }{subsection.6.3}% 28
-\BOOKMARK [2][-]{subsection.6.4}{ Experimento 4: estudio evolutivo de la exploraci\363n del entorno }{section.6}% 29
-\BOOKMARK [3][-]{subsubsection.6.4.1}{ An\341lisis }{subsection.6.4}% 30
+\BOOKMARK [3][-]{subsubsection.4.2.1}{ Algoritmos Gen\351ticos Generacionales - AGG }{subsection.4.2}% 20
+\BOOKMARK [3][-]{subsubsection.4.2.2}{ Algoritmos Gen\351ticos Estacionario - AGE }{subsection.4.2}% 21
+\BOOKMARK [3][-]{subsubsection.4.2.3}{ Algoritmo Mem\351ticos - AM }{subsection.4.2}% 22
+\BOOKMARK [3][-]{subsubsection.4.2.4}{ Algoritmo Mem\351tico Mejorado - AMM }{subsection.4.2}% 23
+\BOOKMARK [3][-]{subsubsection.4.2.5}{ B\372squeda Local Determinista - LDS }{subsection.4.2}% 24
+\BOOKMARK [1][-]{section.5}{ Procedimiento de desarrollo }{}% 25
+\BOOKMARK [2][-]{subsection.5.1}{ Pr\341ctica 1 }{section.5}% 26
+\BOOKMARK [2][-]{subsection.5.2}{ Pr\341ctica 2 }{section.5}% 27
+\BOOKMARK [1][-]{section.6}{Experimentos realizados}{}% 28
+\BOOKMARK [2][-]{subsection.6.1}{Pr\341ctica 1}{section.6}% 29
+\BOOKMARK [3][-]{subsubsection.6.1.1}{Experimentos 1: resultados iniciales}{subsection.6.1}% 30
+\BOOKMARK [4][-]{paragraph.6.1.1.1}{ An\341lisis }{subsubsection.6.1.1}% 31
+\BOOKMARK [3][-]{subsubsection.6.1.2}{ Experimento 2: exploraci\363n del vecindario }{subsection.6.1}% 32
+\BOOKMARK [4][-]{paragraph.6.1.2.1}{ An\341lisis }{subsubsection.6.1.2}% 33
+\BOOKMARK [3][-]{subsubsection.6.1.3}{ Experimento 3: b\372squeda del \363ptimo }{subsection.6.1}% 34
+\BOOKMARK [4][-]{paragraph.6.1.3.1}{ An\341lisis }{subsubsection.6.1.3}% 35
+\BOOKMARK [3][-]{subsubsection.6.1.4}{ Experimento 4: estudio evolutivo de la exploraci\363n del entorno }{subsection.6.1}% 36
+\BOOKMARK [4][-]{paragraph.6.1.4.1}{ An\341lisis }{subsubsection.6.1.4}% 37
+\BOOKMARK [2][-]{subsection.6.2}{ Pr\341ctica 2 }{section.6}% 38
+\BOOKMARK [3][-]{subsubsection.6.2.1}{ Experimento 1: resultados iniciales}{subsection.6.2}% 39
+\BOOKMARK [4][-]{paragraph.6.2.1.1}{ An\341lisis}{subsubsection.6.2.1}% 40
+\BOOKMARK [3][-]{subsubsection.6.2.2}{ Experimento 2: Comparativa con pr\341ctica 1 y mem\351tico mejorado}{subsection.6.2}% 41
+\BOOKMARK [4][-]{paragraph.6.2.2.1}{ An\341lisis }{subsubsection.6.2.2}% 42

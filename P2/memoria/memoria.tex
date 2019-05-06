@@ -11,10 +11,10 @@
 \usepackage{amssymb, amsmath}
 \usepackage[margin=1in]{geometry}
 \usepackage{xcolor}
-%\usepackage{soul}
 \usepackage{enumerate}
 \usepackage{hyperref}
 \usepackage{graphics, graphicx, float}
+\usepackage{titlesec} %\titleformat
 
 % Meta
 \title{Problema de Máxima Diversidad (MDP) 
@@ -49,6 +49,10 @@
 \SetKwRepeat{Do}{do}{while}%
 \SetEndCharOfAlgoLine{}
 
+% Subsubsubsection (|paragraph)
+\setcounter{tocdepth}{4}
+\setcounter{secnumdepth}{4}
+
 \begin{document}	
 	
 	\maketitle 
@@ -58,7 +62,7 @@
 	
 	\section{Introducción: práctica 2}
 	
-	De cara a la segunda práctica se han añadido a la memoria las secciones 2.2, 3.X, 4.2 y 5.2. El resto permanece invariante.
+	De cara a la segunda práctica se han añadido a la memoria las secciones \ref{sec32}, \ref{sec42}, \ref{procedimiento2} y  \ref{sec62}. El resto permanece invariante.
 	
 	\section{El problema}
 	
@@ -113,7 +117,7 @@
 	
 	Para la función objetivo se ha dividido la implementación en dos funciones ya que algunos algoritmos utilizarán unicamente una de las dos y otros, ambas. La primera calcula la contribución del elemento $i$ a la solución actual. La segunda calcula el $fitness$ total utilizando la función anterior. \\
 
-	\begin{algorithm}
+	\begin{algorithm}[H]
 	\caption{singleContribution}
 		\KwData{solution : sol , i : int}
 		\KwResult{ contribution : double}
@@ -126,7 +130,7 @@
 		}
 	\end{algorithm}
 			
-	\begin{algorithm}
+	\begin{algorithm}[H]
 	\caption{evaluateSolution}
 		\KwData{solution : sol}
 		\KwResult{fitness : double}
@@ -140,7 +144,7 @@
 		}
 	\end{algorithm}
 
-	\subsection{Práctica 2}
+	\subsection{Práctica 2} \label{sec32}
 	
 	\subsubsection{Representación de la soluciones}
 	
@@ -176,7 +180,7 @@
 
 	Se ha desarrollado otra función objetivo análoga a la implementada para la representación con enteros que utiliza de nuevo la función \emph{SingleContribution}, reimplementando también ésta para la codificación con \emph{booleanos}.
 	
-	\begin{algorithm}
+	\begin{algorithm}[H]
 		\caption{evaluatesolution}
 		\KwData{v : $vector<bool>$, elem: int }
 		\KwResult{result : double}
@@ -188,7 +192,7 @@
 		}
 	\end{algorithm}
 	
-	\begin{algorithm}
+	\begin{algorithm}[H]
 		\caption{evaluatesolution}
 		\KwData{sol : solution }
 		\KwResult{fitness : double}
@@ -209,7 +213,7 @@
 	
 	Para esta práctica se han implementado dos operadores distintos de cruce y dos de reemplazamiento. Los operadores de mutación, selección (por torneo binario) e inicialización aleatoria son compartidos por todos los algoritmos. Procedemos a estudiar cada operador por separado. En primer lugar, el operador de selección utilizado ha sido torneo binario. Para ello utilizamos la función \emph{random(a,b)}, que devuelve un entero aleatorio en el intervalo $[a,b)$.
 	
-	\begin{algorithm}
+	\begin{algorithm}[H]
 		\caption{binaryTournament}
 		\KwData{pop : population}
 		\KwResult{elem : int}
@@ -289,14 +293,14 @@
 		\KwResult{child : solution}
 		\Begin{
 			nTrues $\leftarrow$ countTrues(child.v) \\
-			\While { nTrues < m }{
+			\While { nTrues $<$ m }{
 				r $\leftarrow$ random(0, sol.v.size()) \\
 				\If { sol.v[ r ] } {
 					sol.v[r] $\leftarrow$ false
 					nTrues $\leftarrow$ nTrues + 1
 				}
 			}
-			\While { nTrues > m }{
+			\While { nTrues $>$ m }{
 				r $\leftarrow$ random(0, sol.v.size()) \\
 				\If { !sol.v[ r ] } {
 					sol.v[r] $\leftarrow$ true
@@ -374,7 +378,7 @@
 	
 	En primer lugar se ha implementado una función que, dados dos conjuntos de puntos, $seleccionados$ y $no\_seleccionados$, devuelve el elemento de $no\_seleccionados$ cuya suma de distancias a los elementos de $seleccionados$ es máxima. Para ello utilizamos la función $SingleContribution$ explicado en el apartado anterior, que computa la suma de distancias de un punto a otro conjunto dado. \\ 
 
-	\begin{algorithm}
+	\begin{algorithm}[H]
 		\caption{farthestToSel}
 		\KwData{selected : $set<int>$ , non\_selected : $set<int>$}
 		\KwResult{farthest : i}
@@ -393,7 +397,7 @@
 	
 	De cara al algoritmo greedy final necesitaremos inicializar el conjunto de elementos seleccionados con al menos un elemento. Este será el que esté más alejado de todos los demás. Para calcularlo utilizamos una abstracción de la función anterior, donde $selected$ y $non\_selected$ serán ambos el conjunto de todos los puntos posibles: $\{0,1,\dotsc, n\}$. \\
 	
-	\begin{algorithm}
+	\begin{algorithm}[H]
 		\caption{farthestToAll}
 		\KwData{ none }
 		\KwResult{farthest : i}
@@ -405,7 +409,7 @@
 
 	Finalmente presentamos el algoritmo greedy al completo, haciendo uso de las funciones anteriores. \\
 
-	\begin{algorithm}
+	\begin{algorithm}[H]
 		\caption{greedy}
 		\KwData{ none }
 		\KwResult{selected : $set<int>$}
@@ -424,7 +428,7 @@
 	
 	Desgranemos la búsqueda local paso por paso. En primer lugar generamos una solución aleatoria que será el punto de partida. En cada iteración exploramos el vecindario hasta encontrar una solución mejor y sustituimos la actual por la encontrada. Repetimos este proceso hasta que la exploración del vecindario no encuentre una solución mejor. \\
 	
-	\begin{algorithm}
+	\begin{algorithm}[H]
 		\caption{localSearch}
 		\KwData{ none }
 		\KwResult{sol : solution}
@@ -442,7 +446,7 @@
 	
 	Por otro lado, a la hora de escoger que elementos $i,j$ comparar, seleccionamos un elemento $j$ que aún no esté en la solución de forma aleatoria y comparamos con todos los posibles $i \in sol$. Una pequeña mejora consiste en ordenar los elementos de la solución en función a la contribución que realizan a esta para intentar intercambiar primero los que menos contribuyan. Veamos como está implementada esta ordenación. Por un lado definimos un operador de comparación que trabaje con parejas $<int, double>$. Esto nos permitirá ordenar el vector solución en orden de contribución creciente. \\
 	
-	\begin{algorithm}
+	\begin{algorithm}[H]
 	 	\caption{operator$<$}
 	 	\KwData{ p1 : $pair<int,double>$ , p2 : $pair<int,double>$ }
 	 	\KwResult{comp : bool}
@@ -453,7 +457,7 @@
 
 	A continuación reordenamos los elementos de la solución. \\
 
-	\begin{algorithm}
+	\begin{algorithm}[H]
 		\caption{orderSolutionByContribution}
 		\KwData{ sol : solution }
 		\KwResult{ sol : solution }
@@ -512,7 +516,7 @@
 		}
 	\end{algorithm}
 
-	\subsubsection{Búsqueda local determinista}
+	\subsubsection{Búsqueda local determinista} \label{LSD}
 	
 	Este algoritmo esta basado en la búsqueda local recién explicada pero con una pequeña mejora. A la hora de explorar el vecindario también ordenaremos los elementos no seleccionados en función de los más prometedores. Para ello utilizamos la función $obtainBestOrdering$. \\
 	
@@ -583,7 +587,7 @@
 		}
 	\end{algorithm}
 	
-	\begin{algorithm}
+	\begin{algorithm}[H]
 		\caption{localSearchDet}
 		\KwData{ none }
 		\KwResult{sol : solution}
@@ -603,7 +607,7 @@
 	
 	El último algoritmo presentado es otra mejora a la búsqueda local. Consiste simplemente en tomar como solución inicial la obtenida por el greedy. 
 	
-	\begin{algorithm}
+	\begin{algorithm}[H]
 	\caption{localSearchGreedy}
 	\KwData{ none }
 	\KwResult{sol : solution}
@@ -616,7 +620,7 @@
 	}
 	\end{algorithm}
 
-	\subsection{Práctica 2}
+	\subsection{Práctica 2} \label{sec42}
 	
 	Para esta práctica se han implementado un total de 4 algoritmos que a continuación describiremos en profundidad. Son los siguientes:
 	\begin{itemize}
@@ -643,13 +647,112 @@
 		\caption{ Selección de operador por algoritmo }
 	\end{table}
 	
-	\subsubsection{ Algoritmos Genéticos Generacionales - AGG}	
+	\subsubsection{ Algoritmos Genéticos Generacionales - AGG }	
 
+	Como su propio nombre indica utilizan técnicas generacionales y elitistas, forzando mantener al mejor elemento de la población en cada generación. Se utiliza por tanto el operador de reemplazamiento generacional. La estructura del algoritmo es la siguiente:
 	
+	\begin{algorithm}[H]
+	\caption{AGG}
+	\KwData{ nChoosen : int, MAX\_EVALUATIONS : int }
+	\KwResult{ best\_sol : solution , generations : int}
+	\Begin{
+		generations $\leftarrow$ 0 \\		
+		pop $\leftarrow $ initializePop( tam\_pob ) \\
+		pop, TOTAL\_EVALUATIONS $\leftarrow $ evaluatePop( pop ) \\
+		
+		\While{ TOTAL\_EVALUATIONS $<$ MAX\_EVALUATIONS }{
+			new\_pop $\leftarrow$ selection( pop ) \\
+			new\_pop $\leftarrow$ crossPop( new\_pop ) \\
+			new\_pop, TOTAL\_EVALUATIONS $\leftarrow$ mutatePop( new\_pop ) \\
+			new\_pop, TOTAL\_EVALUATIONS $\leftarrow $ evaluatePop( new\_pop ) \\
+			new\_pop $\leftarrow$ replace( pop, new\_pop ) \\
+			generations $\leftarrow$ generations + 1 \\
+		}
+		best\_sol  $\leftarrow$ pop.v[ pop.best\_sol ] \\
+	}
+	\end{algorithm}
 
+	Podemos apreciar en el código algunos parámetros que aún no tienen valor, como el número máximo de evaluaciones ($MAX\_EVALUATIONS$), que utilizaremos de condición de parada, o las probabilidades de cruce ($cross\_prob$) y mutación ($mut\_prob$). Daremos valores a estos parámetros en las sección \ref{procedimiento2}. \\
+	
+	Como ya se ha comentado, hay dos algoritmos distintos que utilizarán el código recién mostrado: \textbf{AGGu} y \textbf{AGGp}. La única diferencia entre ambos será el operador de cruce que utilicen: uniforme y posicional respectivamente.
 
+	\subsubsection{ Algoritmos Genéticos Estacionario - AGE }	
 
-	\section{Procedimiento de desarrollo}
+	A continuación detallamos los algoritmos genéticos de tipo estacionario que en cada iteración únicamente seleccionan dos padres que, tras ser cruzados y mutados, compiten por entrar de nuevo en población. Su algoritmo en pseudo-código es el siguiente:
+
+	\begin{algorithm}[H]
+		\caption{AGE}
+		\KwData{ nChoosen : int, MAX\_EVALUATIONS : int }
+		\KwResult{ best\_sol : solution , generations : int}
+		\Begin{
+			generations $\leftarrow$ 0 \\		
+			pop $\leftarrow $ initializePop( tam\_pob ) \\
+			pop, TOTAL\_EVALUATIONS $\leftarrow $ evaluatePop( pop ) \\
+			
+			\While{ TOTAL\_EVALUATIONS $<$ MAX\_EVALUATIONS }{
+				p1, p2 $\leftarrow$ selectPair( pop ) \\
+				c1, c2 $\leftarrow$ crossPair( p1, p2 ) \\
+				c1, c2 $\leftarrow$ mutatePair( c1, c2 ) \\
+				c1 $\leftarrow$ evaluateSolution( c1 ) \\
+				c2 $\leftarrow$ evaluateSolution( c2 ) \\
+				TOTAL\_EVALUATIONS $\leftarrow$ TOTAL\_EVALUATIONS + 2 \\
+				pop $\leftarrow$ replace( pop, c1, c2 ) \\
+				generations $\leftarrow$ generations + 1 \\
+			}
+			best\_sol  $\leftarrow$ pop.v[ pop.best\_sol ] \\
+		}
+	\end{algorithm}
+
+	De nuevo tendremos dos algoritmos distintos según el tipo de operador de cruce que se utilice, uniforme o posicional: \textbf{AGEu} y \textbf{AGEp}.
+	
+	\subsubsection{ Algoritmo Meméticos - AM }
+	
+	Los algoritmos meméticos utilizan el esquema evolutivo de reemplazo generacional aplicando una búsqueda local a ciertos cromosomas cada cierto número de generaciones. Se puede aplicar una búsqueda más exhaustiva en intervalos generacionales amplios o pequeñas búsquedas para intervalos más cortos. En nuestro caso utilizaremos aproximaciones distintas:
+	
+	\begin{itemize}
+		\item Aplicar la búsqueda local a toda la población cada 10 iteraciones - \textbf{AM0}
+		\item Aplicar la búsqueda local a elementos arbitrariamente escogidos cada 10 iteraciones - \textbf{AM1}
+		\item Aplicar la búsqueda local al mejor cromosoma de la población cada 10 iteraciones - \textbf{AM2}
+	\end{itemize}
+	
+	Este esquema queda reflejado en la función \textbf{memetize}, dependiendo del valor de $mem\_type$:
+	
+	\begin{algorithm}[H]
+		\caption{memetize}
+		\KwData{ pop : population, MAX\_ITERATIONS : int, p\_mem : double, mem\_type : int }
+		\KwResult{ population : pop }
+		\Begin{
+			\uIf { mem\_type == 0 } {
+				\ForEach{ $ sol \in pop.v$ }{
+					sol $\leftarrow$ localSearch( sol, MAX\_ITERATIONS )
+				}
+			} \uElseIf { mem\_type == 1 } {
+				\ForEach{ $ sol \in pop.v$ }{
+					\If { rand() $<$ p\_mem } {
+						sol $\leftarrow$ localSearch( sol, MAX\_ITERATIONS )
+					}
+				}
+			} \Else {
+				pop.v[ pop.best\_sol ] $\leftarrow$ localSearch( pop.best\_sol, MAX\_ITERATIONS )
+			}	
+		}
+	\end{algorithm}
+
+	En cada llamada a $localSearch$ fijamos un valor de iteraciones máximo, normalmente reducido para que el tiempo de ejecución no se dispare, y todas las evaluaciones en dicha subllamada se añaden al valor total de $TOTAL\_ITERATIONS$, teniéndolas en cuenta para el criterio de parada del algoritmo completo. Cabe destacar que tras tomar ciertos datos decidí que la evaluación factorizada de una solución contase unicamente como una fracción de una evaluación total, en vez de como una completa. Es decir, aumento el valor de $TOTAL\_ITERATIONS$ cuando evalúo tantas soluciones como elementos escogidos en el vector. Tomé esta decisión debido porque apenas exploraba el entorno de la solución y no obtenía mejora sustancial. Esta misma técnica de evaluación será aplicada en los próximos algoritmos que aún no hemos explicado. \\
+	
+	Por otro lado, el pseudo-código del caso 1 ha sido simplificado. En vez de generar $pop.tam$ números aleatorios calculamos $p\_mem \cdot pop.tam$ y mutamos ese número de cromosomas de igual forma que al mutar una población completa. Si el valor $p\_mem \cdot pop.tam$ es más pequeño que uno, se genera un único número aleatorio en $[0,1]$ y se muta un cromosoma si es más pequeño que $p\_mem \cdot pop.tam$. \\
+
+	\subsubsection{ Algoritmo Memético Mejorado - AMM }
+	
+	Esta implementación del algoritmo memético es idéntica a la anterior salvo en el uso de $localSearch$. En este casi en lugar de aplicar la búsqueda local clásica utilizaremos la búsqueda local que mejores resultados dio en la práctica anterior: la búsqueda local determinista o \emph{Deterministic Local Search} (LDS) explicada en profundidad la sección \ref{LSD}. Así mismo aplicaremos la misma factorización en la evaluación de las soluciones explicada en la sección anterior.
+	
+	\subsubsection{ Búsqueda Local Determinista - LDS }
+	
+	De cara a comparar los resultados obtenidos en esta práctica se ha retocado la búsqueda local determinista de la práctica anterior para que la forma de medir el número máximo de evaluaciones sea la misma, implementando la factorización ya explicada. De esta forma fijamos el mismo número máximo de evaluaciones para que la comparación es consistente. 
+	
+	\section{ Procedimiento de desarrollo }
+	
+	\subsection{ Práctica 1 }
 	
 	Todos los algoritmos se han implementado en $C++$ y se encuentran en la carpeta adjunta. El código esta dividido independientes y autosuficientes que contienen cada uno un algoritmos de los explicados anteriormente. Adicionalmente hay dos archivos más para el tratamiento de los datos. \\
 	
@@ -665,11 +768,36 @@
 	
 	Todos los experimentos se han realizado en una misma máquina con las siguientes características: Sistema operativo Ubuntu 18.04.2, 7.7Gib de memoria y procesador IntelCore i7-7700@3.60GHzx8.
 	
+
+	\subsection{ Práctica 2 } \label{procedimiento2}
+	
+	Como es natural he reutilizado toda la automatización preparada en la práctica anterior, manteniendo principalmente los comandos $examples<algoritmo>$, $measure<algoritmo>$ y $measureAll$. \\
+	
+	De la misma forma he lanzado todos los programas en la misma máquina que en la práctica anterior para que la comparación entre algoritmos tenga sentido. \\
+	
+	En cuanto a la semilla para los generadores aleatorios, esta se inicializa de forma aleatoria para que las múltiples mediciones tomadas sean distintas. \\
+	
+	Para el experimento uno se han utilizado los siguientes valores para los parámetros:
+	
+	\begin{itemize}
+		\item Tamaño de la población: 50 cromosomas
+		\item Máximas evauaciones totales: 50000
+		\item Probabilidad de mutación: 0.001
+		\item Probabilidad de cruce en AGE: 1
+		\item Probabilidad de cruce en AGG y AM: 0.7
+		\item En el tipo 1 de AM, valor de $p\_mem$: 0.1
+		\item Para AM, máximas iteraciones de la búsqueda local: 40
+	\end{itemize}
+
+	Para el experimento 1 se han ejecutado todos los algoritmos 30 veces, mientras que para los algoritmos que aparecen en el experimento 2 y no en el 1 ($LSD$ y $AMM$) unicamente 2 veces por algoritmo, debido a la falta de tiempo.
+	
 	\section{Experimentos realizados}
+	
+	\subsection{Práctica 1}
 	
 	En esta sección describiremos los experimentos realizados y estudiáremos los resultados obtenidos. 
 	
-	\subsection{Experimentos 1: resultados iniciales}
+	\subsubsection{Experimentos 1: resultados iniciales}
 	
 	En primer lugar he tomado datos como se expone en la sección anterior. Adjunto a continuación las tablas de los tiempos y los resultados obtenidos para los cuatro algoritmos mencionados.
 	
@@ -763,7 +891,7 @@
 		\label{comparativa}
 	\end{table}
 
-	\subsubsection{ Análisis }
+	\paragraph{ Análisis } \ \\
 	
 	Comencemos observando la tabla \ref{comparativa} para obtener una visión general de los resultados. Por un lado, los tiempos de las búsquedas locales clásica y determinista no son para nada sorprendentes: Ambas son notablemente más lentas que el algoritmo $Greedy$, siendo la $BLD$ ligeramente más lenta que la $BL$. Sin embargo la media de tiempos para la $BL con Greedy$ es realmente sorprendente. Profundizaremos en este aspecto en el experimento 2.  \\
 	
@@ -773,7 +901,7 @@
 	
 	En cuanto a la $BL con Greedy$ era de esperar que tuviese valores como mínimo mejores que los del $Greedy$. Observamos que sin embargo estos valores no son ni mucho menos notablemente mejores. Surgen por lo tanto dos preguntas: Por qué el tiempo de ejecución de $BL con Greedy$ es tan sumamente bajo y por qué su coste apenas mejora respecto al $Greedy$. Ambas preguntas serán contestadas en el segundo experimento. La hipótesis es relativamente evidente: parece que la $BL con greedy$ no explota el entorno tanto como nos gustaría. \\
 	
-	\subsection{ Experimento 2: exploración del vecindario }
+	\subsubsection{ Experimento 2: exploración del vecindario }
 	
 	Motivado por las anteriores cuestiones he estudiado las iteraciones que toma cada algoritmo de búsqueda local hasta converger. Esto nos permite estudiar por un lado si la $BLD$ merece la pena y por otro comparar la convergencia de forma general. Estos han sido los resultados obtenidos. \\
 	
@@ -818,7 +946,7 @@
 		\end{table}
 	\end{center}
 
-	\subsubsection{ Análisis }
+	\paragraph{ Análisis } \ \\
 	
 	Observando los resultados quedan claramente resueltas las cuestiones planteadas inicialmente. La convergencia es terriblemente prematura en el caso de la $BL con Greedy$, y esto explica tanto los bajos valores de tiempos como la reducida mejora en coste respecto al $Greedy$ inicial. Conjeturo que esta convergencia se debe a la cota en el número de vecinos generados impuesto ($50.000$), a la manera de explorar el vecindario y a la calidad de la solución inicial obtenida con el $Greedy$. \\
 	
@@ -826,7 +954,7 @@
 	
 	En vista de estos últimos resultados otra alternativa interesante sería aplicar la $BLD$ con solución inicial la obtenida por el $Greedy$. Esta búsqueda completamente determinista ($BTD$) sería un algoritmo 100\% determinista que explotaría en profundidad el entorno de la solución inicial. \\
 	
-	\subsection{ Experimento 3: búsqueda del óptimo }
+	\subsubsection{ Experimento 3: búsqueda del óptimo } \label{exp13}
 	
 	En el primer experimento podíamos observar como en algunos casos del problema obteníamos valores mejores que los óptimos conocidos, como es el caso de $SOMB-b_16$ en la tabla \ref{costes}. Dicha observación propicia el siguiente experimento, en este caso buscando la mejor solución posible. Para ello se han utilizado las tres búsquedas ya explicadas pero eliminando la cota en la generación del vecindario. Ejecutamos cada búsqueda un total de 10 veces, tomando el máximo sobre los costes obtenidos y realizando la media para los tiempos y las iteraciones. Estos son los resultados obtenidos. \\
 	
@@ -959,7 +1087,7 @@
 		\label{comparativa3}
 	\end{table}
 
-	\subsubsection{ Análisis }
+	\paragraph{ Análisis } \ \\
 	
 	Mirando a las tablas \ref{comparativa} y \ref{comparativa3} vemos como los valores de $Desv$ han bajado notablemente, especialmente para la $BL$ y la $BLD$, mientras que los tiempos se han disparado. Aunque el $Desv$ obtenido para la $BL$ es menor que el de las otras dos búsquedas achaco esto al reducido número de iteraciones realizadas: unicamente 10 para cada algoritmo.  \\ 
 	
@@ -969,7 +1097,7 @@
 	
 	Finalmente observamos en la iteraciones obtenidas como la convergencia de la $BLD$ es superior a la de la $BL$. Obviamente la de la $BL con Greedy$ es muy superior puesto que comienza mucho más cerca del óptimo. Estos razonamientos propician un último experimento de cara a estudiar la convergencia de las soluciones. Si bien me habría gustado realizarlo sin cota máxima como en este último experimento, no me ha sido posible por cuestiones de tiempo. Por ende, considerar el algoritmo $BL con Greedy$ en el siguiente experimento tampoco tiene sentido, ya que la convergencia es extremadamente prematura. 	
 		
-	\subsection{ Experimento 4: estudio evolutivo de la exploración del entorno }
+	\subsubsection{ Experimento 4: estudio evolutivo de la exploración del entorno }
 	
 	Estudiamos la convergencia de la búsqueda local clásica y la determinista iteración a iteración. Para ello ejecutamos estos algoritmos sobre los conjuntos de datos $MDG-a_21$ y $SOM-b_13$, escogidos por tener comportamientos particularmente distintos en las tablas \ref{costes} y \ref{iteraciones}. Volvemos a utilizar la cota en la exploración del vecindario, y en cada iteración obtenemos el coste actual de la solución en estudio. Podemos ver los resultados obtenidos en las siguientes gráficas.
 	
@@ -984,8 +1112,306 @@
 		\includegraphics[scale=1]{../output/P1/SOM-b_13}%\caption{my-captino} \label{my-label}
 	\end{figure}
 
-	\subsubsection{ Análisis }
+	\paragraph{ Análisis } \ \\
 	
 	Podemos ver como en los distintos casos la evolución es particularmente distinta. Por un lado, para $MDG-a_21$ la convergencia de ambos algoritmos es asintóticamente idéntica, manteniéndose la $BLD$ por encima en parte debido a la solución inicial ligeramente mejor.Por otro, en $SOM-b_13$ la mejora de la $BL$ respecto a la $BLD$ es sustancial pero esta se estanca rápidamente debido a que su exploración del espacio es peor. Este es otro ejemplo de como los mismos algoritmos pueden comportarse de formas completamente distintas para entradas diferentes.
+
+	\subsection{ Práctica 2 } \label{sec62}
+	
+	\subsubsection{ Experimento 1: resultados iniciales}
+	
+	Para este primer experimento se han estudiado los dos AGG, los dos AGE y los tres AM definidos anteriormente. Utilizando los parámetros definidos en \ref{procedimiento2}, lanzamos los algoritmos 30 veces por test-case cada uno y tomamos datos del tiempo, fitness y generaciones realizadas por cada uno. Presentamos a continuación las medias de estos datos:
+	
+	\begin{table}[H]
+		\begin{tabular}{l|l|l|l|l|l|l|l|}
+			\cline{2-8}
+			& AGGu    & AGGp    & AGEu    & AGEp    & AM0     & AM1     & AM1     \\ \hline
+			\multicolumn{1}{|l|}{MDG-a\_1}  & 108891  & 103366  & 109277  & 104244  & 110992  & 111932  & 111256  \\ \hline
+			\multicolumn{1}{|l|}{MDG-a\_2}  & 108830  & 103784  & 109242  & 104577  & 111723  & 111468  & 111536  \\ \hline
+			\multicolumn{1}{|l|}{MDG-a\_3}  & 108791  & 103647  & 109261  & 103492  & 111620  & 111296  & 111484  \\ \hline
+			\multicolumn{1}{|l|}{MDG-a\_4}  & 108841  & 103714  & 109291  & 103558  & 111886  & 111738  & 111445  \\ \hline
+			\multicolumn{1}{|l|}{MDG-a\_5}  & 108549  & 104275  & 109292  & 104132  & 111356  & 111566  & 111216  \\ \hline
+			\multicolumn{1}{|l|}{MDG-a\_6}  & 108694  & 104393  & 109093  & 104210  & 111372  & 111768  & 111441  \\ \hline
+			\multicolumn{1}{|l|}{MDG-a\_7}  & 108899  & 103750  & 109418  & 104317  & 111176  & 111125  & 111759  \\ \hline
+			\multicolumn{1}{|l|}{MDG-a\_8}  & 108681  & 103860  & 109045  & 104168  & 111723  & 111738  & 111092  \\ \hline
+			\multicolumn{1}{|l|}{MDG-a\_9}  & 108659  & 104258  & 109435  & 103738  & 111401  & 111734  & 111257  \\ \hline
+			\multicolumn{1}{|l|}{MDG-a\_10} & 108775  & 102935  & 109155  & 104006  & 111837  & 110936  & 111396  \\ \hline
+			\multicolumn{1}{|l|}{SOM-b\_11} & 20206.7 & 19432   & 20268   & 19401   & 20409.5 & 20371   & 20333.5 \\ \hline
+			\multicolumn{1}{|l|}{SOM-b\_12} & 35246.8 & 34127.5 & 35340.9 & 34216   & 35432   & 35379.5 & 35372.5 \\ \hline
+			\multicolumn{1}{|l|}{SOM-b\_13} & 4333.85 & 4049.5  & 4368.15 & 4148    & 4435    & 4484    & 4444    \\ \hline
+			\multicolumn{1}{|l|}{SOM-b\_14} & 16305.5 & 15547.5 & 16424.2 & 15521.5 & 16623   & 16477   & 16582.5 \\ \hline
+			\multicolumn{1}{|l|}{SOM-b\_15} & 35615.8 & 34058   & 35647.8 & 34386   & 35622.5 & 35846   & 35817.5 \\ \hline
+			\multicolumn{1}{|l|}{SOM-b\_16} & 61871.5 & 59912.5 & 61995.1 & 60079.5 & 62317   & 62406.5 & 62044   \\ \hline
+			\multicolumn{1}{|l|}{SOM-b\_17} & 6605.75 & 6290.5  & 6694.45 & 6289    & 6876.5  & 6904    & 6749.5  \\ \hline
+			\multicolumn{1}{|l|}{SOM-b\_18} & 25023.5 & 23966   & 25206   & 23889.5 & 25259   & 25481   & 25396   \\ \hline
+			\multicolumn{1}{|l|}{SOM-b\_19} & 54865.7 & 53187   & 55060.9 & 52865.5 & 55603   & 55468   & 55556   \\ \hline
+			\multicolumn{1}{|l|}{SOM-b\_20} & 95792.9 & 92998.5 & 96038.6 & 93193   & 96319.5 & 96633.5 & 96542.5 \\ \hline
+			\multicolumn{1}{|l|}{GKD-c\_21} & 17608.8 & 17017   & 17645.8 & 17128.3 & 17915.9 & 17899.7 & 17918.7 \\ \hline
+			\multicolumn{1}{|l|}{GKD-c\_22} & 17756.5 & 17155.2 & 17834   & 17138.8 & 18112.5 & 17973.1 & 17888.4 \\ \hline
+			\multicolumn{1}{|l|}{GKD-c\_23} & 17718   & 16929   & 17732.2 & 17027.1 & 17857.5 & 17968.2 & 17932.2 \\ \hline
+			\multicolumn{1}{|l|}{GKD-c\_24} & 17749.5 & 16981.2 & 17746.4 & 17104.2 & 17791.6 & 17749.5 & 17963.5 \\ \hline
+			\multicolumn{1}{|l|}{GKD-c\_25} & 17658.9 & 16816.9 & 17697.5 & 16992.3 & 17864.3 & 17820   & 17833.4 \\ \hline
+			\multicolumn{1}{|l|}{GKD-c\_26} & 17582.4 & 17116.2 & 17615.8 & 17145.5 & 17856.2 & 17790.8 & 17843.8 \\ \hline
+			\multicolumn{1}{|l|}{GKD-c\_27} & 17810   & 17096.8 & 17850.3 & 17070.8 & 17977.6 & 18038.6 & 17998.8 \\ \hline
+			\multicolumn{1}{|l|}{GKD-c\_28} & 17649.3 & 17063   & 17734.5 & 17089.3 & 17948.9 & 18002.1 & 17819.3 \\ \hline
+			\multicolumn{1}{|l|}{GKD-c\_29} & 17414.2 & 16761   & 17454.3 & 16822.8 & 17639.5 & 17532.5 & 17543.2 \\ \hline
+			\multicolumn{1}{|l|}{GKD-c\_30} & 17721.8 & 16915.6 & 17706.5 & 17085.6 & 17850.2 & 17969.3 & 17963.6 \\ \hline
+		\end{tabular}
+		\caption{ Experimento 1 - Costes }
+		\label{211}
+	\end{table}
+
+	\begin{table}[H]
+		\begin{tabular}{l|l|l|l|l|l|l|l|}
+			\cline{2-8}
+			& AGGu     & AGGp     & AGEu     & AGEp     & AM0      & AM1      & AM1      \\ \hline
+			\multicolumn{1}{|l|}{MDG-a\_1}  & 24.4233  & 23.8637  & 24.1219  & 23.6219  & 21.9402  & 23.2932  & 22.797   \\ \hline
+			\multicolumn{1}{|l|}{MDG-a\_2}  & 24.405   & 23.8894  & 24.2071  & 23.4312  & 22.0997  & 22.2993  & 23.3811  \\ \hline
+			\multicolumn{1}{|l|}{MDG-a\_3}  & 24.3328  & 23.852   & 24.3339  & 23.8606  & 23.2322  & 23.1624  & 23.1435  \\ \hline
+			\multicolumn{1}{|l|}{MDG-a\_4}  & 24.3705  & 23.9463  & 24.1634  & 23.3537  & 22.8015  & 23.107   & 23.0078  \\ \hline
+			\multicolumn{1}{|l|}{MDG-a\_5}  & 24.4211  & 23.7319  & 24.2868  & 23.9673  & 21.8929  & 22.533   & 22.8683  \\ \hline
+			\multicolumn{1}{|l|}{MDG-a\_6}  & 24.4364  & 24.5861  & 24.3023  & 23.8618  & 22.3339  & 22.3768  & 23.0249  \\ \hline
+			\multicolumn{1}{|l|}{MDG-a\_7}  & 24.3507  & 24.0536  & 24.1702  & 23.6154  & 22.6294  & 22.3369  & 23.1606  \\ \hline
+			\multicolumn{1}{|l|}{MDG-a\_8}  & 24.4853  & 23.6647  & 24.0161  & 23.2876  & 22.6126  & 22.6438  & 22.8375  \\ \hline
+			\multicolumn{1}{|l|}{MDG-a\_9}  & 24.4153  & 23.7216  & 24.2415  & 24.2212  & 22.7098  & 22.8243  & 21.8571  \\ \hline
+			\multicolumn{1}{|l|}{MDG-a\_10} & 24.3466  & 23.4462  & 24.1385  & 24.1119  & 22.6193  & 22.8244  & 22.7726  \\ \hline
+			\multicolumn{1}{|l|}{SOM-b\_11} & 1.20194  & 1.18055  & 1.20846  & 1.1629   & 1.24611  & 1.20307  & 1.20698  \\ \hline
+			\multicolumn{1}{|l|}{SOM-b\_12} & 1.59528  & 1.53491  & 1.57967  & 1.58228  & 1.94155  & 1.61071  & 1.58557  \\ \hline
+			\multicolumn{1}{|l|}{SOM-b\_13} & 0.868631 & 0.812625 & 0.857292 & 0.891678 & 0.438967 & 0.734924 & 0.853313 \\ \hline
+			\multicolumn{1}{|l|}{SOM-b\_14} & 1.5129   & 1.48241  & 1.47245  & 1.42183  & 1.22705  & 1.41789  & 1.48675  \\ \hline
+			\multicolumn{1}{|l|}{SOM-b\_15} & 2.09646  & 2.00823  & 2.08278  & 2.19775  & 2.40745  & 2.12159  & 2.08059  \\ \hline
+			\multicolumn{1}{|l|}{SOM-b\_16} & 2.76473  & 2.65904  & 2.72259  & 2.68241  & 3.72652  & 2.86986  & 2.78566  \\ \hline
+			\multicolumn{1}{|l|}{SOM-b\_17} & 1.37386  & 1.30215  & 1.3465   & 1.32537  & 0.740074 & 1.19312  & 1.35607  \\ \hline
+			\multicolumn{1}{|l|}{SOM-b\_18} & 2.35214  & 2.22628  & 2.29393  & 2.21181  & 2.1313   & 2.30068  & 2.35398  \\ \hline
+			\multicolumn{1}{|l|}{SOM-b\_19} & 3.30494  & 3.23536  & 3.29586  & 3.2272   & 4.0674   & 3.36809  & 3.38204  \\ \hline
+			\multicolumn{1}{|l|}{SOM-b\_20} & 4.31045  & 4.23414  & 4.30605  & 4.14887  & 5.91416  & 4.61186  & 4.42713  \\ \hline
+			\multicolumn{1}{|l|}{GKD-c\_21} & 1.36727  & 1.32412  & 1.35354  & 1.25208  & 0.765945 & 1.2595   & 1.33338  \\ \hline
+			\multicolumn{1}{|l|}{GKD-c\_22} & 1.3738   & 1.30634  & 1.35173  & 1.24574  & 0.728988 & 1.20548  & 1.31984  \\ \hline
+			\multicolumn{1}{|l|}{GKD-c\_23} & 1.37431  & 1.28311  & 1.35425  & 1.33676  & 0.767462 & 1.25363  & 1.33645  \\ \hline
+			\multicolumn{1}{|l|}{GKD-c\_24} & 1.35535  & 1.3561   & 1.33929  & 1.31544  & 0.751525 & 1.16892  & 1.34858  \\ \hline
+			\multicolumn{1}{|l|}{GKD-c\_25} & 1.36712  & 1.27663  & 1.33415  & 1.32144  & 0.733905 & 1.225    & 1.34138  \\ \hline
+			\multicolumn{1}{|l|}{GKD-c\_26} & 1.37671  & 1.34339  & 1.35847  & 1.33036  & 0.740275 & 1.25453  & 1.38125  \\ \hline
+			\multicolumn{1}{|l|}{GKD-c\_27} & 1.39016  & 1.31565  & 1.34685  & 1.30794  & 0.768023 & 1.18297  & 1.41582  \\ \hline
+			\multicolumn{1}{|l|}{GKD-c\_28} & 1.37054  & 1.34797  & 1.33595  & 1.27007  & 0.732937 & 1.20843  & 1.31878  \\ \hline
+			\multicolumn{1}{|l|}{GKD-c\_29} & 1.34627  & 1.30072  & 1.36707  & 1.29795  & 0.754039 & 1.23594  & 1.4178   \\ \hline
+			\multicolumn{1}{|l|}{GKD-c\_30} & 1.33805  & 1.30159  & 1.34684  & 1.32056  & 0.751667 & 1.19237  & 1.31282  \\ \hline
+		\end{tabular}
+		\caption{ Experimento 1 - Tiempos (s) }
+		\label{212}
+	\end{table}
+
+	\begin{table}[H]
+		\begin{tabular}{l|l|l|l|l|l|l|l|}
+			\cline{2-8}
+			& AGGu    & AGGp   & AGEu  & AGEp  & AM0    & AM1    & AM1    \\ \hline
+			\multicolumn{1}{|l|}{MDG-a\_1}  & 1997.5  & 1995.5 & 24975 & 24975 & 1320.5 & 1904.5 & 1980   \\ \hline
+			\multicolumn{1}{|l|}{MDG-a\_2}  & 1996.35 & 1997   & 24975 & 24975 & 1368.5 & 1906   & 1976.5 \\ \hline
+			\multicolumn{1}{|l|}{MDG-a\_3}  & 1997.75 & 1997   & 24975 & 24975 & 1357   & 1904   & 1976.5 \\ \hline
+			\multicolumn{1}{|l|}{MDG-a\_4}  & 1995.6  & 1996   & 24975 & 24975 & 1370.5 & 1903   & 1974.5 \\ \hline
+			\multicolumn{1}{|l|}{MDG-a\_5}  & 1997.3  & 1995.5 & 24975 & 24975 & 1328   & 1908.5 & 1976.5 \\ \hline
+			\multicolumn{1}{|l|}{MDG-a\_6}  & 1996.3  & 1996   & 24975 & 24975 & 1340   & 1897   & 1969   \\ \hline
+			\multicolumn{1}{|l|}{MDG-a\_7}  & 1997.9  & 1998   & 24975 & 24975 & 1328   & 1903   & 1978   \\ \hline
+			\multicolumn{1}{|l|}{MDG-a\_8}  & 1997.6  & 1999.5 & 24975 & 24975 & 1334   & 1902   & 1979   \\ \hline
+			\multicolumn{1}{|l|}{MDG-a\_9}  & 1997    & 1992.5 & 24975 & 24975 & 1369   & 1903.5 & 1977.5 \\ \hline
+			\multicolumn{1}{|l|}{MDG-a\_10} & 1997.8  & 2001   & 24975 & 24975 & 1348   & 1902.5 & 1975.5 \\ \hline
+			\multicolumn{1}{|l|}{SOM-b\_11} & 1997.55 & 1992.5 & 24975 & 24975 & 1020   & 1826.5 & 1955.5 \\ \hline
+			\multicolumn{1}{|l|}{SOM-b\_12} & 1996.75 & 1994   & 24975 & 24975 & 1139.5 & 1866.5 & 1963.5 \\ \hline
+			\multicolumn{1}{|l|}{SOM-b\_13} & 1995.8  & 1995.5 & 24975 & 24975 & 591    & 1624   & 1910   \\ \hline
+			\multicolumn{1}{|l|}{SOM-b\_14} & 1997.45 & 1994   & 24975 & 24975 & 873.5  & 1794.5 & 1949   \\ \hline
+			\multicolumn{1}{|l|}{SOM-b\_15} & 1995.45 & 1997   & 24975 & 24975 & 1115   & 1856   & 1965.5 \\ \hline
+			\multicolumn{1}{|l|}{SOM-b\_16} & 1997.45 & 1998   & 24975 & 24975 & 1340   & 1896.5 & 1980   \\ \hline
+			\multicolumn{1}{|l|}{SOM-b\_17} & 1996.2  & 1993.5 & 24975 & 24975 & 668    & 1696.5 & 1927   \\ \hline
+			\multicolumn{1}{|l|}{SOM-b\_18} & 1995.5  & 1995   & 24975 & 24975 & 1025   & 1824.5 & 1958.5 \\ \hline
+			\multicolumn{1}{|l|}{SOM-b\_19} & 1997.1  & 1994   & 24975 & 24975 & 1310   & 1894   & 1974.5 \\ \hline
+			\multicolumn{1}{|l|}{SOM-b\_20} & 1997.55 & 1997   & 24975 & 24975 & 1372   & 1908.5 & 1971.5 \\ \hline
+			\multicolumn{1}{|l|}{GKD-c\_21} & 1997.3  & 1995.5 & 24975 & 24975 & 704.5  & 1699.5 & 1929.5 \\ \hline
+			\multicolumn{1}{|l|}{GKD-c\_22} & 1996.6  & 2000   & 24975 & 24975 & 675    & 1694   & 1922   \\ \hline
+			\multicolumn{1}{|l|}{GKD-c\_23} & 1995    & 1995   & 24975 & 24975 & 705    & 1689   & 1928.5 \\ \hline
+			\multicolumn{1}{|l|}{GKD-c\_24} & 1997.1  & 1996.5 & 24975 & 24975 & 720    & 1706   & 1928   \\ \hline
+			\multicolumn{1}{|l|}{GKD-c\_25} & 1995.6  & 1997.5 & 24975 & 24975 & 680    & 1692.5 & 1925   \\ \hline
+			\multicolumn{1}{|l|}{GKD-c\_26} & 1997.1  & 1992.5 & 24975 & 24975 & 679.5  & 1693   & 1918.5 \\ \hline
+			\multicolumn{1}{|l|}{GKD-c\_27} & 1994.9  & 1997   & 24975 & 24975 & 699    & 1688   & 1925.5 \\ \hline
+			\multicolumn{1}{|l|}{GKD-c\_28} & 1998.4  & 1997.5 & 24975 & 24975 & 670    & 1685.5 & 1917   \\ \hline
+			\multicolumn{1}{|l|}{GKD-c\_29} & 1996.05 & 1995.5 & 24975 & 24975 & 681.5  & 1695.5 & 1922   \\ \hline
+			\multicolumn{1}{|l|}{GKD-c\_30} & 1996.65 & 1994   & 24975 & 24975 & 700.5  & 1698.5 & 1924   \\ \hline
+		\end{tabular}
+		\caption{ Experimento 1 - Generaciones }
+		\label{213}
+	\end{table}
+
+	\begin{table}[H]
+		\begin{tabular}{l|l|l|l|l|l|l|l|}
+			\cline{2-8}
+			& AGGu    & AGGp    & AGEu     & AGEp     & AM0     & AM1     & AM2     \\ \hline
+			\multicolumn{1}{|l|}{Desv}         & 5,93    & 9,84    & 5,56     & 9,56     & 4,33    & 4,27    & 4,44    \\ \hline
+			\multicolumn{1}{|l|}{Tiempo (s)}   & 9,30    & 9,09    & 9,22     & 9,04     & 8,54    & 8,70    & 8,80    \\ \hline
+			\multicolumn{1}{|l|}{Generaciones} & 1996,75 & 1995,98 & 24975,00 & 24975,00 & 1027,75 & 1805,43 & 1951,93 \\ \hline
+		\end{tabular}
+		\caption{ Experimento 1 - Comparativa entre algoritmos }
+		\label{214}
+	\end{table}
+
+	\paragraph{ Análisis} \ \\
+	
+	Comencemos observando la tabla \ref{214} para obtener una \textbf{visión general} de los resultados obtenidos. Podemos apreciar consultando la fila $Desv$ que los algoritmos que mejores resultados obtienen son siempre los meméticos. En cuanto a los genéticos, tanto en la estrategia generacional como en la estacionaria el resultado es claro: el operador de cruce uniforme es notablemente mejor que el posicional (al menos combinándolo con el resto de operadores implementados y para los parámetros utilizados). Es por ello que en futuros experimentos no  estudiaremos ni AGGp ni AGEp. \\
+	
+	En cuanto a los \textbf{tiempos}, los resultados son realmente consistentes. Si bien los meméticos son un poco más rápidos, la diferencia no llegar a ser notable. Consultando la tabla \ref{212} vemos que para las entradas más grandes ($MDG$), los valores de todos los algoritmos oscilan entre 21 y 24 segundos. Ante tan breve variación podemos asumir que el "mejor" algoritmo será el que mejor valores obtenga, considerando que hemos fijado el número máximo de iteraciones. \\
+	
+	Volvemos a \ref{214} para observar el número medio de \textbf{generaciones} obtenido. En primer lugar puede parecer curioso que ambos algoritmos AGE obtengan exactamente el mismo valor medio. Adicionalmente, si observamos la tabla \ref{213} podemos ver como se obtienen 24975 generaciones para todos los experimentos (recordemos que este valor a su vez es una media entre 30 ejecuciones). Sin embargo, no podía ser de otra forma: el número de evaluaciones por generación de este algoritmos esta fijado de antemano, es exactamente dos. Considerando las 50 evaluaciones iniciales para inicializar la población, es lo esperado obtener exactamente $(50.000 - 50) / 2 = 24.975$ generaciones. \\
+	
+	Por otro lado, realizando una operación sencilla ( $n_evaluaciones / n_generaciones$) vemos que el número de evaluaciones por generación obtenido para los AGG oscila entorno a $2,5$. Los algoritmos meméticos obtienen valores parecidos exceptuando el $AM0$, que ejecuta la búsqueda local para toda la población cada 10 iteraciones, obtiene 5 una media aproximada de 5 evaluaciones por generación. \\
+	
+	Finalmente comparamos la eficacia de los algoritmos AGGu y AGEu. Para ello observamos la fila Desv en \ref{214} y los test-cases $MDG$ en la tabla \ref{211}. En ellos podemos ver como el AGEu obtiene valores ligeramente mayores que el AGGu en la mayoria de los casos. Sin embargo estos casos se encuentran realmente alejados de los mejores valores que oscilan entre $113.000$ y $114.000$, como podemos ver en la columna de óptimos de la tabla \ref{costes}. Como cabría esperar, todos los algoritmos meméticos obtienen mayores valores de $fitness$, siendo el mejor de ellos $AM1$, que aplicaba la búsqueda local a elementos arbitrarios de la población. \\
+	
+	De cara al siguiente experimento restringimos el conjunto de algoritmos estudiado al $AGEu$ y $AM1$, añadiendo la búsqueda local de la práctica anterior y el algoritmo memético mejorado.
+	
+	\subsubsection{ Experimento 2: Comparativa con práctica 1 y memético mejorado}
+	
+	En el experimento anterior utilizábamos unicamente los algoritmos obligatorios realizados en esta práctica para la comparación, de cara a evitar trabajar simultáneamente con nueve algoritmos distintos. Procedemos ahora a comparar los dos algoritmos que mejores resultados obtuvieron en el experimento anterior ($AGEu$ y $AM1$) con la búsqueda local que mejores resultados dio en la práctica anterior ($LSD$), junto con el algoritmo memético mejorado implementado para esta práctica. \\
+	
+	Para los algoritmos $AGEu$ y $AM1$ utilizamos los datos obtenidos en el experimento anterior, mientras que para la $LSD$ no tomaremos muestras de las evaluaciones realizadas ya que no tiene sentido compararlas con las generaciones de un algoritmo genético. \\
+	
+	\begin{table}[H]
+		\centering
+		\begin{tabular}{l|l|l|l|l|}
+			\cline{2-5}
+			& AGEu    & AM1     & AMM     & LSD     \\ \hline
+			\multicolumn{1}{|l|}{MDG-a\_1}  & 109277  & 111932  & 111603  & 105344  \\ \hline
+			\multicolumn{1}{|l|}{MDG-a\_2}  & 109242  & 111468  & 111771  & 106374  \\ \hline
+			\multicolumn{1}{|l|}{MDG-a\_3}  & 109261  & 111296  & 111254  & 106137  \\ \hline
+			\multicolumn{1}{|l|}{MDG-a\_4}  & 109291  & 111738  & 111930  & 106058  \\ \hline
+			\multicolumn{1}{|l|}{MDG-a\_5}  & 109292  & 111566  & 111902  & 106222  \\ \hline
+			\multicolumn{1}{|l|}{MDG-a\_6}  & 109093  & 111768  & 111227  & 106156  \\ \hline
+			\multicolumn{1}{|l|}{MDG-a\_7}  & 109418  & 111125  & 111918  & 106126  \\ \hline
+			\multicolumn{1}{|l|}{MDG-a\_8}  & 109045  & 111738  & 111388  & 105580  \\ \hline
+			\multicolumn{1}{|l|}{MDG-a\_9}  & 109435  & 111734  & 111247  & 106000  \\ \hline
+			\multicolumn{1}{|l|}{MDG-a\_10} & 109155  & 110936  & 111274  & 105870  \\ \hline
+			\multicolumn{1}{|l|}{SOM-b\_11} & 20268   & 20371   & 20595   & 20615.5 \\ \hline
+			\multicolumn{1}{|l|}{SOM-b\_12} & 35340.9 & 35379.5 & 35698.5 & 35745   \\ \hline
+			\multicolumn{1}{|l|}{SOM-b\_13} & 4368.15 & 4484    & 4556    & 4610    \\ \hline
+			\multicolumn{1}{|l|}{SOM-b\_14} & 16424.2 & 16477   & 16882.5 & 16881   \\ \hline
+			\multicolumn{1}{|l|}{SOM-b\_15} & 35647.8 & 35846   & 36100.5 & 36130   \\ \hline
+			\multicolumn{1}{|l|}{SOM-b\_16} & 61995.1 & 62406.5 & 62670.5 & 62332.5 \\ \hline
+			\multicolumn{1}{|l|}{SOM-b\_17} & 6694.45 & 6904    & 6914    & 6992    \\ \hline
+			\multicolumn{1}{|l|}{SOM-b\_18} & 25206   & 25481   & 25764   & 25396   \\ \hline
+			\multicolumn{1}{|l|}{SOM-b\_19} & 55060.9 & 55468   & 55845   & 55189   \\ \hline
+			\multicolumn{1}{|l|}{SOM-b\_20} & 96038.6 & 96633.5 & 96832.5 & 95558   \\ \hline
+			\multicolumn{1}{|l|}{GKD-c\_21} & 17645.8 & 17899.7 & 18048.3 & 18046   \\ \hline
+			\multicolumn{1}{|l|}{GKD-c\_22} & 17834   & 17973.1 & 18206.8 & 18208.6 \\ \hline
+			\multicolumn{1}{|l|}{GKD-c\_23} & 17732.2 & 17968.2 & 18001.7 & 18032.2 \\ \hline
+			\multicolumn{1}{|l|}{GKD-c\_24} & 17746.4 & 17749.5 & 18051   & 18035.9 \\ \hline
+			\multicolumn{1}{|l|}{GKD-c\_25} & 17697.5 & 17820   & 18001.9 & 18041   \\ \hline
+			\multicolumn{1}{|l|}{GKD-c\_26} & 17615.8 & 17790.8 & 17945.6 & 17977.3 \\ \hline
+			\multicolumn{1}{|l|}{GKD-c\_27} & 17850.3 & 18038.6 & 18121.5 & 18164.7 \\ \hline
+			\multicolumn{1}{|l|}{GKD-c\_28} & 17734.5 & 18002.1 & 18085.8 & 18109.2 \\ \hline
+			\multicolumn{1}{|l|}{GKD-c\_29} & 17454.3 & 17532.5 & 17809.5 & 17825.9 \\ \hline
+			\multicolumn{1}{|l|}{GKD-c\_30} & 17706.5 & 17969.3 & 18045.5 & 18030.4 \\ \hline
+		\end{tabular}
+		\caption{ Experimento 2 - Costes }
+		\label{221}
+	\end{table}
+	
+	\begin{table}[H]
+		\centering
+		\begin{tabular}{l|l|l|l|l|}
+			\cline{2-5}
+			& AGEu     & AM1      & AMM      & LSD       \\ \hline
+			\multicolumn{1}{|l|}{MDG-a\_1}  & 24.1219  & 23.2932  & 12.9742  & 1.36342   \\ \hline
+			\multicolumn{1}{|l|}{MDG-a\_2}  & 24.2071  & 22.2993  & 13.3091  & 1.6805    \\ \hline
+			\multicolumn{1}{|l|}{MDG-a\_3}  & 24.3339  & 23.1624  & 13.1407  & 1.6231    \\ \hline
+			\multicolumn{1}{|l|}{MDG-a\_4}  & 24.1634  & 23.107   & 13.5073  & 1.47381   \\ \hline
+			\multicolumn{1}{|l|}{MDG-a\_5}  & 24.2868  & 22.533   & 13.3399  & 1.3582    \\ \hline
+			\multicolumn{1}{|l|}{MDG-a\_6}  & 24.3023  & 22.3768  & 13.4465  & 1.34014   \\ \hline
+			\multicolumn{1}{|l|}{MDG-a\_7}  & 24.1702  & 22.3369  & 13.1167  & 1.37532   \\ \hline
+			\multicolumn{1}{|l|}{MDG-a\_8}  & 24.0161  & 22.6438  & 13.3501  & 1.37907   \\ \hline
+			\multicolumn{1}{|l|}{MDG-a\_9}  & 24.2415  & 22.8243  & 13.5913  & 1.4398    \\ \hline
+			\multicolumn{1}{|l|}{MDG-a\_10} & 24.1385  & 22.8244  & 13.3084  & 1.15298   \\ \hline
+			\multicolumn{1}{|l|}{SOM-b\_11} & 1.20846  & 1.20307  & 0.744437 & 0.108794  \\ \hline
+			\multicolumn{1}{|l|}{SOM-b\_12} & 1.57967  & 1.61071  & 1.15973  & 0.207137  \\ \hline
+			\multicolumn{1}{|l|}{SOM-b\_13} & 0.857292 & 0.734924 & 0.379541 & 0.0220685 \\ \hline
+			\multicolumn{1}{|l|}{SOM-b\_14} & 1.47245  & 1.41789  & 0.791695 & 0.120156  \\ \hline
+			\multicolumn{1}{|l|}{SOM-b\_15} & 2.08278  & 2.12159  & 1.31182  & 0.31353   \\ \hline
+			\multicolumn{1}{|l|}{SOM-b\_16} & 2.72259  & 2.86986  & 1.9723   & 0.515377  \\ \hline
+			\multicolumn{1}{|l|}{SOM-b\_17} & 1.3465   & 1.19312  & 0.585186 & 0.0500965 \\ \hline
+			\multicolumn{1}{|l|}{SOM-b\_18} & 2.29393  & 2.30068  & 1.23769  & 0.201794  \\ \hline
+			\multicolumn{1}{|l|}{SOM-b\_19} & 3.29586  & 3.36809  & 2.07114  & 0.40222   \\ \hline
+			\multicolumn{1}{|l|}{SOM-b\_20} & 4.30605  & 4.61186  & 3.05897  & 0.619741  \\ \hline
+			\multicolumn{1}{|l|}{GKD-c\_21} & 1.35354  & 1.2595   & 0.594739 & 0.0729705 \\ \hline
+			\multicolumn{1}{|l|}{GKD-c\_22} & 1.35173  & 1.20548  & 0.594813 & 0.0750675 \\ \hline
+			\multicolumn{1}{|l|}{GKD-c\_23} & 1.35425  & 1.25363  & 0.574288 & 0.0886425 \\ \hline
+			\multicolumn{1}{|l|}{GKD-c\_24} & 1.33929  & 1.16892  & 0.593927 & 0.079868  \\ \hline
+			\multicolumn{1}{|l|}{GKD-c\_25} & 1.33415  & 1.225    & 0.590534 & 0.0821845 \\ \hline
+			\multicolumn{1}{|l|}{GKD-c\_26} & 1.35847  & 1.25453  & 0.602524 & 0.0644635 \\ \hline
+			\multicolumn{1}{|l|}{GKD-c\_27} & 1.34685  & 1.18297  & 0.582689 & 0.0856165 \\ \hline
+			\multicolumn{1}{|l|}{GKD-c\_28} & 1.33595  & 1.20843  & 0.600887 & 0.0891885 \\ \hline
+			\multicolumn{1}{|l|}{GKD-c\_29} & 1.36707  & 1.23594  & 0.590709 & 0.06394   \\ \hline
+			\multicolumn{1}{|l|}{GKD-c\_30} & 1.34684  & 1.19237  & 0.593216 & 0.091104  \\ \hline
+		\end{tabular}
+		\caption{ Experimento 2 - Tiempos (s) }
+		\label{222}
+	\end{table}	
+	
+	\begin{table}[H]
+		\centering
+		\begin{tabular}{l|l|l|l|}
+			\cline{2-4}
+			& AGEu  & AM1    & AMM   \\ \hline
+			\multicolumn{1}{|l|}{MDG-a\_1}  & 24975 & 1904.5 & 770   \\ \hline
+			\multicolumn{1}{|l|}{MDG-a\_2}  & 24975 & 1906   & 770   \\ \hline
+			\multicolumn{1}{|l|}{MDG-a\_3}  & 24975 & 1904   & 770.5 \\ \hline
+			\multicolumn{1}{|l|}{MDG-a\_4}  & 24975 & 1903   & 770   \\ \hline
+			\multicolumn{1}{|l|}{MDG-a\_5}  & 24975 & 1908.5 & 770   \\ \hline
+			\multicolumn{1}{|l|}{MDG-a\_6}  & 24975 & 1897   & 770   \\ \hline
+			\multicolumn{1}{|l|}{MDG-a\_7}  & 24975 & 1903   & 770   \\ \hline
+			\multicolumn{1}{|l|}{MDG-a\_8}  & 24975 & 1902   & 770   \\ \hline
+			\multicolumn{1}{|l|}{MDG-a\_9}  & 24975 & 1903.5 & 770   \\ \hline
+			\multicolumn{1}{|l|}{MDG-a\_10} & 24975 & 1902.5 & 770   \\ \hline
+			\multicolumn{1}{|l|}{SOM-b\_11} & 24975 & 1826.5 & 810   \\ \hline
+			\multicolumn{1}{|l|}{SOM-b\_12} & 24975 & 1866.5 & 945   \\ \hline
+			\multicolumn{1}{|l|}{SOM-b\_13} & 24975 & 1624   & 795   \\ \hline
+			\multicolumn{1}{|l|}{SOM-b\_14} & 24975 & 1794.5 & 824.5 \\ \hline
+			\multicolumn{1}{|l|}{SOM-b\_15} & 24975 & 1856   & 810   \\ \hline
+			\multicolumn{1}{|l|}{SOM-b\_16} & 24975 & 1896.5 & 780   \\ \hline
+			\multicolumn{1}{|l|}{SOM-b\_17} & 24975 & 1696.5 & 776   \\ \hline
+			\multicolumn{1}{|l|}{SOM-b\_18} & 24975 & 1824.5 & 770   \\ \hline
+			\multicolumn{1}{|l|}{SOM-b\_19} & 24975 & 1894   & 775.5 \\ \hline
+			\multicolumn{1}{|l|}{SOM-b\_20} & 24975 & 1908.5 & 770   \\ \hline
+			\multicolumn{1}{|l|}{GKD-c\_21} & 24975 & 1699.5 & 775.5 \\ \hline
+			\multicolumn{1}{|l|}{GKD-c\_22} & 24975 & 1694   & 772   \\ \hline
+			\multicolumn{1}{|l|}{GKD-c\_23} & 24975 & 1689   & 777   \\ \hline
+			\multicolumn{1}{|l|}{GKD-c\_24} & 24975 & 1706   & 776.5 \\ \hline
+			\multicolumn{1}{|l|}{GKD-c\_25} & 24975 & 1692.5 & 771   \\ \hline
+			\multicolumn{1}{|l|}{GKD-c\_26} & 24975 & 1693   & 771   \\ \hline
+			\multicolumn{1}{|l|}{GKD-c\_27} & 24975 & 1688   & 778   \\ \hline
+			\multicolumn{1}{|l|}{GKD-c\_28} & 24975 & 1685.5 & 776   \\ \hline
+			\multicolumn{1}{|l|}{GKD-c\_29} & 24975 & 1695.5 & 772.5 \\ \hline
+			\multicolumn{1}{|l|}{GKD-c\_30} & 24975 & 1698.5 & 775   \\ \hline
+		\end{tabular}
+		\caption{ Experimento 2 - Generaciones }
+		\label{223}
+	\end{table}
+	
+	\begin{table}[H]
+		\centering
+		\begin{tabular}{l|l|l|l|l|}
+			\cline{2-5}
+			& AGEu     & AM1     & AMM    & LSD                    \\ \hline
+			\multicolumn{1}{|l|}{Desv}         & 5,56     & 4,27    & 3,69   & 5,35                   \\ \hline
+			\multicolumn{1}{|l|}{Tiempo (s)}   & 9,22     & 8,70    & 5,08   & 0,58                   \\ \hline
+			\multicolumn{1}{|l|}{Generaciones} & 24975,00 & 1805,43 & 783,37 & \multicolumn{1}{c|}{-} \\ \hline
+		\end{tabular}
+		\caption{ Experimento 2 - Comparativa entre algoritmos }
+		\label{224}
+	\end{table}
+	
+	\paragraph{ Análisis } \ \\
+	
+	Comparando en primer lugar la $LSD$ con el resto de algoritmos, vemos en la tabla \ref{224} como obtenemos resultados ligeramente mejores que el $AGEu$, pero peores que el $AM1$. Sin embargo fijándonos en \ref{221} caso a caso vemos como para las entradas de tipo $MDG$ la búsqueda local obtiene valores considerablemente peores, mientras que en casos más reducidos queda por encima que el $AGEu$, como son las mayoría de los $SOM$ y $GKD$. Adicionalmente, los tiempos obtenidos para $LSD$ son ridículamente menores que los del resto de algoritmos. \\ 
+	
+	En resumen podríamos deducir que para problemas de tamaño reducido la búsqueda local obtiene no solo mejores resultados sino tiempos muchos menores que los algoritmos genéticos, mientras que para casos mayores tienen un rendimiento bastante reducido. \\
+	
+	Por otro lado, con el algoritmo memético mejorado observamos en \ref{224} que se obtiene un mejor valor de $Desv$, si bien mirando caso a caso en la tabla \ref{221} las soluciones no son notablemente mejores. Sin embargo si que se ha producido una mejora notable en cuanto a tiempos que se reducen casi un 50\% en los mayores casos. \\
+	
+	De igual forma que ocurría en el experimento 3 de la práctica anterior (\ref{exp13}), el cambio en la búsqueda propicia una convergencia notablemente más rápida, si bien los valores alcanzados no presentan grandes diferencias. De igual forma que hizo el experimento 3 en la práctica anterior, estos resultados propician otro experimento para estudiar la evolución de las soluciones a nivel generacional.
 
 \end{document}

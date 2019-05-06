@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.19 (TeX Live 2018) (preloaded format=pdflatex 2019.4.11)  5 MAY 2019 10:13
+This is pdfTeX, Version 3.14159265-2.6-1.40.19 (TeX Live 2018) (preloaded format=pdflatex 2019.4.11)  6 MAY 2019 13:03
 entering extended mode
  \write18 enabled.
  %&-line parsing enabled.
@@ -429,6 +429,18 @@ Package: float 2001/11/08 v1.3d Float enhancements (AL)
 \@float@everytoks=\toks32
 \@floatcapt=\box37
 )
+(/usr/local/texlive/2018/texmf-dist/tex/latex/titlesec/titlesec.sty
+Package: titlesec 2016/03/21 v2.10.2 Sectioning titles
+\ttl@box=\box38
+\beforetitleunit=\skip50
+\aftertitleunit=\skip51
+\ttl@plus=\dimen155
+\ttl@minus=\dimen156
+\ttl@toksa=\toks33
+\titlewidth=\dimen157
+\titlewidthlast=\dimen158
+\titlewidthfirst=\dimen159
+)
 (/usr/local/texlive/2018/texmf-dist/tex/latex/listings/lstlang1.sty
 File: lstlang1.sty 2018/09/02 1.7 listings language file
 )
@@ -445,7 +457,7 @@ Package: algorithm2e 2017/07/18 v5.2 algorithms environments
 (/usr/local/texlive/2018/texmf-dist/tex/latex/base/ifthen.sty
 Package: ifthen 2014/09/29 v1.1c Standard LaTeX ifthen package (DPC)
 )
-\algocf@hangindent=\skip50
+\algocf@hangindent=\skip52
 
 (/usr/local/texlive/2018/texmf-dist/tex/latex/tools/xspace.sty
 Package: xspace 2014/10/28 v1.13 Space after command names (DPC,MH)
@@ -453,41 +465,41 @@ Package: xspace 2014/10/28 v1.13 Space after command names (DPC,MH)
 (/usr/local/texlive/2018/texmf-dist/tex/latex/relsize/relsize.sty
 Package: relsize 2013/03/29 ver 4.1
 )
-\skiptotal=\skip51
-\skiplinenumber=\skip52
-\skiprule=\skip53
-\skiphlne=\skip54
-\skiptext=\skip55
-\skiplength=\skip56
-\algomargin=\skip57
-\skipalgocfslide=\skip58
-\algowidth=\dimen155
-\inoutsize=\dimen156
-\inoutindent=\dimen157
-\interspacetitleruled=\dimen158
-\interspacealgoruled=\dimen159
-\interspacetitleboxruled=\dimen160
-\algocf@ruledwidth=\skip59
-\algocf@inoutbox=\box38
-\algocf@inputbox=\box39
-\AlCapSkip=\skip60
-\AlCapHSkip=\skip61
-\algoskipindent=\skip62
-\algocf@nlbox=\box40
-\algocf@hangingbox=\box41
-\algocf@untilbox=\box42
-\algocf@skipuntil=\skip63
-\algocf@capbox=\box43
-\algocf@lcaptionbox=\skip64
-\algoheightruledefault=\skip65
-\algoheightrule=\skip66
-\algotitleheightruledefault=\skip67
-\algotitleheightrule=\skip68
+\skiptotal=\skip53
+\skiplinenumber=\skip54
+\skiprule=\skip55
+\skiphlne=\skip56
+\skiptext=\skip57
+\skiplength=\skip58
+\algomargin=\skip59
+\skipalgocfslide=\skip60
+\algowidth=\dimen160
+\inoutsize=\dimen161
+\inoutindent=\dimen162
+\interspacetitleruled=\dimen163
+\interspacealgoruled=\dimen164
+\interspacetitleboxruled=\dimen165
+\algocf@ruledwidth=\skip61
+\algocf@inoutbox=\box39
+\algocf@inputbox=\box40
+\AlCapSkip=\skip62
+\AlCapHSkip=\skip63
+\algoskipindent=\skip64
+\algocf@nlbox=\box41
+\algocf@hangingbox=\box42
+\algocf@untilbox=\box43
+\algocf@skipuntil=\skip65
+\algocf@capbox=\box44
+\algocf@lcaptionbox=\skip66
+\algoheightruledefault=\skip67
+\algoheightrule=\skip68
+\algotitleheightruledefault=\skip69
+\algotitleheightrule=\skip70
 \c@algocfline=\count133
 \c@algocfproc=\count134
 \c@algocf=\count135
-\algocf@algoframe=\box44
-\algocf@algobox=\box45
+\algocf@algoframe=\box45
+\algocf@algobox=\box46
 )
 (./memoria.aux
 LaTeX Info: Redefining \. on input line 24.
@@ -495,22 +507,22 @@ LaTeX Info: Redefining \% on input line 24.
 )
 \openout1 = `memoria.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 52.
-LaTeX Font Info:    ... okay on input line 52.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 52.
-LaTeX Font Info:    ... okay on input line 52.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 52.
-LaTeX Font Info:    ... okay on input line 52.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 52.
-LaTeX Font Info:    ... okay on input line 52.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 52.
-LaTeX Font Info:    ... okay on input line 52.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 52.
-LaTeX Font Info:    ... okay on input line 52.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 52.
-LaTeX Font Info:    ... okay on input line 52.
-LaTeX Info: Redefining \. on input line 52.
-LaTeX Info: Redefining \% on input line 52.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 56.
+LaTeX Font Info:    ... okay on input line 56.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 56.
+LaTeX Font Info:    ... okay on input line 56.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 56.
+LaTeX Font Info:    ... okay on input line 56.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 56.
+LaTeX Font Info:    ... okay on input line 56.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 56.
+LaTeX Font Info:    ... okay on input line 56.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 56.
+LaTeX Font Info:    ... okay on input line 56.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 56.
+LaTeX Font Info:    ... okay on input line 56.
+LaTeX Info: Redefining \. on input line 56.
+LaTeX Info: Redefining \% on input line 56.
 Package caption Info: Begin \AtBeginDocument code.
 Package caption Info: float package is loaded.
 Package caption Info: hyperref package is loaded.
@@ -521,16 +533,16 @@ Package caption Info: End \AtBeginDocument code.
 (/usr/local/texlive/2018/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
 \scratchcounter=\count137
-\scratchdimen=\dimen161
-\scratchbox=\box46
+\scratchdimen=\dimen166
+\scratchbox=\box47
 \nofMPsegments=\count138
 \nofMParguments=\count139
-\everyMPshowfont=\toks33
+\everyMPshowfont=\toks34
 \MPscratchCnt=\count140
-\MPscratchDim=\dimen162
+\MPscratchDim=\dimen167
 \MPnumerator=\count141
 \makeMPintoPDFobject=\count142
-\everyMPtoPDFconversion=\toks34
+\everyMPtoPDFconversion=\toks35
 ) (/usr/local/texlive/2018/texmf-dist/tex/latex/oberdiek/epstopdf-base.sty
 Package: epstopdf-base 2016/05/15 v2.6 Base part for package epstopdf
 
@@ -582,8 +594,8 @@ e
 * \@reversemarginfalse
 * (1in=72.27pt=25.4mm, 1cm=28.453pt)
 
-\AtBeginShipoutBox=\box47
-Package hyperref Info: Link coloring OFF on input line 52.
+\AtBeginShipoutBox=\box48
+Package hyperref Info: Link coloring OFF on input line 56.
 (/usr/local/texlive/2018/texmf-dist/tex/latex/hyperref/nameref.sty
 Package: nameref 2016/05/21 v2.44 Cross-referencing by name of section
 
@@ -592,20 +604,20 @@ Package: gettitlestring 2016/05/16 v1.5 Cleanup title references (HO)
 )
 \c@section@level=\count143
 )
-LaTeX Info: Redefining \ref on input line 52.
-LaTeX Info: Redefining \pageref on input line 52.
-LaTeX Info: Redefining \nameref on input line 52.
+LaTeX Info: Redefining \ref on input line 56.
+LaTeX Info: Redefining \pageref on input line 56.
+LaTeX Info: Redefining \nameref on input line 56.
 
 (./memoria.out) (./memoria.out)
 \@outlinefile=\write3
 \openout3 = `memoria.out'.
 
-LaTeX Font Info:    Try loading font information for U+msa on input line 55.
+LaTeX Font Info:    Try loading font information for U+msa on input line 59.
 
 (/usr/local/texlive/2018/texmf-dist/tex/latex/amsfonts/umsa.fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
-LaTeX Font Info:    Try loading font information for U+msb on input line 55.
+LaTeX Font Info:    Try loading font information for U+msb on input line 59.
 
 (/usr/local/texlive/2018/texmf-dist/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
@@ -621,128 +633,117 @@ LaTeX Info: Redefining \% on input line 1.
 
 
 [2]
-Underfull \hbox (badness 10000) in paragraph at lines 83--84
+Underfull \hbox (badness 10000) in paragraph at lines 87--88
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 89--90
+Underfull \hbox (badness 10000) in paragraph at lines 93--94
 
  []
 
 [3]
-LaTeX Font Info:    Try loading font information for OMS+cmr on input line 100.
+LaTeX Font Info:    Try loading font information for OMS+cmr on input line 104.
 
  (/usr/local/texlive/2018/texmf-dist/tex/latex/base/omscmr.fd
 File: omscmr.fd 2014/09/29 v2.5h Standard LaTeX font definitions
 )
 LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <9> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 100.
-LaTeX Font Info:    Try loading font information for OML+cmr on input line 101.
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 104.
+LaTeX Font Info:    Try loading font information for OML+cmr on input line 105.
 
 
 (/usr/local/texlive/2018/texmf-dist/tex/latex/base/omlcmr.fd
 File: omlcmr.fd 2014/09/29 v2.5h Standard LaTeX font definitions
 )
 LaTeX Font Info:    Font shape `OML/cmr/m/n' in size <9> not available
-(Font)              Font shape `OML/cmm/m/it' tried instead on input line 101.
+(Font)              Font shape `OML/cmm/m/it' tried instead on input line 105.
 
-Underfull \hbox (badness 10000) in paragraph at lines 106--107
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 108--109
+Underfull \hbox (badness 10000) in paragraph at lines 110--111
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 114--115
+Underfull \hbox (badness 10000) in paragraph at lines 112--113
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 118--119
 
  []
 
 [4]
-Underfull \hbox (badness 10000) in paragraph at lines 171--172
+Underfull \hbox (badness 10000) in paragraph at lines 175--176
 
  []
 
 [5] [6]
-Underfull \hbox (badness 10000) in paragraph at lines 255--256
+Underfull \hbox (badness 10000) in paragraph at lines 259--260
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 257--258
+Underfull \hbox (badness 10000) in paragraph at lines 261--262
 
  []
 
 [7]
-Underfull \hbox (badness 10000) in paragraph at lines 309--310
+Underfull \hbox (badness 10000) in paragraph at lines 313--314
 
  []
 
 [8]
-Underfull \hbox (badness 10000) in paragraph at lines 343--344
+Underfull \hbox (badness 10000) in paragraph at lines 347--348
 
  []
 
 [9]
-Underfull \hbox (badness 10000) in paragraph at lines 373--374
+Underfull \hbox (badness 10000) in paragraph at lines 377--378
 
  []
 
 
-Overfull \hbox (31.12827pt too wide) in paragraph at lines 375--376
+Overfull \hbox (31.12827pt too wide) in paragraph at lines 379--380
 \OT1/cmr/m/n/10.95 tan-cias a los ele-men-tos de $\OML/cmm/m/it/10.95 seleccion
 ados$ \OT1/cmr/m/n/10.95 es m^^Saxi-ma. Pa-ra ello uti-li-za-mos la fun-ci^^Son
  $\OML/cmm/m/it/10.95 SingleContribution$
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 375--376
+Underfull \hbox (badness 10000) in paragraph at lines 379--380
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 394--395
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 406--407
+Underfull \hbox (badness 10000) in paragraph at lines 398--399
 
  []
 
 [10]
+Underfull \hbox (badness 10000) in paragraph at lines 410--411
+
+ []
+
 LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <10.95> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 421.
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 425.
 
-Underfull \hbox (badness 10000) in paragraph at lines 425--426
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 441--442
+Underfull \hbox (badness 10000) in paragraph at lines 429--430
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 443--444
+Underfull \hbox (badness 10000) in paragraph at lines 445--446
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 447--448
 
  []
 
 [11]
-Underfull \hbox (badness 10000) in paragraph at lines 454--455
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 473--474
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 475--476
+Underfull \hbox (badness 10000) in paragraph at lines 458--459
 
  []
 
@@ -751,175 +752,288 @@ Underfull \hbox (badness 10000) in paragraph at lines 477--478
 
  []
 
+
+Underfull \hbox (badness 10000) in paragraph at lines 479--480
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 481--482
+
+ []
+
 [12]
-Underfull \hbox (badness 10000) in paragraph at lines 517--518
+Underfull \hbox (badness 10000) in paragraph at lines 521--522
 
  []
 
 [13]
-Underfull \hbox (badness 10000) in paragraph at lines 538--539
+Underfull \hbox (badness 10000) in paragraph at lines 542--543
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 544--545
+Underfull \hbox (badness 10000) in paragraph at lines 548--549
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 546--547
+Underfull \hbox (badness 10000) in paragraph at lines 550--551
 
  []
 
 [14]
-Underfull \hbox (badness 10000) in paragraph at lines 600--601
+Underfull \hbox (badness 10000) in paragraph at lines 604--605
 
  []
 
-[15]
-Underfull \hbox (badness 10000) in paragraph at lines 655--656
+[15] [16]
+Underfull \hbox (badness 10000) in paragraph at lines 675--676
 
  []
 
-
-Underfull \hbox (badness 10000) in paragraph at lines 657--658
-
- []
-
-[16]
-Underfull \hbox (badness 10000) in paragraph at lines 659--660
+[17]
+Underfull \hbox (badness 10000) in paragraph at lines 741--742
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 661--662
+Underfull \hbox (badness 10000) in paragraph at lines 743--744
+
+ []
+
+[18]
+Underfull \hbox (badness 10000) in paragraph at lines 757--758
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 663--664
+Underfull \hbox (badness 10000) in paragraph at lines 759--760
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 665--666
+Underfull \hbox (badness 10000) in paragraph at lines 761--762
 
  []
 
 
-Overfull \hbox (34.13368pt too wide) in paragraph at lines 678--712
-[][] 
- []
-
-[17] [18]
-Underfull \hbox (badness 10000) in paragraph at lines 769--770
+Underfull \hbox (badness 10000) in paragraph at lines 763--764
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 771--772
+Underfull \hbox (badness 10000) in paragraph at lines 765--766
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 767--768
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 774--775
 
  []
 
 [19]
-Underfull \hbox (badness 10000) in paragraph at lines 773--774
+Underfull \hbox (badness 10000) in paragraph at lines 776--777
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 775--776
+Underfull \hbox (badness 10000) in paragraph at lines 778--779
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 779--780
-
+Overfull \hbox (34.13368pt too wide) in paragraph at lines 805--839
+[][] 
  []
 
-[20]
-Underfull \hbox (badness 10000) in paragraph at lines 824--825
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 826--827
+[20] [21]
+Underfull \hbox (badness 10000) in paragraph at lines 894--895
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 828--829
-
- []
-
-[21]
-Underfull \hbox (badness 10000) in paragraph at lines 832--833
-
- []
-
-[22] [23]
-Underfull \hbox (badness 10000) in paragraph at lines 965--966
+Underfull \hbox (badness 10000) in paragraph at lines 896--897
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 967--968
+Underfull \hbox (badness 10000) in paragraph at lines 898--899
+
+ []
+
+[22]
+Underfull \hbox (badness 10000) in paragraph at lines 900--901
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 902--903
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 906--907
+
+ []
+
+[23]
+Underfull \hbox (badness 10000) in paragraph at lines 949--950
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 951--952
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 953--954
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 955--956
 
  []
 
 [24]
-Underfull \hbox (badness 10000) in paragraph at lines 969--970
+Underfull \hbox (badness 10000) in paragraph at lines 959--960
 
  []
 
-<../output/P1/MDG-a_21.png, id=364, 454.69875pt x 255.95625pt>
+[25] [26]
+Underfull \hbox (badness 10000) in paragraph at lines 1090--1091
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1092--1093
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1094--1095
+
+ []
+
+[27]
+Underfull \hbox (badness 10000) in paragraph at lines 1096--1097
+
+ []
+
+<../output/P1/MDG-a_21.png, id=440, 454.69875pt x 255.95625pt>
 File: ../output/P1/MDG-a_21.png Graphic file (type png)
 <use ../output/P1/MDG-a_21.png>
-Package pdftex.def Info: ../output/P1/MDG-a_21.png  used on input line 979.
+Package pdftex.def Info: ../output/P1/MDG-a_21.png  used on input line 1106.
 (pdftex.def)             Requested size: 454.69763pt x 255.95561pt.
 
-Overfull \hbox (1.72974pt too wide) in paragraph at lines 979--981
+Overfull \hbox (1.72974pt too wide) in paragraph at lines 1106--1108
  [][] 
  []
 
-<../output/P1/SOM-b_13.png, id=365, 454.69875pt x 255.95625pt>
+<../output/P1/SOM-b_13.png, id=441, 454.69875pt x 255.95625pt>
 File: ../output/P1/SOM-b_13.png Graphic file (type png)
 <use ../output/P1/SOM-b_13.png>
-Package pdftex.def Info: ../output/P1/SOM-b_13.png  used on input line 985.
+Package pdftex.def Info: ../output/P1/SOM-b_13.png  used on input line 1112.
 (pdftex.def)             Requested size: 454.69763pt x 255.95561pt.
 
-Overfull \hbox (1.72974pt too wide) in paragraph at lines 985--986
+Overfull \hbox (1.72974pt too wide) in paragraph at lines 1112--1113
  [][] 
  []
 
-[25 <../output/P1/MDG-a_21.png (PNG copy)>]
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 992.
- [26 <../output/P1/SOM-b_13.png (PNG copy)>]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 992.
+[28 <../output/P1/MDG-a_21.png (PNG copy)>]
+Underfull \hbox (badness 10000) in paragraph at lines 1115--1116
+
+ []
+
+[29 <../output/P1/SOM-b_13.png (PNG copy)>] [30] [31]
+Underfull \hbox (badness 10000) in paragraph at lines 1254--1255
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1256--1257
+
+ []
+
+[32]
+Underfull \hbox (badness 10000) in paragraph at lines 1258--1259
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1260--1261
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1262--1263
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1264--1265
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1270--1271
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1272--1273
+
+ []
+
+[33] [34] [35]
+Underfull \hbox (badness 10000) in paragraph at lines 1407--1408
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1409--1410
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1411--1412
+
+ []
+
+[36]
+Underfull \hbox (badness 10000) in paragraph at lines 1413--1414
+
+ []
+
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 1417.
+[37]
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 1417.
  (./memoria.aux
 LaTeX Info: Redefining \. on input line 24.
 LaTeX Info: Redefining \% on input line 24.
 )
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 992.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 992.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 1417.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 1417.
 
-
-Package rerunfilecheck Warning: File `memoria.out' has changed.
-(rerunfilecheck)                Rerun to get outlines right
-(rerunfilecheck)                or use package `bookmark'.
-
-Package rerunfilecheck Info: Checksums for `memoria.out':
-(rerunfilecheck)             Before: C932E662840288926AECADD9B0BF406D;2177
-(rerunfilecheck)             After:  E68D6553FEB34C2A9C6F842ABC56B391;2282.
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 992.
+Package rerunfilecheck Info: File `memoria.out' has not changed.
+(rerunfilecheck)             Checksum: 6DBA011C2259136E9297AC9B0F93CF10;3359.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 1417.
  ) 
 Here is how much of TeX's memory you used:
- 13206 strings out of 492616
- 194603 string characters out of 6128967
- 497846 words of memory out of 5000000
- 16783 multiletter control sequences out of 15000+600000
+ 13519 strings out of 492616
+ 198580 string characters out of 6128967
+ 509840 words of memory out of 5000000
+ 17069 multiletter control sequences out of 15000+600000
  13787 words of font info for 51 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 47i,23n,97p,774b,1393s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 47i,23n,97p,880b,1395s stack positions out of 5000i,500n,10000p,200000b,80000s
 </usr/local/texlive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb
 ></usr/local/texlive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb>
 </usr/local/texlive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx9.pfb></
@@ -937,10 +1051,10 @@ ve/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmr9.pfb></usr/local/texlive/
 8/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy9.pfb></usr/local/texlive/2018/
 texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb></usr/local/texlive/2018/t
 exmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb>
-Output written on memoria.pdf (26 pages, 317162 bytes).
+Output written on memoria.pdf (37 pages, 357253 bytes).
 PDF statistics:
- 466 PDF objects out of 1000 (max. 8388607)
- 414 compressed objects within 5 object streams
- 145 named destinations out of 1000 (max. 500000)
- 243 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 601 PDF objects out of 1000 (max. 8388607)
+ 537 compressed objects within 6 object streams
+ 168 named destinations out of 1000 (max. 500000)
+ 347 words of extra memory for PDF output out of 10000 (max. 10000000)
 

@@ -44,7 +44,6 @@ $(BIN)/LSD :
 $(BIN)/stats :
 	g++ $(OPT) $(SRC)/stats.cpp -o $(BIN)/stats
 
-
 # Ejemplos
 
 examplesAGGu: $(BIN)/AGGu
@@ -88,30 +87,28 @@ examplesLSD: $(BIN)/LSD
 
 # Estadísticas
 
-$repts="2"
-
-measureAll: clean measureAM measureAMM measureLSD # measureAGGu measureAGEu measureAGGp measureAGEp
+measureAll: clean measureAM measureAMM measureLSD measureAGGu measureAGEu measureAGGp measureAGEp
 
 measureAGGu: $(BIN)/AGGu $(BIN)/stats
-	./measure.sh $(BIN)/AGGu $(OUT)/AGGu.dat $(repts)
+	./measure.sh $(BIN)/AGGu $(OUT)/AGGu.dat 30
 
 measureAGGp: $(BIN)/AGGp $(BIN)/stats
-	./measure.sh $(BIN)/AGGp $(OUT)/AGGp.dat $(repts)
+	./measure.sh $(BIN)/AGGp $(OUT)/AGGp.dat 30
 
 measureAGEp: $(BIN)/AGEp $(BIN)/stats
-	./measure.sh $(BIN)/AGEp $(OUT)/AGEp.dat $(repts)
+	./measure.sh $(BIN)/AGEp $(OUT)/AGEp.dat 30
 
 measureAGEu: $(BIN)/AGEu $(BIN)/stats
-	./measure.sh $(BIN)/AGEu $(OUT)/AGEu.dat $(repts)
+	./measure.sh $(BIN)/AGEu $(OUT)/AGEu.dat 30
 
 measureAM: $(BIN)/AM $(BIN)/stats
-	./measure.sh $(BIN)/AM $(OUT)/AM2.dat $(repts)
+	./measure.sh $(BIN)/AM $(OUT)/AM2.dat 30
 
 measureAMM: $(BIN)/AMM $(BIN)/stats
-	./measure.sh $(BIN)/AMM $(OUT)/AMM.dat $(repts)
+	./measure.sh $(BIN)/AMM $(OUT)/AMM.dat 30
 
 measureLSD: $(BIN)/LSD $(BIN)/stats
-	./measure.sh $(BIN)/AMM $(OUT)/AMM.dat $(repts)
+	./measure.sh $(BIN)/AMM $(OUT)/AMM.dat 30
 
 stats: $(BIN)/stats
 	${BIN}/stats
