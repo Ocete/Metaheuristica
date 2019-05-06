@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.19 (TeX Live 2018) (preloaded format=pdflatex 2019.4.11)  6 MAY 2019 14:55
+This is pdfTeX, Version 3.14159265-2.6-1.40.19 (TeX Live 2018) (preloaded format=pdflatex 2019.4.11)  6 MAY 2019 22:53
 entering extended mode
  \write18 enabled.
  %&-line parsing enabled.
@@ -932,7 +932,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 1098--1099
 
  []
 
-<../output/P1/MDG-a_21.png, id=440, 454.69875pt x 255.95625pt>
+<../output/P1/MDG-a_21.png, id=450, 454.69875pt x 255.95625pt>
 File: ../output/P1/MDG-a_21.png Graphic file (type png)
 <use ../output/P1/MDG-a_21.png>
 Package pdftex.def Info: ../output/P1/MDG-a_21.png  used on input line 1108.
@@ -942,7 +942,7 @@ Overfull \hbox (1.72974pt too wide) in paragraph at lines 1108--1110
  [][] 
  []
 
-<../output/P1/SOM-b_13.png, id=441, 454.69875pt x 255.95625pt>
+<../output/P1/SOM-b_13.png, id=451, 454.69875pt x 255.95625pt>
 File: ../output/P1/SOM-b_13.png Graphic file (type png)
 <use ../output/P1/SOM-b_13.png>
 Package pdftex.def Info: ../output/P1/SOM-b_13.png  used on input line 1114.
@@ -1017,32 +1017,76 @@ Underfull \hbox (badness 10000) in paragraph at lines 1415--1416
 
  []
 
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 1423.
-[37]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 1423.
+<../output/exp3/SOM1.png, id=512, 542.025pt x 328.97906pt>
+File: ../output/exp3/SOM1.png Graphic file (type png)
+<use ../output/exp3/SOM1.png>
+Package pdftex.def Info: ../output/exp3/SOM1.png  used on input line 1425.
+(pdftex.def)             Requested size: 487.81798pt x 296.07841pt.
+
+Overfull \hbox (34.85008pt too wide) in paragraph at lines 1425--1427
+ [][] 
+ []
+
+<../output/exp3/SOM2.png, id=513, 542.025pt x 328.97906pt>
+File: ../output/exp3/SOM2.png Graphic file (type png)
+<use ../output/exp3/SOM2.png>
+Package pdftex.def Info: ../output/exp3/SOM2.png  used on input line 1431.
+(pdftex.def)             Requested size: 487.81798pt x 296.07841pt.
+
+Overfull \hbox (34.85008pt too wide) in paragraph at lines 1431--1433
+ [][] 
+ []
+
+[37 <../output/exp3/SOM1.png (PNG copy)>]
+<../output/exp3/MDG1.png, id=521, 542.025pt x 328.97906pt>
+File: ../output/exp3/MDG1.png Graphic file (type png)
+<use ../output/exp3/MDG1.png>
+Package pdftex.def Info: ../output/exp3/MDG1.png  used on input line 1437.
+(pdftex.def)             Requested size: 542.02367pt x 328.97826pt.
+
+Overfull \hbox (89.05577pt too wide) in paragraph at lines 1437--1439
+ [][] 
+ []
+
+<../output/exp3/MDG2.png, id=522, 542.025pt x 328.97906pt>
+File: ../output/exp3/MDG2.png Graphic file (type png)
+<use ../output/exp3/MDG2.png>
+Package pdftex.def Info: ../output/exp3/MDG2.png  used on input line 1443.
+(pdftex.def)             Requested size: 542.02367pt x 328.97826pt.
+
+Overfull \hbox (89.05577pt too wide) in paragraph at lines 1443--1445
+ [][] 
+ []
+
+[38 <../output/exp3/SOM2.png (PNG copy)> <../output/exp3/MDG1.png (PNG copy)>]
+Underfull \hbox (badness 10000) in paragraph at lines 1448--1449
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1450--1451
+
+ []
+
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 1454.
+[39 <../output/exp3/MDG2.png (PNG copy)>]
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 1454.
  (./memoria.aux
 LaTeX Info: Redefining \. on input line 24.
 LaTeX Info: Redefining \% on input line 24.
 )
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 1423.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 1423.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 1454.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 1454.
 
-
-
-Package rerunfilecheck Warning: File `memoria.out' has changed.
-(rerunfilecheck)                Rerun to get outlines right
-(rerunfilecheck)                or use package `bookmark'.
-
-Package rerunfilecheck Info: Checksums for `memoria.out':
-(rerunfilecheck)             Before: 6DBA011C2259136E9297AC9B0F93CF10;3359
-(rerunfilecheck)             After:  662371661646E3F58684107CB1C75242;3474.
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 1423.
+Package rerunfilecheck Info: File `memoria.out' has not changed.
+(rerunfilecheck)             Checksum: 842E975D00570562F3C33B6D68E5F6D5;3550.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 1454.
  ) 
 Here is how much of TeX's memory you used:
- 13520 strings out of 492616
- 198599 string characters out of 6128967
+ 13550 strings out of 492616
+ 199229 string characters out of 6128967
  509840 words of memory out of 5000000
- 17069 multiletter control sequences out of 15000+600000
+ 17087 multiletter control sequences out of 15000+600000
  13787 words of font info for 51 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  47i,23n,97p,880b,1395s stack positions out of 5000i,500n,10000p,200000b,80000s
@@ -1063,10 +1107,10 @@ ve/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmr9.pfb></usr/local/texlive/
 8/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy9.pfb></usr/local/texlive/2018/
 texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb></usr/local/texlive/2018/t
 exmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb>
-Output written on memoria.pdf (37 pages, 358141 bytes).
+Output written on memoria.pdf (39 pages, 447957 bytes).
 PDF statistics:
- 603 PDF objects out of 1000 (max. 8388607)
- 539 compressed objects within 6 object streams
- 169 named destinations out of 1000 (max. 500000)
- 347 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 629 PDF objects out of 1000 (max. 8388607)
+ 559 compressed objects within 6 object streams
+ 176 named destinations out of 1000 (max. 500000)
+ 383 words of extra memory for PDF output out of 10000 (max. 10000000)
 

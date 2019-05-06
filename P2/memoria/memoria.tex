@@ -1418,11 +1418,37 @@
 
 	\subsubsection{ Experimento 3: Estudio evolutivo a nivel generacional }
 
-	Para este último experimento nos ceñimos a los algoritmos $AGEu$, $AM1$ y $AMM$. Así mismo utilizaremos unicamente dos conjuntos de datos, $MDG-a_21$ y $SOM-b_13$, por sus distintos tamaños. Realizamos una única ejecución para cada algoritmo por conjunto de datos y obtenemos los siguientes resultados:
+	Para este último experimento nos ceñimos a los algoritmos $AGEu$, $AM1$ y $AMM$. Así mismo utilizaremos unicamente dos conjuntos de datos, $MDG-a_21$ y $SOM-b_13$, por sus distintos tamaños. Realizamos una única ejecución para cada algoritmo por conjunto de datos. Presentamos dos gráficas distintas para cada conjunto de datos debido a la abismal diferencia en el número de generaciones.
+
+	\begin{figure}[H] 
+		\centering
+		\includegraphics[scale=0.9]{../output/exp3/SOM1}
+		%\caption{my-captino} \label{my-label}
+	\end{figure}
 	
+	\begin{figure}[H] 
+		\centering
+		\includegraphics[scale=0.9]{../output/exp3/SOM2}
+		%\caption{my-captino} \label{my-label}
+	\end{figure}
+	
+	\begin{figure}[H] 
+		\centering
+		\includegraphics[scale=1]{../output/exp3/MDG1}
+		%\caption{my-captino} \label{my-label}
+	\end{figure}
+	
+	\begin{figure}[H] 
+		\centering
+		\includegraphics[scale=1]{../output/exp3/MDG2}
+		%\caption{my-captino} \label{my-label}
+	\end{figure}
+
 	
 	\paragraph{ Análisis } \ \\
 	
+	Podemos observar claramente en ambos conjuntos de datos como la hipótesis formulada en el experimento anterior era parcialmente errónea: el algoritmo $AMM$ no converge más deprisa generacionalmente que el $AM$ sino que ambos lo hacen extremadamente rápido, de igual forma que el $AGEu$. Observar este hecho nos permitiría dirigir nuestros esfuerzos a diseñar y utilizar otros operadores para explorar más el espacio de soluciones y no estancarnos tan rápidamente. \\
 	
+	Aún así queda relativamente claro que quizás una estrategia evolutiva para este tipo de casos de prueba no sea el mejor procedimiento, ya que en general obtenemos tiempos mucho mayores que los de las búsquedas implementadas en la práctica anterior y si permitimos que las búsquedas exploren lo suficiente obtendremos resultados mejores y seguramente en un tiempo menor. Del mismo modo, para otros conjuntos de datos mayores que los utilizados las estrategias evolutivas podrían dar mejores resultados.
 
 \end{document}
