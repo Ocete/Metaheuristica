@@ -575,13 +575,16 @@ double AMM( int choosen, int MAX_EVALUATIONS, int mem_type) {
     if (generations % 10 == 0) {
       memetize(pop, mem_type, max_iterations, evaluations, p_mem);
     }
+
+    // Experimento 3
+    cout << generations << "\t" << pop.max_fitness << endl;
   }
   t_total = clock() - t_start;
 
   solution sol = pop.v[ pop.best_sol ];
 
   // output: Fitness - Time - Iterations
-  cout << sol.fitness << "\t" << (double) t_total / CLOCKS_PER_SEC << "\t" << generations << endl;
+  // cout << sol.fitness << "\t" << (double) t_total / CLOCKS_PER_SEC << "\t" << generations << endl;
   return sol.fitness;
 }
 

@@ -81,9 +81,9 @@ examplesLSD: $(BIN)/LSD
 	$(BIN)/LSD < $(IN)/SOM-b_16_n400_m160.txt
 	$(BIN)/LSD < $(IN)/MDG-a_21_n2000_m200.txt
 
-# Practica 1
-# evolution: $(BIN)/localSearch $(BIN)/localSearchDet $(BIN)/greedySearch
-# 	./evolution.sh
+# Experimento 3
+evolution: clean $(BIN)/AM $(BIN)/AMM $(BIN)/AGEu
+	./evolution.sh
 
 # Estadísticas
 

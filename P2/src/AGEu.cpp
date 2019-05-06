@@ -274,6 +274,7 @@ void replace(population &pop, solution &s1, solution &s2) {
   pop.v.push_back(s2);
   sort( pop.v.begin(), pop.v.end() );
   pop.v.resize( pop.v.size() - 2);
+  pop.max_fitness = pop.v[0].fitness;
 }
 
 // Computes the local search algorithm for a random starting solution
@@ -303,13 +304,16 @@ double AGEu( int choosen, int MAX_EVALUATIONS ) {
     evaluateSolution(c2);
     evaluations += 2;
     replace(pop, c1, c2);
+
+    // Experimento 3
+    cout << generations << "\t" << pop.max_fitness << endl;
   }
   t_total = clock() - t_start;
 
   solution sol = pop.v[ pop.best_sol ];
 
   // output: Fitness - Time - Iterations
-  cout << sol.fitness << "\t" << (double) t_total / CLOCKS_PER_SEC << "\t" << generations<< endl;
+  // cout << sol.fitness << "\t" << (double) t_total / CLOCKS_PER_SEC << "\t" << generations<< endl;
   return sol.fitness;
 }
 
