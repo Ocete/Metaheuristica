@@ -23,6 +23,10 @@ all:
 $(BIN)/BMB :
 	g++ $(OPT) $(SRC)/BMB.cpp -o $(BIN)/BMB
 
+$(BIN)/GRASP :
+	g++ $(OPT) $(SRC)/GRASP.cpp -o $(BIN)/GRASP
+
+
 $(BIN)/stats :
 	g++ $(OPT) $(SRC)/stats.cpp -o $(BIN)/stats
 
@@ -32,6 +36,11 @@ examplesBMB: $(BIN)/BMB
 	$(BIN)/BMB < $(IN)/GKD-c_1_n500_m50.txt
 	$(BIN)/BMB < $(IN)/SOM-b_16_n400_m160.txt
 	$(BIN)/BMB < $(IN)/MDG-a_21_n2000_m200.txt
+
+examplesGRASP: $(BIN)/GRASP
+	$(BIN)/GRASP < $(IN)/GKD-c_1_n500_m50.txt
+	$(BIN)/GRASP < $(IN)/SOM-b_16_n400_m160.txt
+	$(BIN)/GRASP < $(IN)/MDG-a_21_n2000_m200.txt
 
 # Experimento 3
 # evolution: clean $(BIN)/AM $(BIN)/AMM $(BIN)/AGEu
@@ -43,6 +52,11 @@ measureAll: clean measureAM measureAMM measureLSD measureAGGu measureAGEu measur
 
 measureBMB: $(BIN)/BMB $(BIN)/stats
 	./measure.sh $(BIN)/BMB $(OUT)/BMB.dat 30
+
+measureGRASP: $(BIN)/GRASP $(BIN)/stats
+	./measure.sh $(BIN)/GRASP $(OUT)/GRASP.dat 30
+
+
 
 stats: $(BIN)/stats
 	${BIN}/stats
