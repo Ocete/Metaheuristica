@@ -274,7 +274,7 @@ void randomSolution (solution &sol, int choosen) {
   }
 }
 
-void BMB( int choosen, int MAX_EVALUATIONS ) {
+void BMB( int choosen ) {
   int evaluations = 0, max_evaluations = 50000, total_tries = 25;
   double best_fitness = 0;
   clock_t t_start, t_total;
@@ -300,7 +300,6 @@ void BMB( int choosen, int MAX_EVALUATIONS ) {
 
 int main( int argc, char *argv[] ) {
   int size, choosen;
-  int MAX_EVALUATIONS = 50000;
 
   // set seed
   srand (time(NULL));
@@ -308,5 +307,5 @@ int main( int argc, char *argv[] ) {
   cin >> size >> choosen;
   readInput(size);
 
-  BMB(choosen, MAX_EVALUATIONS);
+  BMB(choosen);
 }

@@ -127,7 +127,7 @@ double updateSolution(solution_int &sol) {
   return sol.fitness;
 }
 
-// Order sol.v by contribution to the solution in ascending order
+// Order sol.v by conribution to the solution in ascending order
 void orderSolutionByContribution(solution_int &sol) {
   pair<int, double> p (0, 0.0);
   vector< pair<int, double> > pairs_v ( sol.v.size(), p);
@@ -252,92 +252,6 @@ int localSearch(solution &sol_bits, int MAX_EVALUATIONS) {
   return evaluations;
 }
 
-/////////////////////////// END LOCAL SEARCH //////////////////////////////////
-///////////////////////////   RAND  GREEDY     ///////////////////////////
-
-// Returns the element from "non_selected" that is the farthest from "selected"
-int farthestToSel(set<int> &non_selected, set<int> &selected) {
-  int farthest;
-  double max_sum_dist, current_sum_dist;
-  set<int>::iterator it;
-
-  it = non_selected.begin();
-  farthest = *it;
-  max_sum_dist = singleContribution(selected, farthest);
-
-  for ( ; it!=non_selected.end(); it++) {
-    current_sum_dist = singleContribution(selected, *it);
-    if (current_sum_dist > max_sum_dist) {
-      max_sum_dist = current_sum_dist;
-      farthest = *it;
-    }
-  }
-
-  return farthest;
-}
-
-// Returns an element from selected. It is quite randomly selected
-// between the best possible elements.
-int farthestToSelRandom(set<int> &non_selected, set<int> &selected, double alfa) {
-  double current_sum_dist;
-  set<int>::iterator it;
-  vector<pair<int,double> > v;
-
-  for ( it = non_selected.begin(); it!=non_selected.end(); it++) {
-    current_sum_dist = singleContribution(selected, *it);
-    v.push_back(pair<int,double> (*it, current_sum_dist));
-  }
-
-  // sorts in ascending order
-  sort(v.begin(), v.end());
-  // reverse the sorting
-  reverse(v.begin(), v.end());
-  double dist_min = v[ v.size()-1 ].second, dist_max = v[0].second;
-  double umbral = dist_min + alfa*(dist_max - dist_min);
-
-  unsigned i_umbral = 0;
-  while ( i_umbral < v.size() && v[i_umbral].second >= umbral ) {
-    i_umbral++;
-  }
-
-  return v[ random(0,i_umbral+1) ].first;
-}
-
-// Returns the element that is the farthest from the rest of elements
-int farthestToAll() {
-  set<int> all_elements;
-  for (unsigned i=0; i<MAT.size(); i++) {
-    all_elements.insert(i);
-  }
-  return farthestToSel( all_elements, all_elements);
-}
-
-void randGreedy( solution &sol, unsigned choosen, double alfa ) {
-  set<int> non_selected, selected;
-  int farthest;
-
-  // Initialize selected with the farthestToAll and non_selected with the rest
-  for (unsigned i=0; i<MAT.size(); i++) {
-    non_selected.insert(i);
-  }
-  farthest = farthestToAll();
-  non_selected.erase( farthest );
-  selected.insert( farthest );
-
-  while( selected.size() < choosen ) {
-    farthest = farthestToSelRandom(non_selected, selected, alfa);
-    non_selected.erase( farthest );
-    selected.insert( farthest );
-  }
-
-  solution_int sol_i;
-  for ( int s : selected ) {
-    sol_i.v.push_back(s);
-  }
-  IntToBits(sol_i, sol, MAT.size());
-}
-
-///////////////////////////////////////////////////////////////////////////////
 
 // Creates a random solution
 // Prec.: Random seed already set
@@ -360,23 +274,66 @@ void randomSolution (solution &sol, int choosen) {
   }
 }
 
-void GRASP( int choosen ) {
+// Mutate the solution by swapping two random elements
+void mutateSolution(solution &sol) {
+  int r_on, r_off;
+
+  // Find elements to swap
+  do {
+    r_on = random(0, sol.v.size());
+  } while ( !sol.v[r_on] );
+
+  do {
+    r_off = random(0, sol.v.size());
+  } while ( sol.v[r_off] || r_off == r_on);
+
+  // Swap elements
+  sol.v[r_on] = false;
+  sol.v[r_off] = true;
+
+  // Update the fitness if possible
+  if ( sol.evaluated ) {
+    double oldContribution = singleContribution(sol.v, r_on) - MAT[r_on][r_off];
+    double newContribution = singleContribution(sol.v, r_off);
+    sol.fitness = sol.fitness + newContribution - oldContribution;
+    // iterations++; AQUI (mirar la nota importante en el main)
+  }
+}
+
+void abruptMutation(solution &sol ) {
+  int n_mutations = sol.v.size()*0.1;
+  for (int i=0; i<n_mutations; i++) {
+    mutateSolution(sol);
+  }
+}
+
+void ILS( int choosen ) {
   int evaluations = 0, max_evaluations = 50000, total_tries = 25;
-  double best_fitness = 0, alfa = 0.3;
+  double best_fitness = 0;
   clock_t t_start, t_total;
+  solution sol, saved_sol;
 
   t_start = clock();
-  best_fitness = 0;
+  randomSolution(sol, choosen);
+  evaluateSolution(sol);
+  saved_sol = sol;
+  best_fitness = sol.fitness;
   for (int i=0; i<total_tries; i++) {
-    solution sol;
-    randGreedy(sol, choosen, alfa);
-    evaluateSolution(sol);
+    abruptMutation(sol);
+    evaluateSolution(sol); // No se si esto hace falta
     evaluations += localSearch( sol, max_evaluations );
-    if ( sol.fitness > best_fitness ) {
-      best_fitness = sol.fitness;
+
+    if ( saved_sol.fitness > sol.fitness ) {
+      sol = saved_sol;
+    } else {
+      saved_sol = sol;
+      if ( sol.fitness > best_fitness ) {
+        best_fitness = sol.fitness;
+      }
     }
   }
   t_total = clock() - t_start;
+
 
   // output: Fitness - Time - Iterations
   cout << best_fitness << "\t" << (double) t_total / CLOCKS_PER_SEC << "\t" << evaluations << endl;
@@ -393,5 +350,9 @@ int main( int argc, char *argv[] ) {
   cin >> size >> choosen;
   readInput(size);
 
-  GRASP(choosen);
+  ILS(choosen);
+  // NOTA IMPORTANTE de cara a la memoria: no estamos realizando
+  // el aumento de evaluaciones en las mutaciones como haciamos en
+  // los genéticos, comentar esto en la memoria.
+
 }
