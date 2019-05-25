@@ -29,6 +29,9 @@ $(BIN)/GRASP :
 $(BIN)/ILS :
 	g++ $(OPT) $(SRC)/ILS.cpp -o $(BIN)/ILS
 
+$(BIN)/ES :
+	g++ $(OPT) $(SRC)/ES.cpp -o $(BIN)/ES
+
 
 $(BIN)/stats :
 	g++ $(OPT) $(SRC)/stats.cpp -o $(BIN)/stats
@@ -50,6 +53,12 @@ examplesILS: $(BIN)/ILS
 	$(BIN)/ILS < $(IN)/SOM-b_16_n400_m160.txt
 	$(BIN)/ILS < $(IN)/MDG-a_21_n2000_m200.txt
 
+examplesES: $(BIN)/ES
+	$(BIN)/ES < $(IN)/GKD-c_1_n500_m50.txt
+	$(BIN)/ES < $(IN)/SOM-b_16_n400_m160.txt
+	$(BIN)/ES < $(IN)/MDG-a_21_n2000_m200.txt
+
+
 # Experimento 3
 # evolution: clean $(BIN)/AM $(BIN)/AMM $(BIN)/AGEu
 # 	./evolution.sh
@@ -67,6 +76,8 @@ measureGRASP: $(BIN)/GRASP $(BIN)/stats
 measureILS: $(BIN)/ILS $(BIN)/stats
 	./measure.sh $(BIN)/ILS $(OUT)/ILS.dat 30
 
+measureES: $(BIN)/ES $(BIN)/stats
+	./measure.sh $(BIN)/ES $(OUT)/ES.dat 30
 
 stats: $(BIN)/stats
 	${BIN}/stats
