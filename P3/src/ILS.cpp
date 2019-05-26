@@ -320,7 +320,7 @@ void ILS( int choosen ) {
   best_fitness = sol.fitness;
   for (int i=0; i<total_tries; i++) {
     abruptMutation(sol);
-    evaluateSolution(sol); // No se si esto hace falta
+    // evaluateSolution(sol); // No se si esto hace falta
     evaluations += localSearch( sol, max_evaluations );
 
     if ( saved_sol.fitness > sol.fitness ) {

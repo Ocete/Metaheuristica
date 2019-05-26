@@ -32,6 +32,9 @@ $(BIN)/ILS :
 $(BIN)/ES :
 	g++ $(OPT) $(SRC)/ES.cpp -o $(BIN)/ES
 
+$(BIN)/ILS-ES :
+	g++ $(OPT) $(SRC)/ILS-ES.cpp -o $(BIN)/ILS-ES
+
 
 $(BIN)/stats :
 	g++ $(OPT) $(SRC)/stats.cpp -o $(BIN)/stats
@@ -58,6 +61,11 @@ examplesES: $(BIN)/ES
 	$(BIN)/ES < $(IN)/SOM-b_16_n400_m160.txt
 	$(BIN)/ES < $(IN)/MDG-a_21_n2000_m200.txt
 
+examplesILS-ES: $(BIN)/ILS-ES
+	$(BIN)/ILS-ES < $(IN)/GKD-c_1_n500_m50.txt
+	$(BIN)/ILS-ES < $(IN)/SOM-b_16_n400_m160.txt
+	$(BIN)/ILS-ES < $(IN)/MDG-a_21_n2000_m200.txt
+
 
 # Experimento 3
 # evolution: clean $(BIN)/AM $(BIN)/AMM $(BIN)/AGEu
@@ -78,6 +86,10 @@ measureILS: $(BIN)/ILS $(BIN)/stats
 
 measureES: $(BIN)/ES $(BIN)/stats
 	./measure.sh $(BIN)/ES $(OUT)/ES.dat 30
+
+measureILS-ES: $(BIN)/ILS-ES $(BIN)/stats
+	./measure.sh $(BIN)/ILS-ES $(OUT)/ILS-ES.dat 30
+
 
 stats: $(BIN)/stats
 	${BIN}/stats
