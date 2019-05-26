@@ -308,7 +308,6 @@ void abruptMutation(solution &sol ) {
   }
 }
 
-
 int ES( solution &sol_init, int max_evaluations ) {
   double best_fitness = 0;
   int evaluations = 0;
@@ -369,6 +368,8 @@ void ILS_ES( int choosen ) {
   saved_sol = sol;
   best_fitness = sol.fitness;
   for (int i=0; i<total_tries; i++) {
+    abruptMutation(sol);
+    evaluations++;
     evaluations += ES( sol, max_eval_ES );
 
     if ( saved_sol.fitness > sol.fitness ) {
@@ -381,7 +382,6 @@ void ILS_ES( int choosen ) {
     }
   }
   t_total = clock() - t_start;
-
 
   // output: Fitness - Time - Iterations
   cout << best_fitness << "\t" << (double) t_total / CLOCKS_PER_SEC << "\t" << evaluations << endl;

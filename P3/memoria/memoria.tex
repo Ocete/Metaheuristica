@@ -18,8 +18,8 @@
 
 % Meta
 \title{Problema de Máxima Diversidad (MDP) 
-	\\\medskip \large Técnicas basadas en poblaciones \\\medskip
-	\large Metaheurísticas: Práctica 2, Grupo 1}
+	\\\medskip \large Técnicas basadas en trayectorias múltiples \\\medskip
+	\large Metaheurísticas: Práctica 3, Grupo 1}
 \author{José Antonio Álvarez Ocete - 77553417Q \\ joseantonioao@correo.ugr.es}
 \date{ \today }
 
@@ -60,10 +60,10 @@
 	\tableofcontents
 	\newpage
 	
-	\section{Introducción: práctica 2}
+	\section{Introducción: práctica 3}
 	
 	De cara a la segunda práctica se han añadido a la memoria las secciones \ref{sec32}, \ref{sec42}, \ref{procedimiento2} y  \ref{sec62}. El resto permanece invariante.
-	
+		
 	\section{El problema}
 	
 	\subsection{Descripción del problema}
@@ -90,9 +90,9 @@
 	
 	\section{Descripción de la aplicación de los algoritmos}
 	
-	En esta sección describiremos las consideraciones comunes a los distintos algoritmos. Este incluye la representación de las soluciones, la función objetivo y los operadores comunes a los distintos algoritmos. Ya que los únicos puntos en común de la búsqueda local y la técnica greedy son la función objetivo y la representación de las soluciones no estudiaremos ningún operador común. Tampoco se han incluido los detalles específicos de un algoritmo a pesar de que sean comunes a varios algoritmos finales, ya que estos son pequeñas variaciones unos y otros.  \\
+	En esta sección describiremos las consideraciones comunes a los distintos algoritmos. Este incluye la representación de las soluciones, la función objetivo y los operadores comunes a los distintos algoritmos. No se han incluido los detalles específicos de un algoritmo a pesar de que sean comunes a varios algoritmos finales, ya que estos son pequeñas variaciones unos de otros.  \\
 	
-	El lenguaje utilizado para la implementación de la práctica ha sido $C++$. 
+	El lenguaje utilizado para la implementación de las prácticas ha sido $C++$. 
 	
 	\subsection{Práctica 1}
 	
@@ -359,6 +359,12 @@
 			pop.v $\leftarrow$ pop.v.resize( pop.v.size() - 2) \\
 		}
 	\end{algorithm}
+
+	\subsection{Práctica 3} \label{sec33}
+	
+	De cara a esta última práctica se han reutilizado las dos representaciones de las prácticas anteriores sin apenas cambios. Para la función objetivo se han utilizado las ya implementadas. \\
+	
+	De cara a los operadores comunes se han reutilizado algunos de los implementados para algoritmos genéticos en la práctica anterior, como es el caso de la mutación por intercambio. También se ha utilizado la creación aleatoria de una solución inicial.
 
 	\section{Algoritmos}
 	
@@ -749,6 +755,134 @@
 	\subsubsection{ Búsqueda Local Determinista - LDS }
 	
 	De cara a comparar los resultados obtenidos en esta práctica se ha retocado la búsqueda local determinista de la práctica anterior para que la forma de medir el número máximo de evaluaciones sea la misma, implementando la factorización ya explicada. De esta forma fijamos el mismo número máximo de evaluaciones para que la comparación es consistente. 
+	
+	\subsection{Práctica 3} \label{sec43}
+	
+	Para esta práctica se han implementado un total de 5 algoritmos que a continuación describiremos en profundidad. Son los siguientes:
+	\begin{itemize}
+		\item Enfriamiento Simulado ($ES$)
+		\item Búsqueda Multiarranque Básica ($BMB$)
+		\item \emph{Greedy Randomized Adaptive Search Procedure} ($GRASP$)
+		\item Búsqueda Local Reiterada ($ILS$)
+		\item Búsqueda Local Reiterada con Enfriamiento Simulado  ($ILS-ES$)
+	\end{itemize}
+
+	
+	\subsubsection{ Enfriamiento Simulado - ES }
+	
+	
+	
+	\subsubsection{ Búsqueda Multiarranque Básica - BMB }
+	
+	A continuación presento el pseudo-código de la $BMB$. Consiste en ejecutar la $LS$ clásica implementada en prácticas anteriores múltiples veces. Ésta última ha sido alterada para devolver el número de evaluaciones realizadas, y así poder contar el número de evaluaciones totales. \\
+	
+	\begin{algorithm}[H]
+		\caption{BMB}
+		\KwData{ choosen : int, MAX\_ITERATIONS : int }
+		\KwResult{ best\_sol : solution }
+		\Begin{
+			evaluations $\leftarrow$ 0 \\
+			total\_tries $\leftarrow$ 25 \\
+			best\_sol $\leftarrow$ new solution() \\
+			best\_sol.fitness $\leftarrow$ 0 \\
+			
+			\ForEach{ $ i \in [0, total\_tries)$ }{
+				sol $\leftarrow$ randomSolution( choosen ) \\
+				sol, new\_evaluations $\leftarrow$ localSearch( sol,  MAX\_EVALUATONS ) \\
+				evaluations $\leftarrow$ evaluations + new\_evaluations \\
+				
+				\uIf{ sol.fitness $>$ best\_sol.fitness}{
+					best\_sol $\leftarrow$ sol
+				}
+			}
+		}
+	\end{algorithm}
+	
+	\subsubsection{ Greedy Randomized Adaptive Search Procedure - GRASP }
+	
+	\subsubsection{ Búsqueda Local Reiterada - ILS }
+	
+	Para la $ILS$ se ha implementado un operador de mutación adicional que aplica el operador antiguo reiteradas veces.
+	
+	\begin{algorithm}[H]
+		\caption{abruptMutation}
+		\KwData{ sol : solution }
+		\KwResult{ sol : solution }
+		\Begin{
+			n\_mutations $\leftarrow$ sol.v.size() $\cdot$ 0.1 \\ 
+			
+			\ForEach{ $ i \in [0, n\_mutations)$ }{
+				sol $\leftarrow$ mutateSolution( sol ) \\
+			}
+		}
+	\end{algorithm}
+	
+	$ $ \\
+	La $ILS$ aplica la $LS$ reiteradamente sobre la mejor solución encontrada hasta la fecha, tras haberla mutado con el operador recién explicado. Su pseudo-código es el siguiente: \\
+	
+	\begin{algorithm}[H]
+		\caption{ILS}
+		\KwData{ choosen : int, MAX\_ITERATIONS : int }
+		\KwResult{ best\_sol : solution }
+		\Begin{
+			evaluations $\leftarrow$ 0 \\
+			total\_tries $\leftarrow$ 25 \\
+			best\_sol $\leftarrow$ new solution() \\
+			best\_sol.fitness $\leftarrow$ 0 \\
+			saved\_sol $\leftarrow$ sol \\
+			sol $\leftarrow$ randomSolution( choosen ) \\
+			
+			\ForEach{ $ i \in [0, total\_tries)$ }{
+				sol $\leftarrow$ abruptMutation( sol ) \\
+				sol, new\_evaluations $\leftarrow$ localSearch( sol,  MAX\_EVALUATONS ) \\
+				evaluations $\leftarrow$ evaluations + new\_evaluations \\
+				
+				\uIf{ saved\_sol.fitness $>$ sol.fitness }{
+					sol $\leftarrow$ saved\_sol \\
+				} \uElse {
+					saved\_sol $\leftarrow$ sol \\
+					\uIf{ sol.fitness $>$ best\_sol.fitness}{
+						best\_sol $\leftarrow$ sol
+					}
+				}
+			}
+		}
+	\end{algorithm}
+	
+	\subsubsection{ Búsqueda Local Reiterada con Enfriamiento Simulado - ILS-ES }
+	
+	Esta combinación entre ambos algoritmos se limita a utilizar el algoritmo de $ES$ en lugar de la búsqueda local en el esquema clásico del algoritmo $ILS$. Para ello se ha modificado el algoritmo $ES$ para que devuelva el número de evaluaciones realizadas. \\
+	
+	\begin{algorithm}[H]
+		\caption{ILS-ES}
+		\KwData{ choosen : int, MAX\_ITERATIONS : int }
+		\KwResult{ best\_sol : solution }
+		\Begin{
+			evaluations $\leftarrow$ 0 \\
+			total\_tries $\leftarrow$ 25 \\
+			MAX\_EVALUATIONS\_ES $\leftarrow$ MAX\_EVALUATIONS / total\_tries \\
+			best\_sol $\leftarrow$ new solution() \\
+			best\_sol.fitness $\leftarrow$ 0 \\
+			saved\_sol $\leftarrow$ sol \\
+			sol $\leftarrow$ randomSolution( choosen ) \\
+			
+			\ForEach{ $ i \in [0, total\_tries)$ }{
+				sol $\leftarrow$ abruptMutation( sol ) \\
+				sol, new\_evaluations $\leftarrow$ ES ( sol,  MAX\_EVALUATONS\_ES ) \\
+				evaluations $\leftarrow$ evaluations + new\_evaluations \\
+				
+				\uIf{ saved\_sol.fitness $>$ sol.fitness }{
+					sol $\leftarrow$ saved\_sol \\
+				} \uElse {
+					saved\_sol $\leftarrow$ sol \\
+					\uIf{ sol.fitness $>$ best\_sol.fitness}{
+						best\_sol $\leftarrow$ sol
+					}
+				}
+			}
+		}
+	\end{algorithm}
+	
 	
 	\section{ Procedimiento de desarrollo }
 	

@@ -284,7 +284,7 @@ void BMB( int choosen ) {
   for (int i=0; i<total_tries; i++) {
     randomSolution(sol, choosen);
     evaluateSolution(sol);
-    evaluations += localSearch( sol, max_evaluations );
+    evaluations += 1 + localSearch( sol, max_evaluations );
     if ( sol.fitness > best_fitness ) {
       best_fitness = sol.fitness;
     }
