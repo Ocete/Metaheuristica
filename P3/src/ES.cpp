@@ -339,10 +339,10 @@ void ES( int choosen ) {
   double best_fitness = 0;
   clock_t t_start, t_total;
   solution sol, saved_sol;
-  double mu = 0.3, phi = 0.3, beta, alpha = 0.9315;
+  double alpha = 0.9315;
   double temp, start_temp, final_temp = 0.001, diff;
   int max_vecinos = choosen;
-  int max_enfriamientos = max_evaluations / max_vecinos;
+  // int max_enfriamientos = max_evaluations / max_vecinos;
   int n_enfriamientos = 0;
   int exitos = 1, max_exitos = max_vecinos*0.1;
 
@@ -366,21 +366,19 @@ void ES( int choosen ) {
       evaluations++;
 
       diff = sol.fitness - saved_sol.fitness;
-      if (diff <= 0)
-        cout << "\t\t exp: " << exp(diff/temp) << " diff: " << diff << " temp: " << temp <<  endl;
       if ( diff > 0 || randD(generator) < exp(diff/temp) ) {
         saved_sol = sol;
         exitos++;
         if ( sol.fitness > best_fitness ) {
           best_fitness = sol.fitness;
-          cout << "coste: " << best_fitness << " n_enf: " << n_enfriamientos << endl;
-          cout << "n_exitos: " << exitos << endl;
+          // cout << "coste: " << best_fitness << " n_enf: " << n_enfriamientos << endl;
+          // cout << "n_exitos: " << exitos << endl;
         }
       } else {
         sol = saved_sol;
       }
     }
-    cout << "\t\t" << "actual: " << temp << " final: " << final_temp << " n_enf: " << n_enfriamientos << endl;
+    // cout << "\t\t" << "actual: " << temp << " final: " << final_temp << " n_enf: " << n_enfriamientos << endl;
     temp = temp * alpha;
     // beta = (start_temp - final_temp) / (max_enfriamientos * temp * start_temp);
     // temp = temp / (1.0 + beta*temp);
@@ -388,7 +386,8 @@ void ES( int choosen ) {
   }
   t_total = clock() - t_start;
 
-
+  // cout  << "n_enf: " << n_enfriamientos << " max_enf: " << max_enfriamientos << endl;
+  // cout  << "temp: " << temp << " temp_final: " << final_temp << endl;
   // output: Fitness - Time - Iterations
   cout << best_fitness << "\t" << (double) t_total / CLOCKS_PER_SEC << "\t" << evaluations << endl;
 }
