@@ -356,4 +356,9 @@ int main( int argc, char *argv[] ) {
   // el aumento de evaluaciones en las mutaciones como haciamos en
   // los genéticos, comentar esto en la memoria.
 
+  solution sol;
+  randomSolution(sol, choosen);
+  evaluateSolution(sol);
+  cout << "Random: " << sol.fitness << endl;
+
 }

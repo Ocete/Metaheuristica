@@ -6,9 +6,12 @@
 #include <algorithm>    // sort y random_shuffle
 #include <time.h>
 #include <math.h>
+#include <random>       // uniform_real_distribution
 
 using namespace std;
 
+uniform_real_distribution<double> randD(0.0,1.0);
+default_random_engine generator;
 vector<vector<double> > MAT;
 
 /////////////////// INPUT //////////////////////
@@ -336,10 +339,12 @@ void ES( int choosen ) {
   double best_fitness = 0;
   clock_t t_start, t_total;
   solution sol, saved_sol;
-  double mu = 0.3, phi = 0.3, beta;
+  double mu = 0.3, phi = 0.3, beta, alpha = 0.9315;
   double temp, start_temp, final_temp = 0.001, diff;
-  int max_vecinos = 10*MAT.size();
-  int M = max_evaluations / max_vecinos;
+  int max_vecinos = choosen;
+  int max_enfriamientos = max_evaluations / max_vecinos;
+  int n_enfriamientos = 0;
+  int exitos = 1, max_exitos = max_vecinos*0.1;
 
   // Inicialización
   t_start = clock();
@@ -347,30 +352,39 @@ void ES( int choosen ) {
   evaluateSolution(sol);
   saved_sol = sol;
   best_fitness = sol.fitness;
-  start_temp = (mu*sol.fitness)/(-log(phi));
+  start_temp = 50000;//100*(mu*sol.fitness)/(-log(phi));
   temp = start_temp;
   if (start_temp <= final_temp) {
     cerr << "Error en temperatura inicial" << endl;
     return;
   }
 
-  while ( temp > final_temp && evaluations < max_evaluations ) {
-    for (int i=0; i<max_vecinos; i++) {
+  while ( exitos > 0 && temp > final_temp && evaluations < max_evaluations ) {
+    exitos = 0;
+    for (int i=0; i<max_vecinos && exitos < max_exitos; i++) {
       mutateSolution(sol);
       evaluations++;
 
       diff = sol.fitness - saved_sol.fitness;
-      if ( diff > 0 || rand() < exp(diff/temp) ) {
+      if (diff <= 0)
+        cout << "\t\t exp: " << exp(diff/temp) << " diff: " << diff << " temp: " << temp <<  endl;
+      if ( diff > 0 || randD(generator) < exp(diff/temp) ) {
         saved_sol = sol;
+        exitos++;
         if ( sol.fitness > best_fitness ) {
           best_fitness = sol.fitness;
+          cout << "coste: " << best_fitness << " n_enf: " << n_enfriamientos << endl;
+          cout << "n_exitos: " << exitos << endl;
         }
       } else {
         sol = saved_sol;
       }
     }
-    beta = (start_temp - temp) / (M * temp * start_temp);
-    temp = temp / (1 + beta*temp);
+    cout << "\t\t" << "actual: " << temp << " final: " << final_temp << " n_enf: " << n_enfriamientos << endl;
+    temp = temp * alpha;
+    // beta = (start_temp - final_temp) / (max_enfriamientos * temp * start_temp);
+    // temp = temp / (1.0 + beta*temp);
+    n_enfriamientos++;
   }
   t_total = clock() - t_start;
 
@@ -385,7 +399,9 @@ int main( int argc, char *argv[] ) {
   int size, choosen;
 
   // set seed
-  srand (time(NULL));
+  auto seed = time(NULL);
+  srand (seed);
+  generator = default_random_engine (seed);
 
   cin >> size >> choosen;
   readInput(size);
