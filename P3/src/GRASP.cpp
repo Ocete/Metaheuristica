@@ -222,6 +222,7 @@ void BitsToInt(solution &sol_bits, solution_int &sol) {
       sol.v.push_back(i);
     }
   }
+  sol.fitness = sol_bits.fitness;
 }
 
 void IntToBits(solution_int &sol, solution &sol_bits, int tam) {
@@ -229,6 +230,7 @@ void IntToBits(solution_int &sol, solution &sol_bits, int tam) {
   for(unsigned i=0; i<sol.v.size(); i++) {
     sol_bits.v[ sol.v[i] ] = true;
   }
+  sol_bits.fitness = sol.fitness;
 }
 
 // Computes the local search algorithm for a random starting solution

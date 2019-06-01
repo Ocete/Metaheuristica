@@ -6,9 +6,12 @@
 #include <algorithm>    // sort y random_shuffle
 #include <time.h>
 #include <math.h>
+#include <random>       // uniform_real_distribution
 
 using namespace std;
 
+uniform_real_distribution<double> randD(0.0,1.0);
+default_random_engine generator;
 vector<vector<double> > MAT;
 
 /////////////////// INPUT //////////////////////
@@ -223,6 +226,7 @@ void BitsToInt(solution &sol_bits, solution_int &sol) {
       sol.v.push_back(i);
     }
   }
+  sol.fitness = sol_bits.fitness;
 }
 
 void IntToBits(solution_int &sol, solution &sol_bits, int tam) {
@@ -230,6 +234,7 @@ void IntToBits(solution_int &sol, solution &sol_bits, int tam) {
   for(unsigned i=0; i<sol.v.size(); i++) {
     sol_bits.v[ sol.v[i] ] = true;
   }
+  sol_bits.fitness = sol.fitness;
 }
 
 // Computes the local search algorithm for a random starting solution
@@ -308,36 +313,85 @@ void abruptMutation(solution &sol ) {
   }
 }
 
-int ES( solution &sol_init, int max_evaluations ) {
-  double best_fitness = 0;
+// int ES( solution &sol_init, int max_evaluations ) {
+//   double best_fitness = 0;
+//   int evaluations = 0;
+//   solution sol, saved_sol, best_sol;;
+//   double mu = 0.3, phi = 0.3, beta;
+//   double temp, start_temp, final_temp = 0.001, diff;
+//   int max_vecinos = 10*MAT.size();
+//   int M = max_evaluations / max_vecinos;
+//
+//   // Inicialización
+//   sol = sol_init;
+//   saved_sol = sol;
+//   best_sol = sol;
+//   best_fitness = sol.fitness;
+//   start_temp = (mu*sol.fitness)/(-log(phi));
+//   temp = start_temp;
+//
+//   if (start_temp <= final_temp) {
+//     cerr << "Error en temperatura inicial" << endl;
+//     return 0;
+//   }
+//
+//   while ( temp > final_temp && evaluations < max_evaluations ) {
+//     for (int i=0; i<max_vecinos; i++) {
+//       mutateSolution(sol);
+//       evaluations++;
+//
+//       diff = sol.fitness - saved_sol.fitness;
+//       if ( diff > 0 || rand() < exp(diff/temp) ) {
+//         saved_sol = sol;
+//         if ( sol.fitness > best_fitness ) {
+//           best_fitness = sol.fitness;
+//           best_sol = sol;
+//         }
+//       } else {
+//         sol = saved_sol;
+//       }
+//     }
+//     beta = (start_temp - temp) / (M * temp * start_temp);
+//     temp = temp / (1 + beta*temp);
+//   }
+//
+//   sol_init = best_sol;
+//   return evaluations;
+// }
+
+int ES( solution &sol_init, int max_evaluations, int choosen ) {
   int evaluations = 0;
-  solution sol, saved_sol, best_sol;;
-  double mu = 0.3, phi = 0.3, beta;
+  double best_fitness = 0;
+  solution sol, saved_sol, best_sol;
+  double alpha = 0.9315;
   double temp, start_temp, final_temp = 0.001, diff;
-  int max_vecinos = 10*MAT.size();
-  int M = max_evaluations / max_vecinos;
+  int max_vecinos = choosen;
+  // int max_enfriamientos = max_evaluations / max_vecinos;
+  int n_enfriamientos = 0;
+  int exitos = 1, max_exitos = max_vecinos*0.1;
 
   // Inicialización
   sol = sol_init;
   saved_sol = sol;
   best_sol = sol;
   best_fitness = sol.fitness;
-  start_temp = (mu*sol.fitness)/(-log(phi));
+  start_temp = 50000;//100*(mu*sol.fitness)/(-log(phi));
   temp = start_temp;
-
   if (start_temp <= final_temp) {
     cerr << "Error en temperatura inicial" << endl;
-    return 0;
+    return -1;
   }
 
-  while ( temp > final_temp && evaluations < max_evaluations ) {
-    for (int i=0; i<max_vecinos; i++) {
+  while ( exitos > 0 && temp > final_temp && evaluations < max_evaluations ) {
+    exitos = 0;
+    for (int i=0; i<max_vecinos && exitos < max_exitos; i++) {
       mutateSolution(sol);
       evaluations++;
 
       diff = sol.fitness - saved_sol.fitness;
-      if ( diff > 0 || rand() < exp(diff/temp) ) {
+      if ( diff > 0 || randD(generator) < exp(diff/temp) ) {
         saved_sol = sol;
+        exitos++;
         if ( sol.fitness > best_fitness ) {
           best_fitness = sol.fitness;
           best_sol = sol;
@@ -346,10 +400,11 @@ int ES( solution &sol_init, int max_evaluations ) {
         sol = saved_sol;
       }
     }
-    beta = (start_temp - temp) / (M * temp * start_temp);
-    temp = temp / (1 + beta*temp);
+    temp = temp * alpha;
+    n_enfriamientos++;
   }
-
+  // output: Fitness - Time - Iterations
+  // cout << best_fitness << "\t" << (double) t_total / CLOCKS_PER_SEC << "\t" << evaluations << endl;
   sol_init = best_sol;
   return evaluations;
 }
@@ -370,7 +425,7 @@ void ILS_ES( int choosen ) {
   for (int i=0; i<total_tries; i++) {
     abruptMutation(sol);
     evaluations++;
-    evaluations += ES( sol, max_eval_ES );
+    evaluations += ES( sol, max_eval_ES, choosen );
 
     if ( saved_sol.fitness > sol.fitness ) {
       sol = saved_sol;
