@@ -412,7 +412,6 @@ int ES( solution &sol_init, int max_evaluations, int choosen ) {
 
 void ILS_ES( int choosen ) {
   int evaluations = 0, max_evaluations = 50000, total_tries = 25;
-  int max_eval_ES = max_evaluations / total_tries;
   double best_fitness = 0;
   clock_t t_start, t_total;
   solution sol, saved_sol;
@@ -425,7 +424,7 @@ void ILS_ES( int choosen ) {
   for (int i=0; i<total_tries; i++) {
     abruptMutation(sol);
     evaluations++;
-    evaluations += ES( sol, max_eval_ES, choosen );
+    evaluations += ES( sol, max_evaluations, choosen );
 
     if ( saved_sol.fitness > sol.fitness ) {
       sol = saved_sol;

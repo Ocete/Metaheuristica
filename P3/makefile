@@ -76,19 +76,19 @@ examplesILS-ES: $(BIN)/ILS-ES
 measureAll: clean measureAM measureAMM measureLSD measureAGGu measureAGEu measureAGGp measureAGEp
 
 measureBMB: $(BIN)/BMB $(BIN)/stats
-	./measure.sh $(BIN)/BMB $(OUT)/BMB.dat 30
+	./measure.sh $(BIN)/BMB $(OUT)/BMB.dat 5
 
 measureGRASP: $(BIN)/GRASP $(BIN)/stats
-	./measure.sh $(BIN)/GRASP $(OUT)/GRASP.dat 30
+	./measure.sh $(BIN)/GRASP $(OUT)/GRASP.dat 5
 
 measureILS: $(BIN)/ILS $(BIN)/stats
-	./measure.sh $(BIN)/ILS $(OUT)/ILS.dat 30
+	./measure.sh $(BIN)/ILS $(OUT)/ILS.dat 5
 
 measureES: $(BIN)/ES $(BIN)/stats
-	./measure.sh $(BIN)/ES $(OUT)/ES.dat 30
+	./measure.sh $(BIN)/ES $(OUT)/ES.dat 5
 
 measureILS-ES: $(BIN)/ILS-ES $(BIN)/stats
-	./measure.sh $(BIN)/ILS-ES $(OUT)/ILS-ES.dat 30
+	./measure.sh $(BIN)/ILS-ES $(OUT)/ILS-ES.dat 5
 
 
 stats: $(BIN)/stats

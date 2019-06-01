@@ -378,7 +378,7 @@
 		\item Búsqueda local con greedy ($BL con greedy$)
 	\end{itemize}
 		
-	\subsubsection{Greedy}
+	\subsubsection{Greedy} \label{algoritmogreedy}
 	
 	Como ya se ha comentado, la concepción inicial de la práctica era utilizar la idea del $baricentro$. Para ello en cada iteración se calcularía el baricentro de los elementos de la solución y se escogería el punto más alejado a este entre los aún no escogidos. Intentando simular esta estrategia utilizaremos la suma de las distancias al resto de elementos de la solución para cada punto aún no he escogido. \\
 	
@@ -770,7 +770,49 @@
 	
 	\subsubsection{ Enfriamiento Simulado - ES }
 	
+	Para el enfriamiento simulado se ha utilizado un esquema básico de enfriamiento de la forma $T' = \alpha \cdot T$, con $\alpha \in (0,1)$, en vez del usual esquema de Cauchy. Las condiciones de parada de los bucles han sido ajustadas acordemente. El por qué de estas decisiones queda explicado en la sección \ref{procedimiento3}. \\
 	
+	El esquema del algoritmo implementado es el siguiente, donde la función $random()$ devuelve un número aleatorio en $(0,1)$: \\
+	
+	\begin{algorithm}[H]
+		\caption{ES}
+		\KwData{ choosen : int, MAX\_EVALUATIONS : int }
+		\KwResult{ best\_sol : solution }
+		\Begin{
+			// Inicializar parámetros ($\alpha, T_{final}, T_{init}, max\_exitos, max\_vecinos$) \\
+			
+			evaluations $\leftarrow$ 0 \\
+			sol $\leftarrow$ randomSolution( choosen ) \\
+			sol $\leftarrow$ evaluateSolution() \\
+			best\_sol $\leftarrow$ sol \\
+			saved\_sol $\leftarrow$ sol \\
+			$T \leftarrow T_{init}$ \\
+			
+			\While{ exitos $>$ 0 \ AND \ $T > T_{final}$ \ AND \ evaluations $<$ MAX\_EVALUATIONS }{
+				
+				exitos $\leftarrow$ 0 \\
+				i $\leftarrow$ 0 \\
+				\While{ $ i < max\_vecinos$ AND $exitos < max\_exitos$ }{
+					sol $\leftarrow$ mutateSolution( sol ) \\
+					evaluations $\leftarrow$ evaluations + 1 \\
+					diff $\leftarrow$ sol.fitness - saved\_sol.fitness \\
+					r $\leftarrow$ random() \\
+					\uIf{ diff $>$ 0 \ OR \ r $< e^{\frac{diff}{temp}}$}{
+						saved\_sol $\leftarrow$ sol \\
+						exitos $\leftarrow$ exitos + 1 \\
+						\uIf{sol.fitness $>$ best\_sol.fitness}{
+							best\_sol $\leftarrow$ sol \\	
+						}
+					} \uElse {
+						sol $\leftarrow$ saved\_sol \\
+					}
+				
+					i $\leftarrow$ i + 1 \\
+				}
+				$T \leftarrow \alpha \cdot T$
+			}
+		}
+	\end{algorithm}
 	
 	\subsubsection{ Búsqueda Multiarranque Básica - BMB }
 	
@@ -799,6 +841,78 @@
 	\end{algorithm}
 	
 	\subsubsection{ Greedy Randomized Adaptive Search Procedure - GRASP }
+	
+	El algoritmo $GRASP$ tiene el mismo esquema que la búsqueda multiarranque básica salvo por una salvedad: La solución aleatoria generada inicialmente se obtiene ahora con un algoritmo $Greedy$ que es aleatorio unicamente en parte. De esta forma no partimos cada búsqueda local de una solución aleatoria cualquiera sino de una relativamente buena. El pseudo-código del algoritmo implementado es el siguiente: \\
+	
+	\begin{algorithm}[H]
+		\caption{GRASP}
+		\KwData{ choosen : int, MAX\_ITERATIONS : int }
+		\KwResult{ best\_sol : solution }
+		\Begin{
+			evaluations $\leftarrow$ 0 \\
+			total\_tries $\leftarrow$ 25 \\
+			best\_sol $\leftarrow$ new solution() \\
+			best\_sol.fitness $\leftarrow$ 0 \\
+			$\alpha \leftarrow$ 0.3 \\
+			
+			\ForEach{ $ i \in [0, total\_tries)$ }{
+				sol $\leftarrow$ randGreedy( choosen, $\alpha$ ) \\
+				sol, new\_evaluations $\leftarrow$ localSearch( sol,  MAX\_EVALUATONS ) \\
+				evaluations $\leftarrow$ evaluations + new\_evaluations \\
+				
+				\uIf{ sol.fitness $>$ best\_sol.fitness}{
+					best\_sol $\leftarrow$ sol
+				}
+			}
+		}
+	\end{algorithm}
+	
+	La generación de la solución inicial parcialmente aleatoria se realiza de forma muy parecida a la implementada en el algoritmo $Greedy$ de la práctica 1 (\ref{algoritmogreedy}). \\
+	
+	En esta ocasión, en cada iteración del algoritmo escogeremos no el mejor elemento posible (el que está más lejos de los ya escogidos), sino uno de los más lejanos. Esta acción se realiza en la función $farthestToSelRandom$ y utiliza para ello el parámetro $\alpha$. Adjunto a continuación la descripción en pseudo-código de ambas funciones, donde $selected$ y $non\_selected$ son \emph{sets} de números: \\
+	
+	\begin{algorithm}[H]
+		\caption{randGreedy}
+		\KwData{ choosen : int, $\alpha$ : double }
+		\KwResult{ sol : solution }
+		\Begin{
+			non\_selected $\leftarrow  \{0,1,\dotsc, n\}$ \\
+			selected $\leftarrow$ \{ farthestToAll() \} \\
+			\While{ $|selected| < choosen$ }{
+				farthest $\leftarrow$ farthestToSelRandom(non\_selected, selected, $\alpha$) \\
+				non\_selected $\leftarrow$ non\_selected $\bigcup$ \{farthest\} \\
+				selected $\leftarrow$ selected - \{farthest\}
+			}
+			sol $\leftarrow$ createSolution( selected )
+		}
+	\end{algorithm}
+
+	\begin{algorithm}[H]
+		\caption{farthestToSelRandom}
+		\KwData{selected : $set<int>$ , non\_selected : $set<int>$, $\alpha$ : double}
+		\KwResult{farthest : i}
+		\Begin{
+			$vector<pair<int,double>> v \leftarrow$ new vector() \\
+			
+			\ForEach{ i $\in$ non\_selected }{
+				current\_sum\_dist $\leftarrow$ SingleContribution ( selected , i ) \\
+				v.push\_back( new $pair<int,double>$ (i, current\_sum\_dist) ) \\ 
+			}
+		
+			// Ordena el vector decrecientemente respecto a la segunda variable de cada pareja \\
+			v $\leftarrow$ sort(v) \\
+			
+			dist\_min $\leftarrow$  v[ v.size()-1 ].second \\
+			dist\_max $\leftarrow$  v[ 0 ].second \\
+			umbral $\leftarrow$ dist\_min + $\alpha \cdot$ (dist\_max - dist\_min)  \\
+			i\_umbral $\leftarrow$ 0 \\
+			
+			\While{ i\_umbral $<$ v.size() \ AND \ v[i\_umbral].second $\geq$ umbral }{
+				i\_umbral $\leftarrow$ i\_umbral + 1 \\
+			}
+			farthest $\leftarrow$ v[ random(0, i\_umbral+1) ].first
+		}
+	\end{algorithm}
 	
 	\subsubsection{ Búsqueda Local Reiterada - ILS }
 	
@@ -915,7 +1029,7 @@
 	
 	\begin{itemize}
 		\item Tamaño de la población: 50 cromosomas
-		\item Máximas evauaciones totales: 50000
+		\item Máximas evaluaciones totales: 50000
 		\item Probabilidad de mutación: 0.001
 		\item Probabilidad de cruce en AGE: 1
 		\item Probabilidad de cruce en AGG y AM: 0.7
@@ -923,9 +1037,32 @@
 		\item Para AM, máximas iteraciones de la búsqueda local: 40
 	\end{itemize}
 
-	Para el experimento 1 se han ejecutado todos los algoritmos 30 veces, mientras que para los algoritmos que aparecen en el experimento 2 y no en el 1 ($LSD$ y $AMM$) unicamente 2 veces por algoritmo, debido a la falta de tiempo. \\
+	Para el experimento 1 se han ejecutado todos los algoritmos 30 veces, mientras que para los algoritmos que aparecen en el experimento 2 y no en el 1 ($LSD$ y $AMM$) únicamente 2 veces por algoritmo, debido a la falta de tiempo. \\
 	
 	Para el tercer experimento se utiliza el script $evolution$. Para ello basta con utilizar el comando $make evolution$, que ejecuta los algoritmos $AGEu$, $AM1$ y $AMM$ sobre los conjuntos de datos $MDG-a\_21$ y $SOM-b\_13$ midiendo la evolución en cada generación de la mejor solución de la población.
+
+	\subsection{ Práctica 3 } \label{procedimiento3}
+	
+	Para esta tercera y última práctica he reutilizado la automatización implementada para las dos anteriores, principalmente haciendo uso de los comandos $examples<algoritmo>$, $measure<algoritmo>$ y $measureAll$, sus scripts asociados.\\ 
+	
+	Aunque habría sido preferible lanzar los experimentos en la misma máquina que en las prácticas anteriores, no me ha sido posible debido a dificultades técnicas. Es por ello que la comparación en tiempos con los datos obtenidos hasta la fecha tiene poco sentido, aunque no es el caso para los valores $fitness$ obtenidos por los algoritmos. \\
+	
+	Para los valores de los parámetros he tomado, en general, los valores proporcionados en el guión para esta práctica. Más específicamente:
+	
+	\begin{itemize}
+		\item $BMB$: Se ha lanzado la búsqueda local clásica un total de 25 veces con un máximo de 50000 evaluaciones cada una.
+		\item $GRASP$: Se ha lanzado la búsqueda local clásica sobre una solución generada con $randGreedy$ un total de 25 veces con un máximo de 50000 evaluaciones cada una. El valor de $\alpha$ ha sido 0,3.
+		\item $ILS$: Se ha lanzado la búsqueda local clásica sobre una solución generada con $randGreedy$ un total de 25 veces con un máximo de 50000 evaluaciones cada una. La función $abruptMutation$ realiza un total de $0.1*m$ mutaciones, donde $m$ es el número de elementos tomados en cada solución.
+		\item $ILS-ES$: Los parámetros no varían respecto a la $ILS$ estándar, lanzando el algoritmo $ES$ un total de 25 veces con un máximo de 50000 evaluaciones. Los parámetros asociados al $ES$ se explican a continuación.
+	\end{itemize}
+
+	De cara al algoritmo de Enfriamiento Simulado, en primer lugar implementé el esquema de enfriamiento de Cauchy modificado que aparece en el guión. Tras variar los parámetros de diversas formas no conseguí obtener los resultados esperados: o bien el enfriamiento era demasiado rápido y obtenía una convergencia prematura, o bien la temperatura era demasiado alta y realizada prácticamente una búsqueda aleatoria. \\
+	
+	A continuación cambié el esquema de enfriamiento por el esquema proporcional ya comentado: $T_{k+1} = \alpha \cdot T_k$. Adicionalmente he cambié algunos parámetros respecto a los valores sugeridos en el guión: fijé el número máximo de vecinos explorados a $m$ y el número máximo de éxitos a $0.1 \cdot m$. Utilizando este esquema y estos parámetros empecé a obtener resultados mucho mejores. El número de evaluaciones totales si que quedó fijo a 50000, para que tuviese sentido la comparación posterior con los demás algoritmos. \\
+	
+	Finalmente estudié la evolución de la temperatura en función al parámetro $\alpha$. Fijando una temperatura inicial de 50000 (parecida a la obtenida con el esquema de Cauchy modificado) y buscando que el enfriamiento durase un total de $\frac{max\_evaluaciones}{max\_vecinos} = \frac{50000}{0.1 \cdot m}$ enfriamientos obtuve un valor para $\alpha$ de 0.9315, resolviendo una simple inecuación con la ayuda de \emph{WolframAlpha}. \\
+	
+	Para el experimento 1 se ha ejecutado cada algoritmo sobre cada conjunto de datos un total de 5 veces. 
 	
 	\section{Experimentos realizados}
 	
@@ -1556,25 +1693,25 @@
 
 	\begin{figure}[H] 
 		\centering
-		\includegraphics[scale=0.9]{../output/exp3/SOM1}
+		\includegraphics[scale=0.9]{../output/P2/exp3/SOM1}
 		%\caption{my-captino} \label{my-label}
 	\end{figure}
 	
 	\begin{figure}[H] 
 		\centering
-		\includegraphics[scale=0.9]{../output/exp3/SOM2}
+		\includegraphics[scale=0.9]{../output/P2/exp3/SOM2}
 		%\caption{my-captino} \label{my-label}
 	\end{figure}
 	
 	\begin{figure}[H] 
 		\centering
-		\includegraphics[scale=1]{../output/exp3/MDG1}
+		\includegraphics[scale=1]{../output/P2/exp3/MDG1}
 		%\caption{my-captino} \label{my-label}
 	\end{figure}
 	
 	\begin{figure}[H] 
 		\centering
-		\includegraphics[scale=1]{../output/exp3/MDG2}
+		\includegraphics[scale=1]{../output/P2/exp3/MDG2}
 		%\caption{my-captino} \label{my-label}
 	\end{figure}
 
@@ -1584,5 +1721,134 @@
 	Podemos observar claramente en ambos conjuntos de datos como la hipótesis formulada en el experimento anterior era parcialmente errónea: el algoritmo $AMM$ no converge más deprisa generacionalmente que el $AM$ sino que ambos lo hacen extremadamente rápido, de igual forma que el $AGEu$. Observar este hecho nos permitiría dirigir nuestros esfuerzos a diseñar y utilizar otros operadores para explorar más el espacio de soluciones y no estancarnos tan rápidamente. \\
 	
 	Aún así queda relativamente claro que quizás una estrategia evolutiva para este tipo de casos de prueba no sea el mejor procedimiento, ya que en general obtenemos tiempos mucho mayores que los de las búsquedas implementadas en la práctica anterior y si permitimos que las búsquedas exploren lo suficiente obtendremos resultados mejores y seguramente en un tiempo menor. Del mismo modo, para otros conjuntos de datos mayores que los utilizados las estrategias evolutivas podrían dar mejores resultados.
+
+	\subsection{ Práctica 2 } \label{sec63}
+	
+	\subsubsection{ Experimento 1: resultados iniciales}
+
+	Para este primer experimento se han ejecutado los 5 algoritmos sobre cada conjunto de datos un total de 5 veces, obteniendo la media para cada valor. Los parámetros utilizados han sido los definidos en la sección \ref{procedimiento3}. Presentamos a continuación los resultados obtenidos:
+	
+	
+	\begin{table}[H]
+		\centering
+		\begin{tabular}{l|l|l|l|l|l|}
+			\cline{2-6}
+			& BMB & GRASP & ILS & ES & ILS-ES \\ \hline
+			\multicolumn{1}{|l|}{MDG-a\_1} & 106602 & 106628 & 106739 & 110783 & 111503 \\ \hline
+			\multicolumn{1}{|l|}{MDG-a\_2} & 106682 & 106720 & 106829 & 110755 & 111388 \\ \hline
+			\multicolumn{1}{|l|}{MDG-a\_3} & 106660 & 106398 & 106479 & 110694 & 111477 \\ \hline
+			\multicolumn{1}{|l|}{MDG-a\_4} & 106639 & 106556 & 106652 & 110849 & 111664 \\ \hline
+			\multicolumn{1}{|l|}{MDG-a\_5} & 106941 & 106733 & 107043 & 110850 & 111436 \\ \hline
+			\multicolumn{1}{|l|}{MDG-a\_6} & 106900 & 106950 & 106734 & 110886 & 111532 \\ \hline
+			\multicolumn{1}{|l|}{MDG-a\_7} & 106719 & 106771 & 106715 & 110859 & 111674 \\ \hline
+			\multicolumn{1}{|l|}{MDG-a\_8} & 106692 & 106577 & 106670 & 110765 & 111457 \\ \hline
+			\multicolumn{1}{|l|}{MDG-a\_9} & 107308 & 107129 & 107195 & 110794 & 111483 \\ \hline
+			\multicolumn{1}{|l|}{MDG-a\_10} & 106989 & 106792 & 106854 & 110809 & 111600 \\ \hline
+			\multicolumn{1}{|l|}{SOM-b\_11} & 19379.4 & 19354.8 & 19485.8 & 20481.1 & 20511 \\ \hline
+			\multicolumn{1}{|l|}{SOM-b\_12} & 34117.2 & 34050.2 & 34187.6 & 35462.4 & 35600 \\ \hline
+			\multicolumn{1}{|l|}{SOM-b\_13} & 4142.4 & 4103.4 & 4124.4 & 4333.27 & 4385 \\ \hline
+			\multicolumn{1}{|l|}{SOM-b\_14} & 15778 & 15727.2 & 15789.6 & 16441.1 & 16775.2 \\ \hline
+			\multicolumn{1}{|l|}{SOM-b\_15} & 34282.4 & 34262.2 & 34324.2 & 36045.3 & 36098.6 \\ \hline
+			\multicolumn{1}{|l|}{SOM-b\_16} & 60009 & 59923.6 & 60213 & 62444 & 62598.2 \\ \hline
+			\multicolumn{1}{|l|}{SOM-b\_17} & 6415 & 6352.4 & 6386.6 & 6594.37 & 6740 \\ \hline
+			\multicolumn{1}{|l|}{SOM-b\_18} & 24269.4 & 24268 & 24313.4 & 25258.2 & 25612.6 \\ \hline
+			\multicolumn{1}{|l|}{SOM-b\_19} & 53094.8 & 53239.4 & 53296.8 & 55540.3 & 55755.8 \\ \hline
+			\multicolumn{1}{|l|}{SOM-b\_20} & 93308.2 & 93132.8 & 93426.4 & 96713.9 & 96956.4 \\ \hline
+			\multicolumn{1}{|l|}{GKD-c\_21} & 16998.2 & 16801.9 & 16916.1 & 17656.1 & 17766.7 \\ \hline
+			\multicolumn{1}{|l|}{GKD-c\_22} & 17043.4 & 17043.2 & 17132.5 & 17828.3 & 17944.5 \\ \hline
+			\multicolumn{1}{|l|}{GKD-c\_23} & 16901.6 & 16870.7 & 16854.2 & 17647.9 & 17839.5 \\ \hline
+			\multicolumn{1}{|l|}{GKD-c\_24} & 16848.2 & 16713.3 & 16784.5 & 17549.3 & 17856.3 \\ \hline
+			\multicolumn{1}{|l|}{GKD-c\_25} & 16952.7 & 16983.3 & 16985.4 & 17675.8 & 17794.3 \\ \hline
+			\multicolumn{1}{|l|}{GKD-c\_26} & 16875 & 16850.2 & 16805.1 & 17574.5 & 17733.4 \\ \hline
+			\multicolumn{1}{|l|}{GKD-c\_27} & 16966 & 16945.4 & 17025 & 17692.6 & 17931 \\ \hline
+			\multicolumn{1}{|l|}{GKD-c\_28} & 16904.4 & 16792.9 & 16882.1 & 17584.4 & 17817.8 \\ \hline
+			\multicolumn{1}{|l|}{GKD-c\_29} & 16792.4 & 16731.8 & 16819.9 & 17465.7 & 17533.8 \\ \hline
+			\multicolumn{1}{|l|}{GKD-c\_30} & 16906 & 16882 & 17020.1 & 17638.2 & 17842 \\ \hline
+		\end{tabular}	
+		\caption{ Experimento 1 - Costes }
+		\label{311}
+	\end{table}
+	
+	\begin{table}[H]
+		\centering
+		\begin{tabular}{l|l|l|l|l|l|}
+			\cline{2-6}
+			& BMB & GRASP & ILS & ES & ILS-ES \\ \hline
+			\multicolumn{1}{|l|}{MDG-a\_1} & 49.0739 & 59.0902 & 43.6282 & 0.0698885 & 1.79686 \\ \hline
+			\multicolumn{1}{|l|}{MDG-a\_2} & 47.2971 & 58.2082 & 38.9329 & 0.0675791 & 1.84509 \\ \hline
+			\multicolumn{1}{|l|}{MDG-a\_3} & 48.8751 & 60.4751 & 41.8564 & 0.0687969 & 1.84174 \\ \hline
+			\multicolumn{1}{|l|}{MDG-a\_4} & 46.9536 & 59.2102 & 42.113 & 0.0671837 & 1.80902 \\ \hline
+			\multicolumn{1}{|l|}{MDG-a\_5} & 46.4693 & 58.5162 & 40.1259 & 0.0711271 & 1.80773 \\ \hline
+			\multicolumn{1}{|l|}{MDG-a\_6} & 50.6289 & 58.3947 & 39.3803 & 0.0696495 & 1.91803 \\ \hline
+			\multicolumn{1}{|l|}{MDG-a\_7} & 50.0693 & 59.8216 & 42.261 & 0.0720882 & 1.96471 \\ \hline
+			\multicolumn{1}{|l|}{MDG-a\_8} & 50.3327 & 57.4257 & 42.4366 & 0.0725582 & 1.85534 \\ \hline
+			\multicolumn{1}{|l|}{MDG-a\_9} & 51.0673 & 57.9522 & 42.0621 & 0.0706882 & 1.81985 \\ \hline
+			\multicolumn{1}{|l|}{MDG-a\_10} & 48.0246 & 55.7168 & 39.2987 & 0.0691525 & 1.80642 \\ \hline
+			\multicolumn{1}{|l|}{SOM-b\_11} & 2.51987 & 2.58272 & 1.72957 & 0.0040066 & 0.0881496 \\ \hline
+			\multicolumn{1}{|l|}{SOM-b\_12} & 5.08422 & 4.70358 & 3.60574 & 0.00564903 & 0.127036 \\ \hline
+			\multicolumn{1}{|l|}{SOM-b\_13} & 0.779868 & 0.855719 & 0.717718 & 0.0017272 & 0.0436588 \\ \hline
+			\multicolumn{1}{|l|}{SOM-b\_14} & 3.05045 & 2.93316 & 2.36924 & 0.0034138 & 0.0951466 \\ \hline
+			\multicolumn{1}{|l|}{SOM-b\_15} & 5.561 & 7.07467 & 4.04161 & 0.00609723 & 0.154546 \\ \hline
+			\multicolumn{1}{|l|}{SOM-b\_16} & 9.95388 & 9.18353 & 6.92641 & 0.00850483 & 0.214825 \\ \hline
+			\multicolumn{1}{|l|}{SOM-b\_17} & 1.33494 & 1.52211 & 1.27639 & 0.002594 & 0.0670172 \\ \hline
+			\multicolumn{1}{|l|}{SOM-b\_18} & 3.81373 & 4.48845 & 3.3468 & 0.0059226 & 0.154129 \\ \hline
+			\multicolumn{1}{|l|}{SOM-b\_19} & 7.89786 & 8.4723 & 5.90613 & 0.0107726 & 0.249243 \\ \hline
+			\multicolumn{1}{|l|}{SOM-b\_20} & 13.0212 & 13.8864 & 8.94794 & 0.0163185 & 0.367531 \\ \hline
+			\multicolumn{1}{|l|}{GKD-c\_21} & 1.2892 & 1.37929 & 1.15655 & 0.0029151 & 0.0731608 \\ \hline
+			\multicolumn{1}{|l|}{GKD-c\_22} & 1.70095 & 2.02773 & 1.49886 & 0.00312513 & 0.0822374 \\ \hline
+			\multicolumn{1}{|l|}{GKD-c\_23} & 1.37259 & 1.58353 & 1.28942 & 0.00286893 & 0.075702 \\ \hline
+			\multicolumn{1}{|l|}{GKD-c\_24} & 1.60498 & 1.71671 & 1.44737 & 0.0026749 & 0.0747024 \\ \hline
+			\multicolumn{1}{|l|}{GKD-c\_25} & 1.45728 & 1.85319 & 1.10289 & 0.00291507 & 0.0696366 \\ \hline
+			\multicolumn{1}{|l|}{GKD-c\_26} & 1.74943 & 1.75799 & 1.44904 & 0.0027906 & 0.0701662 \\ \hline
+			\multicolumn{1}{|l|}{GKD-c\_27} & 1.87826 & 1.96778 & 1.60348 & 0.00258927 & 0.0718804 \\ \hline
+			\multicolumn{1}{|l|}{GKD-c\_28} & 1.44559 & 1.82079 & 1.42973 & 0.0028796 & 0.0717026 \\ \hline
+			\multicolumn{1}{|l|}{GKD-c\_29} & 1.68961 & 1.77564 & 1.6112 & 0.00327023 & 0.072215 \\ \hline
+			\multicolumn{1}{|l|}{GKD-c\_30} & 1.64303 & 1.72296 & 1.49715 & 0.0029447 & 0.0697832 \\ \hline
+		\end{tabular}
+		\caption{ Experimento 1 - Tiempos }
+		\label{312}
+	\end{table}
+
+	\begin{table}[H]
+		\centering
+		\begin{tabular}{l|l|l|l|l|l|}
+			\cline{2-6}
+			& BMB & GRASP & ILS & ES & ILS-ES \\ \hline
+			\multicolumn{1}{|l|}{MDG-a\_1} & 328885 & 324626 & 314896 & 10119.3 & 260282 \\ \hline
+			\multicolumn{1}{|l|}{MDG-a\_2} & 326150 & 320756 & 289330 & 10212.1 & 256595 \\ \hline
+			\multicolumn{1}{|l|}{MDG-a\_3} & 334009 & 323001 & 304075 & 10468.4 & 258500 \\ \hline
+			\multicolumn{1}{|l|}{MDG-a\_4} & 321895 & 328851 & 304389 & 10076.2 & 258344 \\ \hline
+			\multicolumn{1}{|l|}{MDG-a\_5} & 319813 & 313591 & 300009 & 10472.4 & 258913 \\ \hline
+			\multicolumn{1}{|l|}{MDG-a\_6} & 333750 & 328158 & 298332 & 10452.8 & 257328 \\ \hline
+			\multicolumn{1}{|l|}{MDG-a\_7} & 334451 & 324339 & 310646 & 10480.4 & 260560 \\ \hline
+			\multicolumn{1}{|l|}{MDG-a\_8} & 334695 & 321559 & 306633 & 10186.3 & 258781 \\ \hline
+			\multicolumn{1}{|l|}{MDG-a\_9} & 349747 & 333679 & 302890 & 10293.2 & 257960 \\ \hline
+			\multicolumn{1}{|l|}{MDG-a\_10} & 325557 & 314618 & 288949 & 10188.4 & 261783 \\ \hline
+			\multicolumn{1}{|l|}{SOM-b\_11} & 177501 & 170742 & 123893 & 3583.47 & 78248.4 \\ \hline
+			\multicolumn{1}{|l|}{SOM-b\_12} & 209891 & 188671 & 151402 & 4629.77 & 107787 \\ \hline
+			\multicolumn{1}{|l|}{SOM-b\_13} & 205618 & 209657 & 194371 & 1216.67 & 28121 \\ \hline
+			\multicolumn{1}{|l|}{SOM-b\_14} & 259971 & 242695 & 209893 & 2578 & 70670 \\ \hline
+			\multicolumn{1}{|l|}{SOM-b\_15} & 229864 & 231782 & 170351 & 4695.23 & 116164 \\ \hline
+			\multicolumn{1}{|l|}{SOM-b\_16} & 238926 & 208907 & 170419 & 6311.6 & 159232 \\ \hline
+			\multicolumn{1}{|l|}{SOM-b\_17} & 233367 & 223202 & 224836 & 1465.23 & 38502 \\ \hline
+			\multicolumn{1}{|l|}{SOM-b\_18} & 222063 & 223519 & 198029 & 3642.63 & 95055.2 \\ \hline
+			\multicolumn{1}{|l|}{SOM-b\_19} & 211630 & 208604 & 166360 & 6704.03 & 152527 \\ \hline
+			\multicolumn{1}{|l|}{SOM-b\_20} & 217283 & 208528 & 152350 & 9770.63 & 213407 \\ \hline
+			\multicolumn{1}{|l|}{GKD-c\_21} & 220069 & 197173 & 204440 & 1609.33 & 39050.8 \\ \hline
+			\multicolumn{1}{|l|}{GKD-c\_22} & 284421 & 322801 & 264848 & 1742.17 & 41579.4 \\ \hline
+			\multicolumn{1}{|l|}{GKD-c\_23} & 238657 & 250522 & 214621 & 1621.23 & 41557.8 \\ \hline
+			\multicolumn{1}{|l|}{GKD-c\_24} & 273074 & 257431 & 235181 & 1505.93 & 42126 \\ \hline
+			\multicolumn{1}{|l|}{GKD-c\_25} & 253983 & 289182 & 189161 & 1623 & 40206.4 \\ \hline
+			\multicolumn{1}{|l|}{GKD-c\_26} & 299757 & 275568 & 250453 & 1544.03 & 40141.6 \\ \hline
+			\multicolumn{1}{|l|}{GKD-c\_27} & 317293 & 316005 & 277184 & 1439.33 & 41566.2 \\ \hline
+			\multicolumn{1}{|l|}{GKD-c\_28} & 245675 & 284221 & 242515 & 1607.5 & 41367.4 \\ \hline
+			\multicolumn{1}{|l|}{GKD-c\_29} & 284225 & 275966 & 271301 & 1862.17 & 41225.6 \\ \hline
+			\multicolumn{1}{|l|}{GKD-c\_30} & 283055 & 277548 & 259134 & 1662.6 & 40248 \\ \hline
+		\end{tabular}
+		\caption{ Experimento 1 - Evaluaciones }
+		\label{313}
+	\end{table}
+
+
 
 \end{document}

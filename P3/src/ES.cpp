@@ -354,10 +354,10 @@ void ES( int choosen ) {
   best_fitness = sol.fitness;
   start_temp = 50000;//100*(mu*sol.fitness)/(-log(phi));
   temp = start_temp;
-  if (start_temp <= final_temp) {
-    cerr << "Error en temperatura inicial" << endl;
-    return;
-  }
+  // if (start_temp <= final_temp) {
+  //   cerr << "Error en temperatura inicial" << endl;
+  //   return;
+  // }
 
   while ( exitos > 0 && temp > final_temp && evaluations < max_evaluations ) {
     exitos = 0;

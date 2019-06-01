@@ -285,7 +285,7 @@ int farthestToSelRandom(set<int> &non_selected, set<int> &selected, double alfa)
   set<int>::iterator it;
   vector<pair<int,double> > v;
 
-  for ( it = non_selected.begin(); it!=non_selected.end(); it++) {
+  for ( it = non_selected.begin(); it!=non_selected.end(); it++ ) {
     current_sum_dist = singleContribution(selected, *it);
     v.push_back(pair<int,double> (*it, current_sum_dist));
   }
@@ -368,12 +368,11 @@ void GRASP( int choosen ) {
   clock_t t_start, t_total;
 
   t_start = clock();
-  best_fitness = 0;
   for (int i=0; i<total_tries; i++) {
     solution sol;
     randGreedy(sol, choosen, alfa);
     evaluateSolution(sol);
-    evaluations += localSearch( sol, max_evaluations );
+    evaluations += 1 + localSearch( sol, max_evaluations );
     if ( sol.fitness > best_fitness ) {
       best_fitness = sol.fitness;
     }

@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.19 (TeX Live 2018) (preloaded format=pdflatex 2019.4.11)  26 MAY 2019 21:01
+This is pdfTeX, Version 3.14159265-2.6-1.40.19 (TeX Live 2018) (preloaded format=pdflatex 2019.4.11)  1 JUN 2019 19:47
 entering extended mode
  \write18 enabled.
  %&-line parsing enabled.
@@ -808,131 +808,179 @@ Underfull \hbox (badness 10000) in paragraph at lines 749--750
  []
 
 [19]
-Underfull \hbox (badness 10000) in paragraph at lines 777--778
+Underfull \hbox (badness 10000) in paragraph at lines 773--774
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 775--776
 
  []
 
 [20]
-Underfull \hbox (badness 10000) in paragraph at lines 820--822
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 854--855
+Underfull \hbox (badness 10000) in paragraph at lines 819--820
 
  []
 
 [21]
-Underfull \hbox (badness 10000) in paragraph at lines 891--892
+Underfull \hbox (badness 10000) in paragraph at lines 845--846
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 893--894
+Underfull \hbox (badness 10000) in paragraph at lines 870--871
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 895--896
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 897--898
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 899--900
+Underfull \hbox (badness 10000) in paragraph at lines 872--873
 
  []
 
 [22]
-Underfull \hbox (badness 10000) in paragraph at lines 901--902
+Underfull \hbox (badness 10000) in paragraph at lines 934--936
+
+ []
+
+[23]
+Underfull \hbox (badness 10000) in paragraph at lines 968--969
+
+ []
+
+[24]
+Underfull \hbox (badness 10000) in paragraph at lines 1005--1006
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 908--909
+Underfull \hbox (badness 10000) in paragraph at lines 1007--1008
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 910--911
+Underfull \hbox (badness 10000) in paragraph at lines 1009--1010
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 912--913
+Underfull \hbox (badness 10000) in paragraph at lines 1011--1012
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 926--927
-
- []
-
-
-Overfull \hbox (34.13368pt too wide) in paragraph at lines 941--975
-[][] 
- []
-
-[23] [24]
-Underfull \hbox (badness 10000) in paragraph at lines 1030--1031
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 1032--1033
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 1034--1035
+Underfull \hbox (badness 10000) in paragraph at lines 1013--1014
 
  []
 
 [25]
-Underfull \hbox (badness 10000) in paragraph at lines 1036--1037
+Underfull \hbox (badness 10000) in paragraph at lines 1015--1016
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1038--1039
+Underfull \hbox (badness 10000) in paragraph at lines 1022--1023
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1042--1043
+Underfull \hbox (badness 10000) in paragraph at lines 1024--1025
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1026--1027
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1040--1041
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1046--1047
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1048--1049
 
  []
 
 [26]
-Underfull \hbox (badness 10000) in paragraph at lines 1085--1086
+Overfull \hbox (14.70697pt too wide) in paragraph at lines 1054--1055
+[]$\OML/cmm/m/it/10.95 GRASP$\OT1/cmr/m/n/10.95 : Se ha lan-za-do la b^^Susque-
+da lo-cal cl^^Sasi-ca so-bre una so-lu-ci^^Son ge-ne-ra-da con $\OML/cmm/m/it/1
+0.95 randGreedy$
+ []
+
+
+Overfull \hbox (24.36577pt too wide) in paragraph at lines 1055--1056
+\OT1/cmr/m/n/10.95 un to-tal de 25 ve-ces con un m^^Saxi-mo de 50000 eva-lua-ci
+o-nes ca-da una. La fun-ci^^Son $\OML/cmm/m/it/10.95 abruptMutation$
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1059--1060
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1087--1088
+Underfull \hbox (badness 10000) in paragraph at lines 1061--1062
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1089--1090
+Underfull \hbox (badness 10000) in paragraph at lines 1063--1064
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1091--1092
+Overfull \hbox (34.13368pt too wide) in paragraph at lines 1078--1112
+[][] 
+ []
+
+[27] [28]
+Underfull \hbox (badness 10000) in paragraph at lines 1167--1168
 
  []
 
-[27]
-Underfull \hbox (badness 10000) in paragraph at lines 1095--1096
+
+Underfull \hbox (badness 10000) in paragraph at lines 1169--1170
 
  []
 
-[28] [29]
+
+Underfull \hbox (badness 10000) in paragraph at lines 1171--1172
+
+ []
+
+[29]
+Underfull \hbox (badness 10000) in paragraph at lines 1173--1174
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1175--1176
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1179--1180
+
+ []
+
+[30]
+Underfull \hbox (badness 10000) in paragraph at lines 1222--1223
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1224--1225
+
+ []
+
+
 Underfull \hbox (badness 10000) in paragraph at lines 1226--1227
 
  []
@@ -942,82 +990,87 @@ Underfull \hbox (badness 10000) in paragraph at lines 1228--1229
 
  []
 
-
-Underfull \hbox (badness 10000) in paragraph at lines 1230--1231
-
- []
-
-[30]
+[31]
 Underfull \hbox (badness 10000) in paragraph at lines 1232--1233
 
  []
 
-<../output/P1/MDG-a_21.png, id=505, 454.69875pt x 255.95625pt>
+[32] [33]
+Underfull \hbox (badness 10000) in paragraph at lines 1363--1364
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1365--1366
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1367--1368
+
+ []
+
+[34]
+Underfull \hbox (badness 10000) in paragraph at lines 1369--1370
+
+ []
+
+<../output/P1/MDG-a_21.png, id=549, 454.69875pt x 255.95625pt>
 File: ../output/P1/MDG-a_21.png Graphic file (type png)
 <use ../output/P1/MDG-a_21.png>
-Package pdftex.def Info: ../output/P1/MDG-a_21.png  used on input line 1242.
+Package pdftex.def Info: ../output/P1/MDG-a_21.png  used on input line 1379.
 (pdftex.def)             Requested size: 454.69763pt x 255.95561pt.
 
-Overfull \hbox (1.72974pt too wide) in paragraph at lines 1242--1244
+Overfull \hbox (1.72974pt too wide) in paragraph at lines 1379--1381
  [][] 
  []
 
-<../output/P1/SOM-b_13.png, id=506, 454.69875pt x 255.95625pt>
+<../output/P1/SOM-b_13.png, id=550, 454.69875pt x 255.95625pt>
 File: ../output/P1/SOM-b_13.png Graphic file (type png)
 <use ../output/P1/SOM-b_13.png>
-Package pdftex.def Info: ../output/P1/SOM-b_13.png  used on input line 1248.
+Package pdftex.def Info: ../output/P1/SOM-b_13.png  used on input line 1385.
 (pdftex.def)             Requested size: 454.69763pt x 255.95561pt.
 
-Overfull \hbox (1.72974pt too wide) in paragraph at lines 1248--1249
+Overfull \hbox (1.72974pt too wide) in paragraph at lines 1385--1386
  [][] 
  []
 
-[31 <../output/P1/MDG-a_21.png (PNG copy)>]
-Underfull \hbox (badness 10000) in paragraph at lines 1251--1252
+[35 <../output/P1/MDG-a_21.png (PNG copy)>]
+Underfull \hbox (badness 10000) in paragraph at lines 1388--1389
 
  []
 
-[32 <../output/P1/SOM-b_13.png (PNG copy)>] [33] [34]
-Underfull \hbox (badness 10000) in paragraph at lines 1390--1391
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 1392--1393
-
- []
-
-[35]
-Underfull \hbox (badness 10000) in paragraph at lines 1394--1395
+[36 <../output/P1/SOM-b_13.png (PNG copy)>] [37] [38]
+Underfull \hbox (badness 10000) in paragraph at lines 1527--1528
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1396--1397
+Underfull \hbox (badness 10000) in paragraph at lines 1529--1530
+
+ []
+
+[39]
+Underfull \hbox (badness 10000) in paragraph at lines 1531--1532
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1398--1399
+Underfull \hbox (badness 10000) in paragraph at lines 1533--1534
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1400--1401
+Underfull \hbox (badness 10000) in paragraph at lines 1535--1536
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1406--1407
+Underfull \hbox (badness 10000) in paragraph at lines 1537--1538
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1408--1409
-
- []
-
-[36] [37] [38]
 Underfull \hbox (badness 10000) in paragraph at lines 1543--1544
 
  []
@@ -1027,86 +1080,98 @@ Underfull \hbox (badness 10000) in paragraph at lines 1545--1546
 
  []
 
-
-Underfull \hbox (badness 10000) in paragraph at lines 1547--1548
-
- []
-
-[39]
-Underfull \hbox (badness 10000) in paragraph at lines 1549--1550
+[40] [41] [42]
+Underfull \hbox (badness 10000) in paragraph at lines 1680--1681
 
  []
 
-<../output/exp3/SOM1.png, id=569, 542.025pt x 328.97906pt>
-File: ../output/exp3/SOM1.png Graphic file (type png)
-<use ../output/exp3/SOM1.png>
-Package pdftex.def Info: ../output/exp3/SOM1.png  used on input line 1559.
+
+Underfull \hbox (badness 10000) in paragraph at lines 1682--1683
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1684--1685
+
+ []
+
+[43]
+Underfull \hbox (badness 10000) in paragraph at lines 1686--1687
+
+ []
+
+<../output/P2/exp3/SOM1.png, id=612, 542.025pt x 328.97906pt>
+File: ../output/P2/exp3/SOM1.png Graphic file (type png)
+<use ../output/P2/exp3/SOM1.png>
+Package pdftex.def Info: ../output/P2/exp3/SOM1.png  used on input line 1696.
 (pdftex.def)             Requested size: 487.81798pt x 296.07841pt.
 
-Overfull \hbox (34.85008pt too wide) in paragraph at lines 1559--1561
+Overfull \hbox (34.85008pt too wide) in paragraph at lines 1696--1698
  [][] 
  []
 
-<../output/exp3/SOM2.png, id=570, 542.025pt x 328.97906pt>
-File: ../output/exp3/SOM2.png Graphic file (type png)
-<use ../output/exp3/SOM2.png>
-Package pdftex.def Info: ../output/exp3/SOM2.png  used on input line 1565.
+<../output/P2/exp3/SOM2.png, id=613, 542.025pt x 328.97906pt>
+File: ../output/P2/exp3/SOM2.png Graphic file (type png)
+<use ../output/P2/exp3/SOM2.png>
+Package pdftex.def Info: ../output/P2/exp3/SOM2.png  used on input line 1702.
 (pdftex.def)             Requested size: 487.81798pt x 296.07841pt.
 
-Overfull \hbox (34.85008pt too wide) in paragraph at lines 1565--1567
+Overfull \hbox (34.85008pt too wide) in paragraph at lines 1702--1704
  [][] 
  []
 
-[40 <../output/exp3/SOM1.png (PNG copy)>]
-<../output/exp3/MDG1.png, id=576, 542.025pt x 328.97906pt>
-File: ../output/exp3/MDG1.png Graphic file (type png)
-<use ../output/exp3/MDG1.png>
-Package pdftex.def Info: ../output/exp3/MDG1.png  used on input line 1571.
+[44 <../output/P2/exp3/SOM1.png (PNG copy)>]
+<../output/P2/exp3/MDG1.png, id=619, 542.025pt x 328.97906pt>
+File: ../output/P2/exp3/MDG1.png Graphic file (type png)
+<use ../output/P2/exp3/MDG1.png>
+Package pdftex.def Info: ../output/P2/exp3/MDG1.png  used on input line 1708.
 (pdftex.def)             Requested size: 542.02367pt x 328.97826pt.
 
-Overfull \hbox (89.05577pt too wide) in paragraph at lines 1571--1573
+Overfull \hbox (89.05577pt too wide) in paragraph at lines 1708--1710
  [][] 
  []
 
-<../output/exp3/MDG2.png, id=577, 542.025pt x 328.97906pt>
-File: ../output/exp3/MDG2.png Graphic file (type png)
-<use ../output/exp3/MDG2.png>
-Package pdftex.def Info: ../output/exp3/MDG2.png  used on input line 1577.
+<../output/P2/exp3/MDG2.png, id=620, 542.025pt x 328.97906pt>
+File: ../output/P2/exp3/MDG2.png Graphic file (type png)
+<use ../output/P2/exp3/MDG2.png>
+Package pdftex.def Info: ../output/P2/exp3/MDG2.png  used on input line 1714.
 (pdftex.def)             Requested size: 542.02367pt x 328.97826pt.
 
-Overfull \hbox (89.05577pt too wide) in paragraph at lines 1577--1579
+Overfull \hbox (89.05577pt too wide) in paragraph at lines 1714--1716
  [][] 
  []
 
-[41 <../output/exp3/SOM2.png (PNG copy)> <../output/exp3/MDG1.png (PNG copy)>]
-Underfull \hbox (badness 10000) in paragraph at lines 1582--1583
+[45 <../output/P2/exp3/SOM2.png (PNG copy)> <../output/P2/exp3/MDG1.png (PNG co
+py)>]
+Underfull \hbox (badness 10000) in paragraph at lines 1719--1720
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1584--1585
+Underfull \hbox (badness 10000) in paragraph at lines 1721--1722
 
  []
 
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 1588.
-[42 <../output/exp3/MDG2.png (PNG copy)>]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 1588.
+[46 <../output/P2/exp3/MDG2.png (PNG copy)>] [47] [48]
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 1854.
+ [49]
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 1854.
  (./memoria.aux
 LaTeX Info: Redefining \. on input line 24.
 LaTeX Info: Redefining \% on input line 24.
 )
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 1588.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 1588.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 1854.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 1854.
 
 Package rerunfilecheck Info: File `memoria.out' has not changed.
-(rerunfilecheck)             Checksum: 008334DDC1D61655DB10FF73B8A7BBA5;4199.
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 1588.
+(rerunfilecheck)             Checksum: 319DF8AC5A98E786D5633667B4F5B132;4425.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 1854.
  ) 
 Here is how much of TeX's memory you used:
- 13578 strings out of 492616
- 199620 string characters out of 6128967
+ 13608 strings out of 492616
+ 200011 string characters out of 6128967
  509852 words of memory out of 5000000
- 17097 multiletter control sequences out of 15000+600000
+ 17106 multiletter control sequences out of 15000+600000
  13787 words of font info for 51 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  47i,23n,97p,880b,1395s stack positions out of 5000i,500n,10000p,200000b,80000s
@@ -1115,22 +1180,23 @@ Here is how much of TeX's memory you used:
 </usr/local/texlive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx9.pfb></
 usr/local/texlive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></u
 sr/local/texlive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></us
-r/local/texlive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></usr/
-local/texlive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi9.pfb></usr/lo
-cal/texlive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/loca
-l/texlive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/local/
-texlive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmr17.pfb></usr/local/te
-xlive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/local/texli
-ve/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmr9.pfb></usr/local/texlive/
-2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive/2
-018/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/local/texlive/201
-8/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy9.pfb></usr/local/texlive/2018/
-texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb></usr/local/texlive/2018/t
-exmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb>
-Output written on memoria.pdf (42 pages, 456297 bytes).
+r/local/texlive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi6.pfb></usr/
+local/texlive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></usr/lo
+cal/texlive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi9.pfb></usr/loca
+l/texlive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/local/
+texlive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/local/te
+xlive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmr17.pfb></usr/local/texl
+ive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/local/texlive
+/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmr9.pfb></usr/local/texlive/20
+18/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive/201
+8/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/local/texlive/2018/
+texmf-dist/fonts/type1/public/amsfonts/cm/cmsy9.pfb></usr/local/texlive/2018/te
+xmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb></usr/local/texlive/2018/tex
+mf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb>
+Output written on memoria.pdf (49 pages, 488913 bytes).
 PDF statistics:
- 689 PDF objects out of 1000 (max. 8388607)
- 615 compressed objects within 7 object streams
- 194 named destinations out of 1000 (max. 500000)
- 439 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 755 PDF objects out of 1000 (max. 8388607)
+ 673 compressed objects within 7 object streams
+ 215 named destinations out of 1000 (max. 500000)
+ 463 words of extra memory for PDF output out of 10000 (max. 10000000)
 
