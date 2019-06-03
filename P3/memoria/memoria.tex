@@ -62,7 +62,7 @@
 	
 	\section{Introducción: práctica 3}
 	
-	De cara a la segunda práctica se han añadido a la memoria las secciones \ref{sec32}, \ref{sec42}, \ref{procedimiento2} y  \ref{sec62}. El resto permanece invariante.
+	De cara a la tercera práctica se han añadido a la memoria las secciones \ref{sec33}, \ref{sec43}, \ref{procedimiento3} y  \ref{sec63}. El resto permanece invariante.
 		
 	\section{El problema}
 	
@@ -362,9 +362,11 @@
 
 	\subsection{Práctica 3} \label{sec33}
 	
-	De cara a esta última práctica se han reutilizado las dos representaciones de las prácticas anteriores sin apenas cambios. Para la función objetivo se han utilizado las ya implementadas. \\
+	De cara a esta última práctica se han reutilizado las dos representaciones de las prácticas anteriores, así como las funciones para transformar una en otra, sin apenas cambios. Para la función objetivo se han utilizado las ya implementadas. \\
 	
-	De cara a los operadores comunes se han reutilizado algunos de los implementados para algoritmos genéticos en la práctica anterior, como es el caso de la mutación por intercambio. También se ha utilizado la creación aleatoria de una solución inicial.
+	De cara a los operadores comunes se han reutilizado algunos de los implementados para algoritmos genéticos en la práctica anterior, como es el caso de la mutación por intercambio. También se ha utilizado la creación aleatoria de una solución inicial. \\
+	
+	Cabe destacar que la mayoría de algoritmos de esta práctica utilizan el operador de mutación. Debido a su implementación permite actualizar el $fitness$ de la solución sin evaluarla por completo (consultando unicamente dos filas de la matriz de datos). Si bien esta evaluación se consideró como una evaluación parcial ($\frac{1}{m}$ evaluaciones por cada evaluación parcial) en la práctica anterior, en esta se han considerado como evaluaciones completas para facilitar las comparaciones.
 
 	\section{Algoritmos}
 	
@@ -1062,7 +1064,11 @@
 	
 	Finalmente estudié la evolución de la temperatura en función al parámetro $\alpha$. Fijando una temperatura inicial de 50000 (parecida a la obtenida con el esquema de Cauchy modificado) y buscando que el enfriamiento durase un total de $\frac{max\_evaluaciones}{max\_vecinos} = \frac{50000}{0.1 \cdot m}$ enfriamientos obtuve un valor para $\alpha$ de 0.9315, resolviendo una simple inecuación con la ayuda de \emph{WolframAlpha}. \\
 	
-	Para el experimento 1 se ha ejecutado cada algoritmo sobre cada conjunto de datos un total de 5 veces. 
+	Para el experimento 1 se ha ejecutado cada algoritmo sobre cada conjunto de datos un total de 5 veces. \\
+	
+	Para el experimento 2 se ha ejecutado el algoritmo $ES$ tomando datos de la temperatura y el \emph{fitness} respecto a las evaluaciones. \\
+	
+	Al igual que en las practicas anteriores, se adjuntan todos los datos tomados, así como las gráficas generadas a partir de estos. Las especificaciones de la máquina en la que se han ejecutado todos los algoritmos son las siguientes: Sistema operativo Ubuntu 18.04.2, 7.7Gib de memoria y procesador IntelCore i7-5500U@2.40GHz x4, tarjeta gráfica GeForce 920M.
 	
 	\section{Experimentos realizados}
 	
@@ -1722,12 +1728,11 @@
 	
 	Aún así queda relativamente claro que quizás una estrategia evolutiva para este tipo de casos de prueba no sea el mejor procedimiento, ya que en general obtenemos tiempos mucho mayores que los de las búsquedas implementadas en la práctica anterior y si permitimos que las búsquedas exploren lo suficiente obtendremos resultados mejores y seguramente en un tiempo menor. Del mismo modo, para otros conjuntos de datos mayores que los utilizados las estrategias evolutivas podrían dar mejores resultados.
 
-	\subsection{ Práctica 2 } \label{sec63}
+	\subsection{ Práctica 3 } \label{sec63}
 	
 	\subsubsection{ Experimento 1: resultados iniciales}
 
 	Para este primer experimento se han ejecutado los 5 algoritmos sobre cada conjunto de datos un total de 5 veces, obteniendo la media para cada valor. Los parámetros utilizados han sido los definidos en la sección \ref{procedimiento3}. Presentamos a continuación los resultados obtenidos:
-	
 	
 	\begin{table}[H]
 		\centering
@@ -1856,11 +1861,68 @@
 			& BMB & GRASP & ILS & ES & ILS-ES \\ \hline
 			\multicolumn{1}{|l|}{Desv} & 8,84 & 9,05 & 8,81 & 5,13 & 4,36 \\ \hline
 			\multicolumn{1}{|l|}{Tiempo (s)} & 18,59 & 21,94 & 15,50 & 0,03 & 0,69 \\ \hline
-			\multicolumn{1}{|l|}{Generaciones} & 273842,50 & 269863,40 & 239696,37 & \multicolumn{1}{c|}{5458,80} & 135260,96 \\ \hline
+			\multicolumn{1}{|l|}{Evaluaciones} & 273842,50 & 269863,40 & 239696,37 & \multicolumn{1}{c|}{5458,80} & 135260,96 \\ \hline
 		\end{tabular}
 		\caption{ Experimento 1 - Comparativa entre algoritmos }
 		\label{314}
 	\end{table}
 
+	\paragraph{ Análisis } \ \\
+
+	Comencemos observando la tabla \ref{314} para obtener una visión general de los datos. En primer lugar podemos apreciar como los algoritmos $BMB$, $GRASP$ e $ILS$ obtienen valores de \emph{Desv} semejantes, mientras que $ES$ e $ILS-ES$ son bastante mejores. Sin embargo, al comparar estos valores con los obtenidos en las prácticas anteriores, en particular en las tablas \ref{214} y \ref{224}, vemos como los algoritmos genéticos con cruce uniforme ya obtienen valores mejores que la mayoría de los algoritmos utilizados en esta práctica, siendo los meméticos tan buenos como el $ILS-ES$. Adicionalmente, estos resultados tampoco mejoran a los del algoritmo $Greedy$ implementado en la primera práctica, los mejores encontradas en el desarrollo de esta asignatura y con tiempos más que razonables, como se aprecia en la tabla \ref{comparativa}. \\
+	
+	En cuanto a tiempos, obtenemos valores abismalmente mayores para los tres primeros algoritmos, mientras que los que incluyen al $ES$ son mucho más razonables. Cabe destacar que aunque el tiempo del algoritmo $ES$ puede parecer en principio demasiado bajo, es consistente respecto a los valores de evaluaciones obtenidos. Estos a su vez tienen completo sentido, pues el $ES$ es ejecutado con un tope de $50.000$ evaluaciones mientras que los demás con $25*50.000$. \\
+	
+	Debido al estudio de los parámetros realizado durante la implementación del algoritmo $ES$ y los bajos valores de evaluaciones obtenidos (del orden de un 10\% del máximo permitido), procedo a realizar un estudio en detalle de la evolución de la temperatura y el $fitness$ respecto a las evaluaciones realizadas. \\
+	
+	\subsubsection{ Experimento 2: Estudio evolutivo del Enfriamiento Simulado }
+	
+	Para este experimento he ejecutado el algoritmo $ES$ sobre los casos $MDG-a\_21$ y $SOM-b\_13$ tomando datos de la temperatura tras cada enfriamiento y el $fitness$ en cada evaluación. Se han realizado sendas gráficas sobre estos datos, añadiendo una extra en escala logarítmica para la evolución de la temperatura. \\
+	
+	\begin{figure}[H] 
+		\centering
+		\includegraphics[scale=0.9]{../output/exp2/evalMDG}
+		%\caption{my-captino} \label{my-label}
+	\end{figure}
+	
+	\begin{figure}[H] 
+		\centering
+		\includegraphics[scale=0.9]{../output/exp2/tempMDG}
+		%\caption{my-captino} \label{my-label}
+	\end{figure}
+	
+	\begin{figure}[H] 
+		\centering
+		\includegraphics[scale=0.9]{../output/exp2/LtempMDG}
+		%\caption{my-captino} \label{my-label}
+	\end{figure}
+
+	\begin{figure}[H] 
+		\centering
+		\includegraphics[scale=0.9]{../output/exp2/evalSOM}
+		%\caption{my-captino} \label{my-label}
+	\end{figure}
+	
+	\begin{figure}[H] 
+		\centering
+		\includegraphics[scale=0.9]{../output/exp2/tempSOM}
+		%\caption{my-captino} \label{my-label}
+	\end{figure}
+	
+	\begin{figure}[H] 
+		\centering
+		\includegraphics[scale=0.9]{../output/exp2/LtempSOM}
+		%\caption{my-captino} \label{my-label}
+	\end{figure}
+
+	\paragraph{ Análisis } \ \\	
+
+	En primer lugar observamos que el descenso de la temperatura en ambos casos es el esperado, lo hace según una progresión geométrica y de forma constante. Si bien este resultado no nos sorprende, si que debería hacerlo la precisión con la que el estudio realizado en la sección \ref{procedimiento3} se adapta al caso del problema: el número de enfriamientos no varía significativamente (alrededor de un 5\% de un caso a otro), y la temperatura final se acerca considerablemente a mínimo impuesto ($0.001$). \\
+	
+	Observando la evolución del $fitness$ en las distintas gráficas vemos como en numerosas ocasiones el coste de la solución en estudio desciende, pero esto ocurre con cada vez menos frecuencia conforme disminuye la temperatura, como cabría esperar. Se observa además un estancamiento hacia el final de la ejecución de ambos algoritmos, propiciando que el algoritmo pare antes de que se reduzca por completo la temperatura. \\
+	
+	Damos finalmente respuesta a la pregunta que originó este experimento. Si bien el número total de evaluaciones es francamente bajo, la evolución del $fitness$ y el estancamiento final no nos dan indicio de una convergencia prematura, si bien es cierto que podríamos reajustar los valores para permitir una mayor variación e intentar explorar más el espacio de soluciones. \\
+	
+	Debido a la falta de tiempo no me ha sido posible realizar más experimentos, como podrían haber sido la alteración de los parámetros del $ES$ (en particular el número de éxitos), o la evolución del $ILS-ES$.
 
 \end{document}

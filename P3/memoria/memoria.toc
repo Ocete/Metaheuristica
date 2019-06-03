@@ -34,9 +34,9 @@
 \contentsline {subsection}{\numberline {5.1} Pr\IeC {\'a}ctica 1 }{25}{subsection.5.1}% 
 \contentsline {subsection}{\numberline {5.2} Pr\IeC {\'a}ctica 2 }{26}{subsection.5.2}% 
 \contentsline {subsection}{\numberline {5.3} Pr\IeC {\'a}ctica 3 }{26}{subsection.5.3}% 
-\contentsline {section}{\numberline {6}Experimentos realizados}{27}{section.6}% 
-\contentsline {subsection}{\numberline {6.1}Pr\IeC {\'a}ctica 1}{27}{subsection.6.1}% 
-\contentsline {subsubsection}{\numberline {6.1.1}Experimentos 1: resultados iniciales}{27}{subsubsection.6.1.1}% 
+\contentsline {section}{\numberline {6}Experimentos realizados}{28}{section.6}% 
+\contentsline {subsection}{\numberline {6.1}Pr\IeC {\'a}ctica 1}{28}{subsection.6.1}% 
+\contentsline {subsubsection}{\numberline {6.1.1}Experimentos 1: resultados iniciales}{28}{subsubsection.6.1.1}% 
 \contentsline {paragraph}{\numberline {6.1.1.1} An\IeC {\'a}lisis }{29}{paragraph.6.1.1.1}% 
 \contentsline {subsubsection}{\numberline {6.1.2} Experimento 2: exploraci\IeC {\'o}n del vecindario }{30}{subsubsection.6.1.2}% 
 \contentsline {paragraph}{\numberline {6.1.2.1} An\IeC {\'a}lisis }{31}{paragraph.6.1.2.1}% 
@@ -51,5 +51,8 @@
 \contentsline {paragraph}{\numberline {6.2.2.1} An\IeC {\'a}lisis }{43}{paragraph.6.2.2.1}% 
 \contentsline {subsubsection}{\numberline {6.2.3} Experimento 3: Estudio evolutivo a nivel generacional }{44}{subsubsection.6.2.3}% 
 \contentsline {paragraph}{\numberline {6.2.3.1} An\IeC {\'a}lisis }{46}{paragraph.6.2.3.1}% 
-\contentsline {subsection}{\numberline {6.3} Pr\IeC {\'a}ctica 2 }{46}{subsection.6.3}% 
+\contentsline {subsection}{\numberline {6.3} Pr\IeC {\'a}ctica 3 }{46}{subsection.6.3}% 
 \contentsline {subsubsection}{\numberline {6.3.1} Experimento 1: resultados iniciales}{46}{subsubsection.6.3.1}% 
+\contentsline {paragraph}{\numberline {6.3.1.1} An\IeC {\'a}lisis }{49}{paragraph.6.3.1.1}% 
+\contentsline {subsubsection}{\numberline {6.3.2} Experimento 2: Estudio evolutivo del Enfriamiento Simulado }{50}{subsubsection.6.3.2}% 
+\contentsline {paragraph}{\numberline {6.3.2.1} An\IeC {\'a}lisis }{53}{paragraph.6.3.2.1}% 

@@ -359,11 +359,18 @@ void ES( int choosen ) {
   //   return;
   // }
 
+
+  // Experimento 2 - temperatura inicial
+  cout << evaluations << "\t" << temp << endl;
+
   while ( exitos > 0 && temp > final_temp && evaluations < max_evaluations ) {
     exitos = 0;
     for (int i=0; i<max_vecinos && exitos < max_exitos; i++) {
       mutateSolution(sol);
       evaluations++;
+
+      // Experimento 2 - fitness
+      // cout << evaluations << "\t" << sol.fitness << endl;
 
       diff = sol.fitness - saved_sol.fitness;
       if ( diff > 0 || randD(generator) < exp(diff/temp) ) {
@@ -371,25 +378,24 @@ void ES( int choosen ) {
         exitos++;
         if ( sol.fitness > best_fitness ) {
           best_fitness = sol.fitness;
-          // cout << "coste: " << best_fitness << " n_enf: " << n_enfriamientos << endl;
-          // cout << "n_exitos: " << exitos << endl;
         }
       } else {
         sol = saved_sol;
       }
+
     }
-    // cout << "\t\t" << "actual: " << temp << " final: " << final_temp << " n_enf: " << n_enfriamientos << endl;
+
+
     temp = temp * alpha;
-    // beta = (start_temp - final_temp) / (max_enfriamientos * temp * start_temp);
-    // temp = temp / (1.0 + beta*temp);
     n_enfriamientos++;
+
+    // Experimento 2 - temperatura
+    cout << evaluations << "\t" << temp << endl;
   }
   t_total = clock() - t_start;
 
-  // cout  << "n_enf: " << n_enfriamientos << " max_enf: " << max_enfriamientos << endl;
-  // cout  << "temp: " << temp << " temp_final: " << final_temp << endl;
   // output: Fitness - Time - Iterations
-  cout << best_fitness << "\t" << (double) t_total / CLOCKS_PER_SEC << "\t" << evaluations << endl;
+  // cout << best_fitness << "\t" << (double) t_total / CLOCKS_PER_SEC << "\t" << evaluations << endl;
 }
 
 //////////////////// MAIN /////////////////////

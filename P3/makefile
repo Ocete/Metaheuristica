@@ -67,9 +67,9 @@ examplesILS-ES: $(BIN)/ILS-ES
 	$(BIN)/ILS-ES < $(IN)/MDG-a_21_n2000_m200.txt
 
 
-# Experimento 3
-# evolution: clean $(BIN)/AM $(BIN)/AMM $(BIN)/AGEu
-# 	./evolution.sh
+# Experimento 2
+evolution: clean $(BIN)/ES
+	./evolution.sh
 
 # Estadísticas
 

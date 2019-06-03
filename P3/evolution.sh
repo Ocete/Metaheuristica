@@ -1,9 +1,9 @@
 #!/bin/bash
 input="input"
 bin="bin"
-out="output/exp3"
+out="output/exp2"
 
-algs=(AM AMM AGEu)
+algs=(ES)
 files=(MDG-a_21_n2000_m200.txt SOM-b_13_n400_m40.txt)
 for alg in "${algs[@]}"
 do
